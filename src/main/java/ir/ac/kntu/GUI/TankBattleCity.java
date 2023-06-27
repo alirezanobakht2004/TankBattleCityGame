@@ -26,9 +26,13 @@ public class TankBattleCity {
     public void startProgram() {
         StartMenu startMenu = new StartMenu();
         startMenu.startMenu();
-        eventHandlerSet.startMenuEH(startMenu);
+        eventHandlerSet.startMenuEH(startMenu,stage);
         Scene scene = new Scene(startMenu.getStartPane());
         stage.setScene(scene);
+    }
+
+    public void selectPlayer(){
+
     }
 
 
