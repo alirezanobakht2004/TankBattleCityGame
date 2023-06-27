@@ -1,5 +1,6 @@
 package ir.ac.kntu.GUI;
 
+import ir.ac.kntu.LOGIC.EventHandlerSet;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,15 +17,16 @@ import java.util.Scanner;
 public class TankBattleCity {
 
     private Stage stage;
-    private GridPane menuPane = new GridPane();
+    private EventHandlerSet eventHandlerSet = new EventHandlerSet();
 
     public TankBattleCity(Stage stage) {
         this.stage = stage;
     }
 
-    public void start() {
+    public void startProgram() {
         StartMenu startMenu = new StartMenu();
         startMenu.startMenu();
+        eventHandlerSet.startMenuEH(startMenu);
         Scene scene = new Scene(startMenu.getStartPane());
         stage.setScene(scene);
     }

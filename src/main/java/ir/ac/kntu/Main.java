@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         TankBattleCity tankBattleCity = new TankBattleCity(primaryStage);
-        tankBattleCity.start();
+        tankBattleCity.startProgram();
         primaryStage.show();
     }
 }

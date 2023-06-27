@@ -29,6 +29,18 @@ public class StartMenu {
         return startPane;
     }
 
+    public ImageView getImageView1() {
+        return imageView1;
+    }
+
+    public ImageView getImageView2() {
+        return imageView2;
+    }
+
+    public ImageView getImageView3() {
+        return imageView3;
+    }
+
     public void startMenu() {
         startPane.setPrefSize(450, 500);
         col1.setPercentWidth(25);
