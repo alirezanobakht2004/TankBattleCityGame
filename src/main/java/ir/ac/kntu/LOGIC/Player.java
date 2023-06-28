@@ -10,6 +10,12 @@ public class Player implements Serializable {
 
     private int Score;
 
+    public Player(String name, int gamesPlayed, int score) {
+        Name = name;
+        this.gamesPlayed = gamesPlayed;
+        Score = score;
+    }
+
     public String getName() {
         return Name;
     }

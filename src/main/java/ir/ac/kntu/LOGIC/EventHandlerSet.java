@@ -10,14 +10,14 @@ import javafx.stage.Stage;
 
 public class EventHandlerSet  {
 
+    TankBattleCity tankBattleCity;
 
-    public void startMenuEH(StartMenu startMenu,Stage stage){
+
+    public void startMenuEH(StartMenu startMenu,TankBattleCity tankBattleCity){
+        this.tankBattleCity=tankBattleCity;
         startMenu.getImageView1().setOnMouseClicked(e ->
         {
-            SelectPlayer selectPlayer = new SelectPlayer();
-            selectPlayer.selectPlayerStart();
-            Scene scene = new Scene(selectPlayer.getSelectPlayer());
-            stage.setScene(scene);
+            tankBattleCity.selectPlayer();
         });
         startMenu.getImageView2().setOnMouseClicked(e ->
         {

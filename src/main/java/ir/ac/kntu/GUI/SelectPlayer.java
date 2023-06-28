@@ -6,6 +6,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -35,11 +36,14 @@ public class SelectPlayer {
         row2.setPercentHeight(80);
         row3.setPercentHeight(10);
         VBox playersList = new VBox(15);
+        playerSaving.save();
+        Text text = new Text();
+
         for (Player l: playerSaving.read()) {
-            Text text = new Text();
-            text.setFont(new Font(16));
-            text.setWrappingWidth(100);
-            text.setTextAlignment(TextAlignment.JUSTIFY);
+            text.setFont(new Font(40));
+            //text.setWrappingWidth(100);
+            text.setTextAlignment(TextAlignment.CENTER);
+            text.setFill(Color.WHITE);
             text.setText(l.getName()+" "+l.getGamesPlayed()+" "+l.getScore());
             playersList.getChildren().add(text);
         }

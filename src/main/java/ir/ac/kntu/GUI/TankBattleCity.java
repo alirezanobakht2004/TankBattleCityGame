@@ -18,21 +18,27 @@ public class TankBattleCity {
 
     private Stage stage;
     private EventHandlerSet eventHandlerSet = new EventHandlerSet();
+    private StartMenu startMenu;
+    private SelectPlayer selectPlayer=new SelectPlayer();
+    private Scene startProgramScene;
+    private Scene selectPlayerScene;
 
     public TankBattleCity(Stage stage) {
         this.stage = stage;
     }
 
     public void startProgram() {
-        StartMenu startMenu = new StartMenu();
+        startMenu = new StartMenu();
         startMenu.startMenu();
-        eventHandlerSet.startMenuEH(startMenu,stage);
-        Scene scene = new Scene(startMenu.getStartPane());
-        stage.setScene(scene);
+        eventHandlerSet.startMenuEH(startMenu,this);
+        startProgramScene = new Scene(startMenu.getStartPane());
+        stage.setScene(startProgramScene);
     }
 
     public void selectPlayer(){
-
+        selectPlayer.selectPlayerStart();
+        selectPlayerScene = new Scene(selectPlayer.getSelectPlayer());
+        stage.setScene(selectPlayerScene);
     }
 
 
