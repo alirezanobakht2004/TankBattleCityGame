@@ -32,7 +32,11 @@ public class EventHandlerSet  {
         });
     }
     public void eSP(SelectPlayer selectPlayer){
-
+        selectPlayer.getPlayersList().getChildren().forEach(node -> {
+            node.setOnMouseClicked(event -> {
+               tankBattleCity.selectLevel();
+            });
+        });
     }
     public void eventSL(SelectLevel selectLevel){
         selectLevel.getLevel1().setOnMouseClicked(e ->

@@ -78,26 +78,52 @@ public class SelectLevel {
         selectLevel.setPrefSize(450, 500);
         selectLevel.getColumnConstraints().addAll(col1, col2, col3);
         selectLevel.getRowConstraints().addAll(row1, row2, row3);
-        col1.setPercentWidth(5);
-        col2.setPercentWidth(90);
-        col3.setPercentWidth(5);
+        col1.setPercentWidth(35);
+        col2.setPercentWidth(50);
+        col3.setPercentWidth(15);
         row1.setPercentHeight(10);
         row2.setPercentHeight(80);
         row3.setPercentHeight(10);
-        levelsList.getChildren().addAll(level1,level2,level3,level4,level5,level6,level7,level8,level9,level10);
-        int i=0;
-        for (Node node : levelsList.getChildren()) {
-            if (node instanceof Label) {
-                Label label = (Label) node;
-                label.setTextFill(Color.GOLD);
-                label.setFont(new Font(40));
-                label.setText("LEVEL: "+i);
-                i++;
-            }
-        }
+        setLevelsTexts();
+        levelsList.getChildren().addAll(level1, level2, level3, level4, level5, level6, level7, level8, level9, level10);
         selectLevel.setStyle("-fx-background-color: black;");
-        selectLevel.add(levelsList,1,1);
+        selectLevel.add(levelsList, 1, 1);
     }
 
+    public void setLevelsTexts() {
+        Font font=new Font(35);
+        String text = "LEVEL: ";
+        Color color = Color.GOLD;
+        level1.setFont(font);
+        level1.setText(text + 1);
+        level1.setFill(color);
+        level2.setFont(font);
+        level2.setText(text + 2);
+        level2.setFill(color);
+        level3.setFont(font);
+        level3.setText(text + 3);
+        level3.setFill(color);
+        level4.setFont(font);
+        level4.setText(text + 4);
+        level4.setFill(color);
+        level5.setFont(font);
+        level5.setText(text + 5);
+        level5.setFill(color);
+        level6.setFont(font);
+        level6.setText(text + 6);
+        level6.setFill(color);
+        level7.setFont(font);
+        level7.setText(text + 7);
+        level7.setFill(color);
+        level8.setFont(font);
+        level8.setText(text + 8);
+        level8.setFill(color);
+        level9.setFont(font);
+        level9.setText(text + 9);
+        level9.setFill(color);
+        level10.setFont(font);
+        level10.setText(text + 10);
+        level10.setFill(color);
+    }
 
 }

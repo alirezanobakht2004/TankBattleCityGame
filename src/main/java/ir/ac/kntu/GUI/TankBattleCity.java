@@ -22,6 +22,8 @@ public class TankBattleCity {
     private SelectPlayer selectPlayer=new SelectPlayer();
     private Scene startProgramScene;
     private Scene selectPlayerScene;
+    private SelectLevel selectLevel = new SelectLevel();
+    private Scene selectLevelScene;
 
     public TankBattleCity(Stage stage) {
         this.stage = stage;
@@ -37,8 +39,16 @@ public class TankBattleCity {
 
     public void selectPlayer(){
         selectPlayer.selectPlayerStart();
+        eventHandlerSet.eSP(selectPlayer);
         selectPlayerScene = new Scene(selectPlayer.getSelectPlayer());
         stage.setScene(selectPlayerScene);
+    }
+
+    public void selectLevel(){
+        selectLevel.setSelectLevelStart();
+        eventHandlerSet.eventSL(selectLevel);
+        selectLevelScene = new Scene(selectLevel.getSelectLevel());
+        stage.setScene(selectLevelScene);
     }
 
 
