@@ -5,13 +5,13 @@ import ir.ac.kntu.GUI.Block;
 import java.io.*;
 
 public class Map {
-    public static Block[][] map = new Block[13][13];
+    public static String[][] map = new String[13][13];
 
     public Map() {
         setMap();
     }
 
-    public static Block[][] getMap() {
+    public static String[][] getMap() {
         return map;
     }
 
