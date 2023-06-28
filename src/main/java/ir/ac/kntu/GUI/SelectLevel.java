@@ -34,6 +34,10 @@ public class SelectLevel {
         return selectLevel;
     }
 
+    public VBox getLevelsList() {
+        return levelsList;
+    }
+
     public Text getLevel1() {
         return level1;
     }

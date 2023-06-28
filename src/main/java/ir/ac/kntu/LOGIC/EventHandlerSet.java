@@ -39,17 +39,10 @@ public class EventHandlerSet  {
         });
     }
     public void eventSL(SelectLevel selectLevel){
-        selectLevel.getLevel1().setOnMouseClicked(e ->
-        {
-            tankBattleCity.selectPlayer();
-        });
-        selectLevel.getLevel2().setOnMouseClicked(e ->
-        {
-            System.out.println("2");
-        });
-        selectLevel.getLevel3().setOnMouseClicked(e ->
-        {
-            System.out.println("3");
+        selectLevel.getLevelsList().getChildren().forEach(node -> {
+            node.setOnMouseClicked(event -> {
+                tankBattleCity.startGame();
+            });
         });
     }
 }
