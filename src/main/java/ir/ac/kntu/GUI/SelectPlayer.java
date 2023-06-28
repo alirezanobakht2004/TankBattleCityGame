@@ -29,22 +29,31 @@ public class SelectPlayer {
         selectPlayer.setPrefSize(450, 500);
         selectPlayer.getColumnConstraints().addAll(col1,col2,col3);
         selectPlayer.getRowConstraints().addAll(row1,row2,row3);
-        col1.setPercentWidth(33);
-        col2.setPercentWidth(33);
-        col3.setPercentWidth(33);
+        col1.setPercentWidth(5);
+        col2.setPercentWidth(90);
+        col3.setPercentWidth(5);
         row1.setPercentHeight(10);
         row2.setPercentHeight(80);
         row3.setPercentHeight(10);
         VBox playersList = new VBox(15);
         playerSaving.save();
-        Text text = new Text();
-
+        Text signUp = new Text();
+        signUp.setFont(new Font(40));
+        signUp.setFill(Color.LIGHTGREEN);
+        signUp.setText("Sign up a new tank!");
+        playersList.getChildren().add(signUp);
+        Text info = new Text();
+        info.setFont(new Font(40));
+        info.setFill(Color.CYAN);
+        info.setText("player   gamesPlayed   Score");
+        playersList.getChildren().add(info);
         for (Player l: playerSaving.read()) {
+            Text text = new Text();
             text.setFont(new Font(40));
             //text.setWrappingWidth(100);
             text.setTextAlignment(TextAlignment.CENTER);
             text.setFill(Color.WHITE);
-            text.setText(l.getName()+" "+l.getGamesPlayed()+" "+l.getScore());
+            text.setText(l.getName()+"                     "+l.getGamesPlayed()+"                "+l.getScore());
             playersList.getChildren().add(text);
         }
         selectPlayer.setStyle("-fx-background-color: black;");
