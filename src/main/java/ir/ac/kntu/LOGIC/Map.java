@@ -16,12 +16,11 @@ public class Map {
     }
 
     public void setMap() {
-        File folder = new File("src/main/java/ir/ac/kntu/LOCIC/Map.txt");
-        File[] files = folder.listFiles();
+        File file = new File("src/main/java/ir/ac/kntu/LOGIC/Map");
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader(files[1]));
+            reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             int i = 0;
             while (line != null) {
