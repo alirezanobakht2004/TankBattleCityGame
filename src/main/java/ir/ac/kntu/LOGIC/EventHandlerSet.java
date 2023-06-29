@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+
 public class EventHandlerSet  {
 
     TankBattleCity tankBattleCity;
@@ -41,7 +42,7 @@ public class EventHandlerSet  {
     public void eventSL(SelectLevel selectLevel){
         selectLevel.getLevelsList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
-                tankBattleCity.startGame();
+                tankBattleCity.startGame(node);
             });
         });
     }

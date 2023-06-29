@@ -4,6 +4,7 @@ import ir.ac.kntu.LOGIC.EventHandlerSet;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,8 +54,8 @@ public class TankBattleCity {
         stage.setScene(selectLevelScene);
     }
 
-    public void startGame(){
-        game.gameStart();
+    public void startGame(Node node){
+        game.gameStart(node);
         gameScene=new Scene(game.getGameMap());
         stage.setScene(gameScene);
     }

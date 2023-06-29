@@ -1,6 +1,8 @@
 package ir.ac.kntu.LOGIC;
 
-public class Tank {
+import javafx.scene.Node;
+
+public class Tank extends Node {
     private int x, y;
-    private int direction;
+    private Direction direction;
 }
