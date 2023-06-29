@@ -1,8 +1,15 @@
 package ir.ac.kntu.LOGIC;
 
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class Tank extends Node {
+public class Tank extends ImageView {
     private int x, y;
     private Direction direction;
+
+    public Tank(Image image) {
+        super(image);
+
+    }
 }

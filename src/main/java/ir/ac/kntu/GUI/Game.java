@@ -1,6 +1,7 @@
 package ir.ac.kntu.GUI;
 
 import ir.ac.kntu.LOGIC.Map;
+import ir.ac.kntu.LOGIC.PlayerTank;
 import ir.ac.kntu.LOGIC.Tank;
 import ir.ac.kntu.LOGIC.TankControlling;
 import javafx.geometry.Insets;
@@ -17,6 +18,7 @@ public class Game {
     private GridPane container = new GridPane();
     private GridPane gameMap = new GridPane();
     private List<Tank> tanks= new ArrayList<>();
+    private PlayerTank playerTank= new PlayerTank(new Image("images/yellow-tank-up.png"));
     private int level;
     private Map map = new Map();
     private VBox tanksCon;
@@ -122,11 +124,9 @@ public class Game {
             imgView.setFitHeight(51);
             gameMap.add(imgView, j, i);
         } else if (Map.getMap()[i][j] == Block.PLAYERTANK) {
-            Image img = new Image("images/yellow-tank-up.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            playerTank.setFitWidth(51);
+            playerTank.setFitHeight(51);
+            gameMap.add(playerTank, j, i);
         } else if (Map.getMap()[i][j] == Block.COMMONTANK) {
             Image img = new Image("images/common-tank-down.png");
             ImageView imgView = new ImageView(img);
