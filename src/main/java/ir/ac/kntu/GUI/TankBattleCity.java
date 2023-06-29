@@ -3,6 +3,8 @@ package ir.ac.kntu.GUI;
 import ir.ac.kntu.LOGIC.EventHandlerSet;
 import ir.ac.kntu.LOGIC.Map;
 import ir.ac.kntu.LOGIC.TankControlling;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,11 +17,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Scanner;
 
 public class TankBattleCity {
-
+    private KeyFrame frame;
+    private Timeline animation;
     private Stage stage;
     private EventHandlerSet eventHandlerSet = new EventHandlerSet();
     private TankControlling tankControlling = new TankControlling();
@@ -63,7 +67,34 @@ public class TankBattleCity {
         gameScene=new Scene(game.getGameMap());
         tankControlling.playerTankController(gameScene,game.getPlayerTank(), Map.getMap());
         stage.setScene(gameScene);
+        frame = new KeyFrame(Duration.millis(16),
+                e -> step(0.01));
+        animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
     }
 
+
+    public void step(double elapsedTime) {
+        switch (myGame.getStatus()) {
+            case Lost:
+                gameOver();
+                return;
+            case Win:
+                gameWin();
+                return;
+            default:
+                break;
+        }
+        myGame.step(elapsedTime);
+    }
+    public void gameOver(){
+
+    }
+
+    public void gameWin(){
+
+    }
 
 }

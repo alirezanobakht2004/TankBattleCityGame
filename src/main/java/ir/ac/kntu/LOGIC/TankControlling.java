@@ -1,6 +1,7 @@
 package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -98,5 +99,6 @@ public class TankControlling {
             }
         });
     }
+
 
 }

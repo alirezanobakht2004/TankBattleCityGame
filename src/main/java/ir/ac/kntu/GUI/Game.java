@@ -4,6 +4,8 @@ import ir.ac.kntu.LOGIC.Map;
 import ir.ac.kntu.LOGIC.PlayerTank;
 import ir.ac.kntu.LOGIC.Tank;
 import ir.ac.kntu.LOGIC.TankControlling;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+
     private GridPane container = new GridPane();
     private GridPane gameMap = new GridPane();
     private List<Tank> tanks= new ArrayList<>();
@@ -23,7 +26,6 @@ public class Game {
     private int level;
     private Map map = new Map();
     private VBox tanksCon;
-    private int[][] waterIndexes = new int[4][2];
 
     public GridPane getGameMap() {
         return container;
@@ -49,6 +51,7 @@ public class Game {
         row2.setPercentHeight(96);
         row3.setPercentHeight(2);
         container.setStyle("-fx-background-color: rgb(80, 80, 80);");
+        tankSpawn();
         setRightSide();
     }
 
@@ -168,16 +171,15 @@ public class Game {
             ImageView imgView = new ImageView(img);
             imgView.setFitWidth(51);
             imgView.setFitHeight(51);
-            waterIndexes.
             gameMap.add(imgView, j, i);
         }
     }
 
-    public void enemyTankSpawn(){
+    public void tankSpawn(){
         Thread thread = new Thread(() -> {
             while (true) {
                 Platform.runLater(() -> {
-
+                    addTanksToMap();
                 });
                 try {
                     Thread.sleep(500);
@@ -188,6 +190,12 @@ public class Game {
         });
         thread.setDaemon(true);
         thread.start();
+
     }
+
+    public void addTanksToMap(){
+
     }
+
+
 }
