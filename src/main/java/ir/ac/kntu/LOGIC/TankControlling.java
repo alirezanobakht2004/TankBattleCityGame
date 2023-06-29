@@ -1,11 +1,12 @@
 package ir.ac.kntu.LOGIC;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class TankControlling {
     private Random random = new Random(300);
-    private List<Tank> tanks;
+    private List<Tank> tanks=new ArrayList<>();
 
     public List<Tank> tankMaker(int level) {
         for (int i = 0; i < 10 + (level - 1) * 4; i++) {

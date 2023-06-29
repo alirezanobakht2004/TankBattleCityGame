@@ -38,45 +38,6 @@ public class SelectLevel {
         return levelsList;
     }
 
-    public Text getLevel1() {
-        return level1;
-    }
-
-    public Text getLevel2() {
-        return level2;
-    }
-
-    public Text getLevel3() {
-        return level3;
-    }
-
-    public Text getLevel4() {
-        return level4;
-    }
-
-    public Text getLevel5() {
-        return level5;
-    }
-
-    public Text getLevel6() {
-        return level6;
-    }
-
-    public Text getLevel7() {
-        return level7;
-    }
-
-    public Text getLevel8() {
-        return level8;
-    }
-
-    public Text getLevel9() {
-        return level9;
-    }
-
-    public Text getLevel10() {
-        return level10;
-    }
 
     public void setSelectLevelStart() {
         selectLevel.setPrefSize(450, 500);

@@ -9,19 +9,40 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    private GridPane container = new GridPane();
     private GridPane gameMap = new GridPane();
     private List<Tank> tanks;
     private int level;
     private Map map = new Map();
 
     public GridPane getGameMap() {
-        return gameMap;
+        return container;
+    }
+
+    public void containerBuild() {
+        ColumnConstraints col1 = new ColumnConstraints();
+        ColumnConstraints col2 = new ColumnConstraints();
+        ColumnConstraints col3 = new ColumnConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
+        RowConstraints row3 = new RowConstraints();
+        container.getColumnConstraints().addAll(col1, col2, col3);
+        container.getRowConstraints().addAll(row1, row2, row3);
+        col1.setPercentWidth(5);
+        col2.setPercentWidth(75);
+        col3.setPercentWidth(20);
+        row1.setPercentHeight(2);
+        row2.setPercentHeight(96);
+        row3.setPercentHeight(2);
+        container.setStyle("-fx-background-color: Gray;");
     }
 
     public void gameStart(Node node) {
+        containerBuild();
         gameMap.setPrefSize(650, 650);
         gameMap.setStyle("-fx-background-color: black;");
         gameMap.setPadding(new Insets(0));
@@ -39,7 +60,8 @@ public class Game {
             }
         }
         setLevel(node);
-        tanks=map.tankMake(level);
+        tanks = map.tankMake(level);
+        container.add(gameMap,1,1);
     }
 
     public void setLevel(Node node) {
