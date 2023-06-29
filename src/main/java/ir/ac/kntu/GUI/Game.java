@@ -11,7 +11,7 @@ public class Game {
     private Map map = new Map();
 
 
-    public Pane getGameMap() {
+    public GridPane getGameMap() {
         return gameMap;
     }
 
