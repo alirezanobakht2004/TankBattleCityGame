@@ -56,6 +56,9 @@ public class Map {
                 case 'P':
                     map[lN][i] = Block.PLAYERTANK;
                     break;
+                case 'O':
+                    map[lN][i] = Block.COMMONTANK;
+                    break;
                 default:
                     map[lN][i] = Block.EMPTY;
             }

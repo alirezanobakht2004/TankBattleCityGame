@@ -24,20 +24,65 @@ public class Game {
         for (int i = 0; i < 13; i++) {
             RowConstraints rowConstraints = new RowConstraints(50);
             gameMap.getRowConstraints().add(rowConstraints);
-
             ColumnConstraints columnConstraints = new ColumnConstraints(50);
             gameMap.getColumnConstraints().add(columnConstraints);
         }
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 13; j++) {
-                if(Map.getMap()[i][j]==Block.BRICK){
-                    Image Brick = new Image("images/brick.png");
-                    ImageView BrickV = new ImageView(Brick);
-                    BrickV.setFitWidth(50);
-                    BrickV.setFitHeight(50);
-                    gameMap.add(BrickV, j, i);
-                }
+                mapBuilding(i, j);
             }
+        }
+    }
+
+    public void mapBuilding(int i, int j) {
+        if (Map.getMap()[i][j] == Block.BRICK) {
+            Image img = new Image("images/brick.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        } else if(Map.getMap()[i][j] == Block.METAL){
+            Image img = new Image("images/Stone.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        }else if(Map.getMap()[i][j] == Block.PLAYERTANK){
+            Image img = new Image("images/yellow-tank-up.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        }else if(Map.getMap()[i][j] == Block.COMMONTANK){
+            Image img = new Image("images/brick.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        }else if(Map.getMap()[i][j] == Block.FLAG){
+            Image img = new Image("images/brick.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        }else if(Map.getMap()[i][j] == Block.ARMOREDTANK){
+            Image img = new Image("images/brick.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        }else if(Map.getMap()[i][j] == Block.RANDOMTANKCOMMON){
+            Image img = new Image("images/brick.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
+        }else if(Map.getMap()[i][j] == Block.RANDOMTANKARMED){
+            Image img = new Image("images/brick.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(50);
+            imgView.setFitHeight(50);
+            gameMap.add(imgView, j, i);
         }
     }
 
