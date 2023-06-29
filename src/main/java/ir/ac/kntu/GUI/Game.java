@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,10 @@ import java.util.List;
 public class Game {
     private GridPane container = new GridPane();
     private GridPane gameMap = new GridPane();
-    private List<Tank> tanks;
+    private List<Tank> tanks= new ArrayList<>();
     private int level;
     private Map map = new Map();
+    private VBox tanksCon;
 
     public GridPane getGameMap() {
         return container;
@@ -38,10 +40,30 @@ public class Game {
         row1.setPercentHeight(2);
         row2.setPercentHeight(96);
         row3.setPercentHeight(2);
-        container.setStyle("-fx-background-color: Gray;");
+        container.setStyle("-fx-background-color: rgb(80, 80, 80);");
+        setRightSide();
     }
 
-    public void gameStart(Node node) {
+    public void setRightSide() {
+        tanksCon = new VBox();
+        for (int i = 0; i < tanks.size() / 2; i++) {
+            HBox row = new HBox();
+            for (int j = 0; j < 2; j++) {
+                Image img = new Image("images/black-tank.png");
+                ImageView imgView = new ImageView(img);
+                imgView.setFitWidth(25);
+                imgView.setFitHeight(25);
+                row.getChildren().add(imgView);
+            }
+            tanksCon.getChildren().add(row);
+        }
+        tanksCon.setPadding(new Insets(10, 0, 0, 30));
+        container.add(tanksCon,2,1);
+    }
+
+    public void gameStart(String node) {
+        setLevel(node);
+        tanks = map.tankMake(level);
         containerBuild();
         gameMap.setPrefSize(650, 650);
         gameMap.setStyle("-fx-background-color: black;");
@@ -59,31 +81,29 @@ public class Game {
                 mapBuilding(i, j);
             }
         }
-        setLevel(node);
-        tanks = map.tankMake(level);
-        container.add(gameMap,1,1);
+        container.add(gameMap, 1, 1);
     }
 
-    public void setLevel(Node node) {
-        if (node.equals("level1")) {
+    public void setLevel(String node) {
+        if (node.equals("LEVEL: 1")) {
             level = 1;
-        } else if (node.equals("level2")) {
+        } else if (node.equals("LEVEL: 2")) {
             level = 2;
-        } else if (node.equals("level3")) {
+        } else if (node.equals("LEVEL: 3")) {
             level = 3;
-        } else if (node.equals("level4")) {
+        } else if (node.equals("LEVEL: 4")) {
             level = 4;
-        } else if (node.equals("level5")) {
+        } else if (node.equals("LEVEL: 5")) {
             level = 5;
-        } else if (node.equals("level6")) {
+        } else if (node.equals("LEVEL: 6")) {
             level = 6;
-        } else if (node.equals("level7")) {
+        } else if (node.equals("LEVEL: 7")) {
             level = 7;
-        } else if (node.equals("level8")) {
+        } else if (node.equals("LEVEL: 8")) {
             level = 8;
-        } else if (node.equals("level9")) {
+        } else if (node.equals("LEVEL: 9")) {
             level = 9;
-        } else if (node.equals("level10")) {
+        } else if (node.equals("LEVEL: 10")) {
             level = 10;
         }
     }

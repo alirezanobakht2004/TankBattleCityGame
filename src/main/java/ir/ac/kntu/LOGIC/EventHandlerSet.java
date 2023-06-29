@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class EventHandlerSet  {
     public void eventSL(SelectLevel selectLevel){
         selectLevel.getLevelsList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
-                tankBattleCity.startGame(node);
+                tankBattleCity.startGame(((Text) node).getText());
             });
         });
     }

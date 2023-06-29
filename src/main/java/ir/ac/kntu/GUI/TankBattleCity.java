@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -54,8 +55,8 @@ public class TankBattleCity {
         stage.setScene(selectLevelScene);
     }
 
-    public void startGame(Node node){
-        game.gameStart(node);
+    public void startGame(String text){
+        game.gameStart(text);
         gameScene=new Scene(game.getGameMap());
         stage.setScene(gameScene);
     }
