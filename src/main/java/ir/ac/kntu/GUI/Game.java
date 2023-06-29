@@ -1,30 +1,42 @@
 package ir.ac.kntu.GUI;
 
 import ir.ac.kntu.LOGIC.Map;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class Game {
-    private Pane gameMap = new Pane();
+    private GridPane gameMap = new GridPane();
     private Map map = new Map();
-    private Image Brick = new Image("images/brick.gif");
-    private ImageView BrickV = new ImageView(Brick);
 
+
+    public Pane getGameMap() {
+        return gameMap;
+    }
 
     public void gameStart() {
         gameMap.setPrefSize(650, 650);
+        gameMap.setStyle("-fx-background-color: black;");
+        gameMap.setPadding(new Insets(0));
+        gameMap.setHgap(0);
+        gameMap.setVgap(0);
         for (int i = 0; i < 13; i++) {
-            VBox column = new VBox();
+            RowConstraints rowConstraints = new RowConstraints(50);
+            gameMap.getRowConstraints().add(rowConstraints);
+
+            ColumnConstraints columnConstraints = new ColumnConstraints(50);
+            gameMap.getColumnConstraints().add(columnConstraints);
+        }
+        for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 13; j++) {
-                Pane cell = new Pane();
-                cell.setPrefSize(50, 50);
-                cell.setMaxWidth(50);
-                cell.setMaxWidth(50);
-                if(map.)
-                column.getChildren().add(cell);
+                if(Map.getMap()[i][j]==Block.BRICK){
+                    Image Brick = new Image("images/brick.png");
+                    ImageView BrickV = new ImageView(Brick);
+                    BrickV.setFitWidth(50);
+                    BrickV.setFitHeight(50);
+                    gameMap.add(BrickV, j, i);
+                }
             }
         }
     }

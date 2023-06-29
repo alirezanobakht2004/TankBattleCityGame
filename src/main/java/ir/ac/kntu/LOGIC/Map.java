@@ -5,27 +5,25 @@ import ir.ac.kntu.GUI.Block;
 import java.io.*;
 
 public class Map {
-    public static String[][] map = new String[13][13];
+    public static Block[][] map = new Block[13][13];
 
     public Map() {
         setMap();
     }
 
-    public static String[][] getMap() {
+    public static Block[][] getMap() {
         return map;
     }
 
     public void setMap() {
         File file = new File("src/main/java/ir/ac/kntu/LOGIC/Map");
         BufferedReader reader;
-
         try {
             reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             int i = 0;
             while (line != null) {
                 lineRead(line, i);
-                System.out.println(line);
                 line = reader.readLine();
                 i++;
             }
@@ -36,8 +34,6 @@ public class Map {
 
     public static void lineRead(String line, int lN) {
         for (int i = 0; i < line.length(); i++) {
-            System.out.println("Line number : " + lN);
-            System.out.println("i : " + i);
             switch (line.charAt(i)) {
                 case 'B':
                     map[lN][i] = Block.BRICK;
@@ -60,6 +56,8 @@ public class Map {
                 case 'P':
                     map[lN][i] = Block.PLAYERTANK;
                     break;
+                default:
+                    map[lN][i] = Block.EMPTY;
             }
         }
     }
