@@ -27,6 +27,10 @@ public class Game {
         return container;
     }
 
+    public PlayerTank getPlayerTank() {
+        return playerTank;
+    }
+
     public void containerBuild() {
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();
