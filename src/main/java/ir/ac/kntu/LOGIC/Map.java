@@ -3,9 +3,14 @@ package ir.ac.kntu.LOGIC;
 import ir.ac.kntu.GUI.Block;
 
 import java.io.*;
+import java.util.Random;
 
 public class Map {
+
     public static Block[][] map = new Block[13][13];
+
+    private Random random = new Random();
+
 
     public Map() {
         setMap();
@@ -26,6 +31,15 @@ public class Map {
                 lineRead(line, i);
                 line = reader.readLine();
                 i++;
+            }
+            int count = 0;
+            while (count < 4) {
+                int row = random.nextInt(map.length);
+                int col = random.nextInt(map[row].length);
+                if (map[row][col].equals(Block.EMPTY)) {
+                    map[row][col] = Block.WATER;
+                    count++;
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
