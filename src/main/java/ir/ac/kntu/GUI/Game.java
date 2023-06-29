@@ -1,16 +1,21 @@
 package ir.ac.kntu.GUI;
 
 import ir.ac.kntu.LOGIC.Map;
+import ir.ac.kntu.LOGIC.Tank;
+import ir.ac.kntu.LOGIC.TankControlling;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.util.List;
+
 public class Game {
     private GridPane gameMap = new GridPane();
-    private Map map = new Map();
+    private List<Tank> tanks;
     private int level;
+    private Map map = new Map();
 
     public GridPane getGameMap() {
         return gameMap;
@@ -33,7 +38,8 @@ public class Game {
                 mapBuilding(i, j);
             }
         }
-
+        setLevel(node);
+        tanks=map.tankMake(level);
     }
 
     public void setLevel(Node node) {

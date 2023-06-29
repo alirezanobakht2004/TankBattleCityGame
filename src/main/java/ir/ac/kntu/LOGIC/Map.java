@@ -3,6 +3,7 @@ package ir.ac.kntu.LOGIC;
 import ir.ac.kntu.GUI.Block;
 
 import java.io.*;
+import java.util.List;
 import java.util.Random;
 
 public class Map {
@@ -10,6 +11,8 @@ public class Map {
     public static Block[][] map = new Block[13][13];
 
     private Random random = new Random();
+
+    private TankControlling tankControlling = new TankControlling();
 
 
     public Map() {
@@ -77,6 +80,9 @@ public class Map {
                     map[lN][i] = Block.EMPTY;
             }
         }
+    }
+    public List<Tank> tankMake(int level){
+        return tankControlling.tankMaker(level);
     }
 
 }

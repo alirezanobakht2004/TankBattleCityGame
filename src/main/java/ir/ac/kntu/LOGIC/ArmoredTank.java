@@ -6,4 +6,7 @@ public class ArmoredTank extends Tank{
     private int point=200;
     private boolean isRandom=false;
 
+    public void setRandom(boolean random) {
+        isRandom = random;
+    }
 }
