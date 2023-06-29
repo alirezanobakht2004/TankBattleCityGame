@@ -1,6 +1,7 @@
 package ir.ac.kntu.GUI;
 
 import ir.ac.kntu.LOGIC.EventHandlerSet;
+import ir.ac.kntu.LOGIC.TankControlling;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,7 @@ public class TankBattleCity {
 
     private Stage stage;
     private EventHandlerSet eventHandlerSet = new EventHandlerSet();
+    private TankControlling tankControlling = new TankControlling();
     private StartMenu startMenu = new StartMenu();
     private Scene startProgramScene;
     private SelectPlayer selectPlayer=new SelectPlayer();
@@ -58,7 +60,7 @@ public class TankBattleCity {
     public void startGame(String text){
         game.gameStart(text);
         gameScene=new Scene(game.getGameMap());
-        eventHandlerSet.updateMap(gameScene,game.getPlayerTank());
+        tankControlling.playerTankController(gameScene,game.getPlayerTank());
         stage.setScene(gameScene);
     }
 

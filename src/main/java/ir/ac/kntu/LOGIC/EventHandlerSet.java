@@ -55,49 +55,5 @@ public class EventHandlerSet {
         });
     }
 
-    public void updateMap(Scene gameScene, PlayerTank node) {
-        node.setDirection(Direction.UP);
-        gameScene.setOnKeyPressed(event -> {
-            int columnIndex = GridPane.getColumnIndex(node);
-            int rowIndex = GridPane.getRowIndex(node);
-            if (columnIndex == 0 && event.getCode() == KeyCode.LEFT) return;
-            if (columnIndex == 12 && event.getCode() == KeyCode.RIGHT) return;
-            if (rowIndex == 0 && event.getCode() == KeyCode.UP) return;
-            if (rowIndex == 12 && event.getCode() == KeyCode.DOWN) return;
-            switch (event.getCode()) {
-                case LEFT:
-                    if (node.getDirection().equals(Direction.LEFT)) {
-                        GridPane.setColumnIndex(node, columnIndex - 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-left.png"));
-                    node.setDirection(Direction.LEFT);
-                    break;
-                case RIGHT:
-                    if (node.getDirection().equals(Direction.RIGHT)) {
-                        GridPane.setColumnIndex(node, columnIndex + 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-right.png"));
-                    node.setDirection(Direction.RIGHT);
-                    break;
-                case UP:
-                    if (node.getDirection().equals(Direction.UP)) {
-                        GridPane.setRowIndex(node, rowIndex - 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-up.png"));
-                    node.setDirection(Direction.UP);
-                    break;
-                case DOWN:
-                    if (node.getDirection().equals(Direction.DOWN)) {
-                        GridPane.setRowIndex(node, rowIndex + 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-down.png"));
-                    node.setDirection(Direction.DOWN);
-                    break;
-                default:
-                    break;
-            }
-        });
-
-    }
 
 }
