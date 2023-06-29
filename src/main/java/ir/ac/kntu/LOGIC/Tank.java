@@ -10,6 +10,13 @@ public class Tank extends ImageView {
 
     public Tank(Image image) {
         super(image);
+    }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }

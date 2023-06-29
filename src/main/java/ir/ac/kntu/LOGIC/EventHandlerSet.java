@@ -1,4 +1,5 @@
 package ir.ac.kntu.LOGIC;
+
 import ir.ac.kntu.GUI.SelectLevel;
 import ir.ac.kntu.GUI.SelectPlayer;
 import ir.ac.kntu.GUI.StartMenu;
@@ -17,13 +18,13 @@ import javafx.stage.Stage;
 import java.util.List;
 
 
-public class EventHandlerSet  {
+public class EventHandlerSet {
 
     TankBattleCity tankBattleCity;
 
 
-    public void startMenuEH(StartMenu startMenu,TankBattleCity tankBattleCity){
-        this.tankBattleCity=tankBattleCity;
+    public void startMenuEH(StartMenu startMenu, TankBattleCity tankBattleCity) {
+        this.tankBattleCity = tankBattleCity;
         startMenu.getImageView1().setOnMouseClicked(e ->
         {
             tankBattleCity.selectPlayer();
@@ -37,14 +38,16 @@ public class EventHandlerSet  {
             System.out.println("3");
         });
     }
-    public void eSP(SelectPlayer selectPlayer){
+
+    public void eSP(SelectPlayer selectPlayer) {
         selectPlayer.getPlayersList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
-               tankBattleCity.selectLevel();
+                tankBattleCity.selectLevel();
             });
         });
     }
-    public void eventSL(SelectLevel selectLevel){
+
+    public void eventSL(SelectLevel selectLevel) {
         selectLevel.getLevelsList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
                 tankBattleCity.startGame(((Text) node).getText());
@@ -52,7 +55,8 @@ public class EventHandlerSet  {
         });
     }
 
-    public void updateMap(Scene gameScene, ImageView node){
+    public void updateMap(Scene gameScene, PlayerTank node) {
+        node.setDirection(Direction.UP);
         gameScene.setOnKeyPressed(event -> {
             int columnIndex = GridPane.getColumnIndex(node);
             int rowIndex = GridPane.getRowIndex(node);
@@ -62,20 +66,32 @@ public class EventHandlerSet  {
             if (rowIndex == 12 && event.getCode() == KeyCode.DOWN) return;
             switch (event.getCode()) {
                 case LEFT:
-                    GridPane.setColumnIndex(node, columnIndex - 1);
+                    if (node.getDirection().equals(Direction.LEFT)) {
+                        GridPane.setColumnIndex(node, columnIndex - 1);
+                    }
                     node.setImage(new Image("images/yellow-tank-left.png"));
+                    node.setDirection(Direction.LEFT);
                     break;
                 case RIGHT:
-                    GridPane.setColumnIndex(node, columnIndex + 1);
+                    if (node.getDirection().equals(Direction.RIGHT)) {
+                        GridPane.setColumnIndex(node, columnIndex + 1);
+                    }
                     node.setImage(new Image("images/yellow-tank-right.png"));
+                    node.setDirection(Direction.RIGHT);
                     break;
                 case UP:
-                    GridPane.setRowIndex(node, rowIndex - 1);
+                    if (node.getDirection().equals(Direction.UP)) {
+                        GridPane.setRowIndex(node, rowIndex - 1);
+                    }
                     node.setImage(new Image("images/yellow-tank-up.png"));
+                    node.setDirection(Direction.UP);
                     break;
                 case DOWN:
-                    GridPane.setRowIndex(node, rowIndex + 1);
+                    if (node.getDirection().equals(Direction.DOWN)) {
+                        GridPane.setRowIndex(node, rowIndex + 1);
+                    }
                     node.setImage(new Image("images/yellow-tank-down.png"));
+                    node.setDirection(Direction.DOWN);
                     break;
                 default:
                     break;
