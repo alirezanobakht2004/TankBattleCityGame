@@ -1,5 +1,6 @@
 package ir.ac.kntu.LOGIC;
 
+import ir.ac.kntu.GUI.Block;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -42,8 +43,9 @@ public class TankControlling {
         return tanks;
     }
 
-    public void playerTankController(Scene gameScene, PlayerTank node){
+    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks){
         node.setDirection(Direction.UP);
+        mapBlocks[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)]=Block.EMPTY;
         gameScene.setOnKeyPressed(event -> {
             int columnIndex = GridPane.getColumnIndex(node);
             int rowIndex = GridPane.getRowIndex(node);
@@ -53,28 +55,28 @@ public class TankControlling {
             if (rowIndex == 12 && event.getCode() == KeyCode.DOWN) return;
             switch (event.getCode()) {
                 case LEFT:
-                    if (node.getDirection().equals(Direction.LEFT)) {
+                    if (node.getDirection().equals(Direction.LEFT) && mapBlocks[GridPane.getRowIndex(node)][columnIndex-1].equals(Block.EMPTY)) {
                         GridPane.setColumnIndex(node, columnIndex - 1);
                     }
                     node.setImage(new Image("images/yellow-tank-left.png"));
                     node.setDirection(Direction.LEFT);
                     break;
                 case RIGHT:
-                    if (node.getDirection().equals(Direction.RIGHT)) {
+                    if (node.getDirection().equals(Direction.RIGHT) && mapBlocks[GridPane.getRowIndex(node)][columnIndex+1].equals(Block.EMPTY)) {
                         GridPane.setColumnIndex(node, columnIndex + 1);
                     }
                     node.setImage(new Image("images/yellow-tank-right.png"));
                     node.setDirection(Direction.RIGHT);
                     break;
                 case UP:
-                    if (node.getDirection().equals(Direction.UP)) {
+                    if (node.getDirection().equals(Direction.UP) && mapBlocks[rowIndex - 1][GridPane.getColumnIndex(node)].equals(Block.EMPTY)) {
                         GridPane.setRowIndex(node, rowIndex - 1);
                     }
                     node.setImage(new Image("images/yellow-tank-up.png"));
                     node.setDirection(Direction.UP);
                     break;
                 case DOWN:
-                    if (node.getDirection().equals(Direction.DOWN)) {
+                    if (node.getDirection().equals(Direction.DOWN) && mapBlocks[rowIndex +1][GridPane.getColumnIndex(node)].equals(Block.EMPTY)) {
                         GridPane.setRowIndex(node, rowIndex + 1);
                     }
                     node.setImage(new Image("images/yellow-tank-down.png"));

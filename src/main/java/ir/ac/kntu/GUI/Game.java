@@ -4,6 +4,7 @@ import ir.ac.kntu.LOGIC.Map;
 import ir.ac.kntu.LOGIC.PlayerTank;
 import ir.ac.kntu.LOGIC.Tank;
 import ir.ac.kntu.LOGIC.TankControlling;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -22,6 +23,7 @@ public class Game {
     private int level;
     private Map map = new Map();
     private VBox tanksCon;
+    private int[][] waterIndexes = new int[4][2];
 
     public GridPane getGameMap() {
         return container;
@@ -166,8 +168,26 @@ public class Game {
             ImageView imgView = new ImageView(img);
             imgView.setFitWidth(51);
             imgView.setFitHeight(51);
+            waterIndexes.
             gameMap.add(imgView, j, i);
         }
     }
 
+    public void enemyTankSpawn(){
+        Thread thread = new Thread(() -> {
+            while (true) {
+                Platform.runLater(() -> {
+
+                });
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+    }
 }
