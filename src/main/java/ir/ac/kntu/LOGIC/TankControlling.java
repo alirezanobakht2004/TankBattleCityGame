@@ -114,9 +114,10 @@ public class TankControlling {
 
     public void tankMove(List<Tank> tanks) {
         for (int i = 0; i < tanks.size(); i++) {
-            if(tanks.get(i) instanceof CommonTank){
+            if (tanks.get(i) instanceof CommonTank) {
                 ((CommonTank) tanks.get(i)).move();
-            } else if(tanks.get(i) instanceof ArmoredTank){
+            } else if (tanks.get(i) instanceof ArmoredTank) {
+
                 ((ArmoredTank) tanks.get(i)).move();
             }
         }

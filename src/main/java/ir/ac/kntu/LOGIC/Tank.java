@@ -4,6 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Random;
+
 public class Tank extends ImageView {
     private int x, y;
     private Direction direction;
@@ -19,4 +21,6 @@ public class Tank extends ImageView {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+
 }
