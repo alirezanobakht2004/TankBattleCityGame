@@ -112,13 +112,17 @@ public class TankControlling {
         });
     }
 
-    public void tankMove(List<Tank> tanks) {
+    public void tankMove(List<Tank> tanks, GridPane gameMap) {
         for (int i = 0; i < tanks.size(); i++) {
-            if (tanks.get(i) instanceof CommonTank) {
-                ((CommonTank) tanks.get(i)).move();
-            } else if (tanks.get(i) instanceof ArmoredTank) {
+            try {
+                Thread.sleep(50);
+                if (tanks.get(i) instanceof CommonTank) {
+                    ((CommonTank) tanks.get(i)).move(gameMap);
+                } else if (tanks.get(i) instanceof ArmoredTank) {
+                    ((ArmoredTank) tanks.get(i)).move(gameMap);
+                }
+            } catch (Exception e) {
 
-                ((ArmoredTank) tanks.get(i)).move();
             }
         }
     }

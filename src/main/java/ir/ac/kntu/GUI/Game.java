@@ -187,7 +187,7 @@ public class Game {
     public void tankSpawn() {
         Thread thread = new Thread(() -> {
             while (true) {
-                tankControlling.tankMove(tanks);
+                tankControlling.tankMove(tanks,gameMap);
                 if (tanks.size() < 4) {
                     try {
                         Thread.sleep(500);
