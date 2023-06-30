@@ -5,10 +5,13 @@ import javafx.animation.Animation;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -56,7 +59,7 @@ public class TankControlling {
         return tanks;
     }
 
-    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks) {
+    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks,GridPane gameMap) {
         node.setDirection(Direction.UP);
         mapBlocks[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = Block.EMPTY;
         gameScene.setOnKeyPressed(event -> {
@@ -96,20 +99,31 @@ public class TankControlling {
                     node.setDirection(Direction.DOWN);
                     break;
                 case SPACE:
-                    if (node.getDirection().equals(Direction.UP)) {
-                        Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
-                    } else if (node.getDirection().equals(Direction.DOWN)) {
-                        Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
-                    } else if (node.getDirection().equals(Direction.LEFT)) {
-                        Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
-                    } else if (node.getDirection().equals(Direction.RIGHT)) {
-                        Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
-                    }
+                    playerBulletShoot(node,gameMap);
                     break;
                 default:
                     break;
             }
         });
+    }
+
+    public boolean objectCollision(int rowIndex, int columnIndex, GridPane gameMap) {
+        Node node = null;
+        for (Node n : gameMap.getChildren()) {
+            if (GridPane.getRowIndex(n) == rowIndex && GridPane.getColumnIndex(n) == columnIndex) {
+                node = n;
+                break;
+            }
+        }
+        if (node != null) {
+            if (Map.getMap()[rowIndex][columnIndex] != Block.WATER) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public void tankMove(List<Tank> tanks, GridPane gameMap) {
@@ -124,6 +138,22 @@ public class TankControlling {
             } catch (Exception e) {
 
             }
+        }
+    }
+
+    public void playerBulletShoot(PlayerTank playerTank,GridPane gameMap){
+
+        if (playerTank.getDirection().equals(Direction.UP)) {
+            Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+            gameMap.add(bullet,GridPane.getColumnIndex(playerTank),GridPane.getRowIndex(playerTank));
+
+        }
+        else if (playerTank.getDirection().equals(Direction.DOWN)) {
+            Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
+        } else if (playerTank.getDirection().equals(Direction.LEFT)) {
+            Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
+        } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
+            Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
         }
     }
 }

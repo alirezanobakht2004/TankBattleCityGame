@@ -65,7 +65,7 @@ public class TankBattleCity {
     public void startGame(String text){
         game.gameStart(text);
         gameScene=new Scene(game.getGameMap());
-        tankControlling.playerTankController(gameScene,game.getPlayerTank(), Map.getMap());
+        tankControlling.playerTankController(gameScene,game.getPlayerTank(), Map.getMap(),game.gameMapCell());
         stage.setScene(gameScene);
     }
 

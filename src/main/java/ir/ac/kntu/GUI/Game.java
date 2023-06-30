@@ -32,6 +32,9 @@ public class Game {
     public GridPane getGameMap() {
         return container;
     }
+    public GridPane gameMapCell(){
+        return gameMap;
+    }
 
     public PlayerTank getPlayerTank() {
         return playerTank;
