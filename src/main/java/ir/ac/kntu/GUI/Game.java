@@ -3,11 +3,14 @@ package ir.ac.kntu.GUI;
 import ir.ac.kntu.LOGIC.Map;
 import ir.ac.kntu.LOGIC.PlayerTank;
 import ir.ac.kntu.LOGIC.Tank;
+import ir.ac.kntu.LOGIC.TankControlling;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class Game {
     private int level;
     private Map map = new Map();
     private VBox tanksCon;
-    private int indexOfTankAdding;
+    private TankControlling tankControlling = new TankControlling();
 
     public GridPane getGameMap() {
         return container;
@@ -178,29 +181,46 @@ public class Game {
         }
     }
 
+    private int a = 0;
+    private int b = 0;
+
     public void tankSpawn() {
         Thread thread = new Thread(() -> {
             while (true) {
+                if (tanks.size() == 4) {
+                    tankControlling.tankMove(tanks);
+                }
                 if (tanks.size() < 4) {
-                    indexOfTankAdding = 0;
-                    for (int i = 0; i < 4 - tanks.size(); i++) {
-                        Platform.runLater(() -> {
-                            for (int a = 0; a < 13; a++) {
-                                for (int b = 0; b < 13; b++) {
-                                    if (Map.getMap()[a][b] == Block.WATER) {
-                                        gameMap.add(reservedTanks.get(indexOfTankAdding), b, a);
-                                        tanks.add((reservedTanks.get(indexOfTankAdding)));
-                                        reservedTanks.remove(indexOfTankAdding);
-                                        indexOfTankAdding++;
-                                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Platform.runLater(() -> {
+                        int indexOfTankAdding = 0;
+                        while (a < 13) {
+                            while (b < 13) {
+                                if (Map.getMap()[a][b] == Block.WATER) {
+                                    gameMap.add(reservedTanks.get(0), b, a);
+                                    tanks.add((reservedTanks.get(0)));
+                                    reservedTanks.remove(0);
+                                    indexOfTankAdding++;
+                                    break;
                                 }
+                                b++;
                             }
-                        });
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            if (indexOfTankAdding == 1) {
+                                b++;
+                                break;
+                            }
+                            a++;
+                            b = 0;
                         }
+                    });
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -209,10 +229,6 @@ public class Game {
         thread.start();
     }
 
-    public void addTanksToMap() {
-
-
-    }
 
 
 }

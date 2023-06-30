@@ -1,11 +1,15 @@
 package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
+import javafx.animation.Animation;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,5 +112,15 @@ public class TankControlling {
         });
     }
 
+    public void tankMove(List<Tank> tanks){
+        while (true){
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
 
+            }
+                ((CommonTank) tanks.get(0)).move();
+                ((ArmoredTank) tanks.get(0)).move();
+        }
+    }
 }

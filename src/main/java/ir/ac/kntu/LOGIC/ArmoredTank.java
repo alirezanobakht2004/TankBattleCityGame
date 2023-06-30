@@ -1,6 +1,7 @@
 package ir.ac.kntu.LOGIC;
 
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
 
 public class ArmoredTank extends Tank{
     private int health=2;
@@ -14,5 +15,9 @@ public class ArmoredTank extends Tank{
 
     public void setRandom(boolean random) {
         isRandom = random;
+    }
+
+    public void move(){
+        GridPane.setColumnIndex(this,GridPane.getColumnIndex(this)-1);
     }
 }
