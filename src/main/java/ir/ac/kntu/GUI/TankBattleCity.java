@@ -67,34 +67,8 @@ public class TankBattleCity {
         gameScene=new Scene(game.getGameMap());
         tankControlling.playerTankController(gameScene,game.getPlayerTank(), Map.getMap());
         stage.setScene(gameScene);
-        frame = new KeyFrame(Duration.millis(16),
-                e -> step(0.01));
-        animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
     }
 
 
-    public void step(double elapsedTime) {
-        switch (myGame.getStatus()) {
-            case Lost:
-                gameOver();
-                return;
-            case Win:
-                gameWin();
-                return;
-            default:
-                break;
-        }
-        myGame.step(elapsedTime);
-    }
-    public void gameOver(){
-
-    }
-
-    public void gameWin(){
-
-    }
 
 }
