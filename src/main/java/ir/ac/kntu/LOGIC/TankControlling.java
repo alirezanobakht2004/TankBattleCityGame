@@ -21,19 +21,27 @@ public class TankControlling {
             switch (d) {
                 case 0:
                    CommonTank commonTank = new CommonTank(new Image("images/common-tank-down.png"));
-                   tanks.add(commonTank);
+                   commonTank.setFitHeight(51);
+                    commonTank.setFitWidth(51);
+                    tanks.add(commonTank);
                     break;
                 case 1:
                     ArmoredTank armoredTank = new ArmoredTank(new Image("images/armored-tank-down.png"));
+                    armoredTank.setFitHeight(51);
+                    armoredTank.setFitWidth(51);
                     tanks.add(armoredTank);
                     break;
                 case 2:
                     CommonTank commonTankRandom = new CommonTank(new Image("images/random-tank-down.png"));
+                    commonTankRandom.setFitHeight(51);
+                    commonTankRandom.setFitWidth(51);
                     commonTankRandom.setRandom(true);
                     tanks.add(commonTankRandom);
                     break;
                 case 3:
                     ArmoredTank armoredTankRandom = new ArmoredTank(new Image("images/armored-random-tank-down.png"));
+                    armoredTankRandom.setFitHeight(51);
+                    armoredTankRandom.setFitWidth(51);
                     armoredTankRandom.setRandom(true);
                     tanks.add(armoredTankRandom);
                     break;

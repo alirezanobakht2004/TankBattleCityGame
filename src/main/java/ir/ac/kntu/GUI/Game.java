@@ -3,16 +3,11 @@ package ir.ac.kntu.GUI;
 import ir.ac.kntu.LOGIC.Map;
 import ir.ac.kntu.LOGIC.PlayerTank;
 import ir.ac.kntu.LOGIC.Tank;
-import ir.ac.kntu.LOGIC.TankControlling;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +16,10 @@ public class Game {
 
     private GridPane container = new GridPane();
     private GridPane gameMap = new GridPane();
-    private List<Tank> tanks= new ArrayList<>();
-    private PlayerTank playerTank= new PlayerTank(new Image("images/yellow-tank-up.png"));
+    private List<Tank> reservedTanks = new ArrayList<>();
+    private List<Tank> tanks = new ArrayList<>();
+
+    private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
     private int level;
     private Map map = new Map();
     private VBox tanksCon;
@@ -57,7 +54,7 @@ public class Game {
 
     public void setRightSide() {
         tanksCon = new VBox();
-        for (int i = 0; i < tanks.size() / 2; i++) {
+        for (int i = 0; i < reservedTanks.size() / 2; i++) {
             HBox row = new HBox();
             for (int j = 0; j < 2; j++) {
                 Image img = new Image("images/black-tank.png");
@@ -69,12 +66,12 @@ public class Game {
             tanksCon.getChildren().add(row);
         }
         tanksCon.setPadding(new Insets(10, 0, 0, 30));
-        container.add(tanksCon,2,1);
+        container.add(tanksCon, 2, 1);
     }
 
     public void gameStart(String node) {
         setLevel(node);
-        tanks = map.tankMake(level);
+        reservedTanks = map.tankMake(level);
         containerBuild();
         gameMap.setPrefSize(650, 650);
         gameMap.setStyle("-fx-background-color: black;");
@@ -175,12 +172,14 @@ public class Game {
         }
     }
 
-    public void tankSpawn(){
+    public void tankSpawn() {
         Thread thread = new Thread(() -> {
             while (true) {
-                Platform.runLater(() -> {
-                    addTanksToMap();
-                });
+                if (tanks.size() < 4) {
+                    Platform.runLater(() -> {
+                        addTanksToMap();
+                    });
+                }
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -193,7 +192,18 @@ public class Game {
 
     }
 
-    public void addTanksToMap(){
+    public void addTanksToMap() {
+        for (int i = 0; i < 4 - tanks.size(); i++) {
+            for (int a = 0; a < 13; a++) {
+                for (int b = 0; b < 13; b++) {
+                    if (Map.getMap()[a][b] == Block.WATER) {
+                        gameMap.add(reservedTanks.get(i), b, a);
+                        tanks.add((reservedTanks.get(i)));
+                        reservedTanks.remove(i);
+                    }
+                }
+            }
+        }
 
     }
 
