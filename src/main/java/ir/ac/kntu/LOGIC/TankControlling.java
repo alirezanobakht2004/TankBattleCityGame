@@ -1,9 +1,7 @@
 package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
-import javafx.animation.Animation;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -59,7 +57,7 @@ public class TankControlling {
         return tanks;
     }
 
-    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks,GridPane gameMap) {
+    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap) {
         node.setDirection(Direction.UP);
         mapBlocks[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = Block.EMPTY;
         gameScene.setOnKeyPressed(event -> {
@@ -99,12 +97,59 @@ public class TankControlling {
                     node.setDirection(Direction.DOWN);
                     break;
                 case SPACE:
-                    playerBulletShoot(node,gameMap);
+                    playerBulletShoot(node, gameMap);
                     break;
                 default:
                     break;
             }
         });
+    }
+
+
+    public void tankMove(List<Tank> tanks, GridPane gameMap) {
+
+        for (int i = 0; i < tanks.size(); i++) {
+            try {
+                Thread.sleep(50);
+                if (tanks.get(i) instanceof CommonTank) {
+                    ((CommonTank) tanks.get(i)).move(gameMap);
+                } else if (tanks.get(i) instanceof ArmoredTank) {
+                    ((ArmoredTank) tanks.get(i)).move(gameMap);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+
+
+    }
+
+    public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap) {
+
+        if (playerTank.getDirection().equals(Direction.UP)) {
+            Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+            int tankCol = GridPane.getColumnIndex(playerTank);
+            int tankRow = GridPane.getRowIndex(playerTank);
+            gameMap.add(bullet, tankCol, tankRow);
+            bullet.setVisible(false);
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+                if (!objectCollision(GridPane.getRowIndex(bullet)-1, GridPane.getColumnIndex(bullet) , gameMap)) {
+                    gameMap.getChildren().remove(bullet);
+                    gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
+                    bullet.setVisible(true);
+                }
+            }));
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+
+        }
+        /*else if (playerTank.getDirection().equals(Direction.DOWN)) {
+            Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
+        } else if (playerTank.getDirection().equals(Direction.LEFT)) {
+            Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
+        } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
+            Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
+        }*/
     }
 
     public boolean objectCollision(int rowIndex, int columnIndex, GridPane gameMap) {
@@ -124,36 +169,7 @@ public class TankControlling {
         } else {
             return false;
         }
-    }
 
-    public void tankMove(List<Tank> tanks, GridPane gameMap) {
-        for (int i = 0; i < tanks.size(); i++) {
-            try {
-                Thread.sleep(50);
-                if (tanks.get(i) instanceof CommonTank) {
-                    ((CommonTank) tanks.get(i)).move(gameMap);
-                } else if (tanks.get(i) instanceof ArmoredTank) {
-                    ((ArmoredTank) tanks.get(i)).move(gameMap);
-                }
-            } catch (Exception e) {
 
-            }
-        }
-    }
-
-    public void playerBulletShoot(PlayerTank playerTank,GridPane gameMap){
-
-        if (playerTank.getDirection().equals(Direction.UP)) {
-            Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
-            gameMap.add(bullet,GridPane.getColumnIndex(playerTank),GridPane.getRowIndex(playerTank));
-
-        }
-        else if (playerTank.getDirection().equals(Direction.DOWN)) {
-            Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
-        } else if (playerTank.getDirection().equals(Direction.LEFT)) {
-            Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
-        } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
-            Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
-        }
     }
 }
