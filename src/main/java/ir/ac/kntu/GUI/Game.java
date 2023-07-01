@@ -1,9 +1,6 @@
 package ir.ac.kntu.GUI;
 
-import ir.ac.kntu.LOGIC.Map;
-import ir.ac.kntu.LOGIC.PlayerTank;
-import ir.ac.kntu.LOGIC.Tank;
-import ir.ac.kntu.LOGIC.TankControlling;
+import ir.ac.kntu.LOGIC.*;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -133,57 +130,49 @@ public class Game {
 
     public void mapBuilding(int i, int j) {
         if (Map.getMap()[i][j] == Block.BRICK) {
-            Image img = new Image("images/brick.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            Brick brick = new Brick( new Image("images/brick.png"));
+            brick.setFitWidth(51);
+            brick.setFitHeight(51);
+            gameMap.add(brick, j, i);
         } else if (Map.getMap()[i][j] == Block.METAL) {
-            Image img = new Image("images/Stone.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            Metal metal = new Metal(new Image("images/Stone.png"));
+            metal.setFitWidth(51);
+            metal.setFitHeight(51);
+            gameMap.add(metal, j, i);
         } else if (Map.getMap()[i][j] == Block.PLAYERTANK) {
             playerTank.setFitWidth(51);
             playerTank.setFitHeight(51);
             gameMap.add(playerTank, j, i);
         } else if (Map.getMap()[i][j] == Block.COMMONTANK) {
-            Image img = new Image("images/common-tank-down.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            CommonTank commonTank = new CommonTank(new Image("images/common-tank-down.png"));
+            commonTank.setFitWidth(51);
+            commonTank.setFitHeight(51);
+            gameMap.add(commonTank, j, i);
         } else if (Map.getMap()[i][j] == Block.FLAG) {
-            Image img = new Image("images/flag.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            Flag flag = new Flag(new Image("images/flag.png"));
+            flag.setFitWidth(51);
+            flag.setFitHeight(51);
+            gameMap.add(flag, j, i);
         } else if (Map.getMap()[i][j] == Block.ARMOREDTANK) {
-            Image img = new Image("images/armored-tank-down.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            ArmoredTank armoredTank = new ArmoredTank(new Image("images/armored-tank-down.png"));
+            armoredTank.setFitWidth(51);
+            armoredTank.setFitHeight(51);
+            gameMap.add(armoredTank, j, i);
         } else if (Map.getMap()[i][j] == Block.RANDOMTANKCOMMON) {
-            Image img = new Image("images/random-tank-down.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            CommonTank commonTankRandom = new CommonTank(new Image("images/random-tank-down.png"));
+            commonTankRandom.setFitWidth(51);
+            commonTankRandom.setFitHeight(51);
+            gameMap.add(commonTankRandom, j, i);
         } else if (Map.getMap()[i][j] == Block.RANDOMTANKARMED) {
-            Image img = new Image("images/armored-random-tank-down.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            ArmoredTank armoredTankRandom = new ArmoredTank(new Image("images/armored-random-tank-down.png"));
+            armoredTankRandom.setFitWidth(51);
+            armoredTankRandom.setFitHeight(51);
+            gameMap.add(armoredTankRandom, j, i);
         } else if (Map.getMap()[i][j] == Block.WATER) {
-            Image img = new Image("images/water.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(51);
-            imgView.setFitHeight(51);
-            gameMap.add(imgView, j, i);
+            Water water = new Water( new Image("images/water.png"));
+            water.setFitWidth(51);
+            water.setFitHeight(51);
+            gameMap.add(water, j, i);
         }
     }
 

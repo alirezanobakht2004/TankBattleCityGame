@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import java.util.Random;
 
 public class Tank extends ImageView {
-    private int x, y;
     private Direction direction;
 
     public Tank(Image image) {

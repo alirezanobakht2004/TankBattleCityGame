@@ -1,6 +1,7 @@
 package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
+import ir.ac.kntu.GUI.Brick;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -133,10 +134,12 @@ public class TankControlling {
             gameMap.add(bullet, tankCol, tankRow);
             bullet.setVisible(false);
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
-                if (!objectCollision(GridPane.getRowIndex(bullet)-1, GridPane.getColumnIndex(bullet) , gameMap)) {
+                if (GridPane.getRowIndex(bullet)!=0 &&!objectCollision(GridPane.getRowIndex(bullet)-1, GridPane.getColumnIndex(bullet) , gameMap)) {
                     gameMap.getChildren().remove(bullet);
                     gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
                     bullet.setVisible(true);
+                } else{
+                    gameMap.getChildren().remove(bullet);
                 }
             }));
             timeline.setCycleCount(Timeline.INDEFINITE);
@@ -162,6 +165,23 @@ public class TankControlling {
         }
         if (node != null) {
             if (Map.getMap()[rowIndex][columnIndex] != Block.WATER) {
+                if(node instanceof Brick){
+                    ((Brick) node).setHealth(((Brick) node).getHealth()-1);
+                    if(((Brick) node).getHealth()==3){
+                        ((Brick) node).setFitHeight(36);
+                        ((Brick) node).setImage(new Image("images/3rowsBrick.png"));
+                    } else if(((Brick) node).getHealth()==2){
+                        ((Brick) node).setFitHeight(22);
+                        ((Brick) node).setImage(new Image("images/2rowsBrick.png"));
+                    }else if(((Brick) node).getHealth()==1){
+                        ((Brick) node).setFitHeight(7);
+                        ((Brick) node).setImage(new Image("images/1rowBrick.png"));
+                    } else if(((Brick) node).getHealth()==0){
+                        gameMap.getChildren().remove(node);
+                    }
+
+
+                }
                 return true;
             } else {
                 return false;
@@ -172,4 +192,6 @@ public class TankControlling {
 
 
     }
+
+
 }
