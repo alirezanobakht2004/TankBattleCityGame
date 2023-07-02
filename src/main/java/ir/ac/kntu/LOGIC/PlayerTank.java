@@ -83,11 +83,11 @@ public class PlayerTank extends Tank {
         }
         else if (playerTank.getDirection().equals(Direction.DOWN)) {
             shootDown(playerTank, gameMap, game);
-        }/* else if (playerTank.getDirection().equals(Direction.LEFT)) {
-            Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
+        } else if (playerTank.getDirection().equals(Direction.LEFT)) {
+            shootLeft(playerTank,gameMap,game);
         } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
-            Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
-        }*/
+            shootRight(playerTank, gameMap, game);
+        }
     }
 
     public void shootUp(PlayerTank playerTank, GridPane gameMap, Game game){
@@ -117,13 +117,13 @@ public class PlayerTank extends Tank {
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap)) {
+            if (GridPane.getRowIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap)) {
                 gameMap.getChildren().remove(bullet);
                 gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) + 1);
                 bullet.setVisible(true);
             } else if (GridPane.getRowIndex(bullet) != 12) {
                 timeline.stop();
-                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
                 gameMap.getChildren().remove(bullet);
             } else {
                 timeline.stop();
@@ -134,18 +134,18 @@ public class PlayerTank extends Tank {
         timeline.play();
     }
 
-    public void shooRight(PlayerTank playerTank, GridPane gameMap, Game game){
-        Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+    public void shootRight(PlayerTank playerTank, GridPane gameMap, Game game){
+        Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
+            if (GridPane.getColumnIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet) , GridPane.getColumnIndex(bullet)+1, gameMap)) {
                 gameMap.getChildren().remove(bullet);
-                gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet)+1, GridPane.getRowIndex(bullet));
                 bullet.setVisible(true);
-            } else if (GridPane.getRowIndex(bullet) != 0) {
+            } else if (GridPane.getColumnIndex(bullet) != 12) {
                 timeline.stop();
-                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet)+1, gameMap), gameMap, game);
                 gameMap.getChildren().remove(bullet);
             } else {
                 timeline.stop();
@@ -157,17 +157,17 @@ public class PlayerTank extends Tank {
     }
 
     public void shootLeft(PlayerTank playerTank, GridPane gameMap, Game game){
-        Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+        Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
+            if (GridPane.getColumnIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) , GridPane.getColumnIndex(bullet)-1, gameMap)) {
                 gameMap.getChildren().remove(bullet);
-                gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet)-1, GridPane.getRowIndex(bullet));
                 bullet.setVisible(true);
-            } else if (GridPane.getRowIndex(bullet) != 0) {
+            } else if (GridPane.getColumnIndex(bullet) != 0) {
                 timeline.stop();
-                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet)-1, gameMap), gameMap, game);
                 gameMap.getChildren().remove(bullet);
             } else {
                 timeline.stop();
@@ -176,6 +176,25 @@ public class PlayerTank extends Tank {
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    public boolean objectCollision(int rowIndex, int columnIndex, GridPane gameMap) {
+        Node node = null;
+        for (Node n : gameMap.getChildren()) {
+            if (GridPane.getRowIndex(n) == rowIndex && GridPane.getColumnIndex(n) == columnIndex) {
+                node = n;
+                break;
+            }
+        }
+        if (node != null) {
+            if (Map.getMap()[rowIndex][columnIndex] != Block.WATER) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public boolean collision(Direction direction, GridPane gameMap) {
@@ -200,24 +219,7 @@ public class PlayerTank extends Tank {
         return false;
     }
 
-    public boolean objectCollision(int rowIndex, int columnIndex, GridPane gameMap) {
-        Node node = null;
-        for (Node n : gameMap.getChildren()) {
-            if (GridPane.getRowIndex(n) == rowIndex && GridPane.getColumnIndex(n) == columnIndex) {
-                node = n;
-                break;
-            }
-        }
-        if (node != null) {
-            if (Map.getMap()[rowIndex][columnIndex] != Block.WATER) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
+
 
     public ImageView objectOfMap(int rowIndex, int columnIndex, GridPane gameMap) {
         Node node = null;
