@@ -56,6 +56,10 @@ public class Game {
         return tanks;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void containerBuild() {
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();
@@ -71,14 +75,26 @@ public class Game {
         row1.setPercentHeight(2);
         row2.setPercentHeight(96);
         row3.setPercentHeight(2);
-        container.setStyle("-fx-background-color: rgb(80, 80, 80);");
+        container.setStyle("-fx-background-color: rgb(99,99,99);");
         tankSpawn();
         setRightSide();
     }
 
     public void setRightSide() {
-        tanksCon = new VBox();
         rightVbox = new VBox();
+        reservesdTanksShow();
+        healthShow();
+        levelShow();
+        container.add(rightVbox, 2, 1);
+    }
+
+    public void updateRightSide() {
+        container.getChildren().remove(rightVbox);
+        setRightSide();
+    }
+
+    public void reservesdTanksShow() {
+        tanksCon = new VBox();
         for (int i = 0; i < reservedTanks.size() / 2; i++) {
             HBox row = new HBox();
             for (int j = 0; j < 2; j++) {
@@ -101,22 +117,33 @@ public class Game {
         }
         tanksCon.setPadding(new Insets(10, 0, 0, 30));
         rightVbox.getChildren().add(tanksCon);
+    }
+
+    public void healthShow() {
         Text label = new Text("\n\n   Health");
         label.setFont(Font.font("Arial", FontWeight.BOLD, 25));
-        label.setFill(Color.BLACK);
-        Text subLabel = new Text("      "+String.valueOf( player.getHealth()));
+        label.setFill(Color.CYAN);
+        Text subLabel = new Text("      " + String.valueOf(player.getHealth()));
         subLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-        subLabel.setFill(Color.GREEN);
+        subLabel.setFill(Color.GOLD);
         VBox vbox = new VBox();
         vbox.getChildren().addAll(label, subLabel);
         rightVbox.getChildren().add(vbox);
         vbox.setAlignment(Pos.BOTTOM_LEFT);
-        container.add(rightVbox, 2, 1);
     }
 
-    public void updateRightSide() {
-        container.getChildren().remove(rightVbox);
-        setRightSide();
+    public void levelShow() {
+        Text levelLabel = new Text("\n\n   LEVEL");
+        levelLabel.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+        levelLabel.setFill(Color.ORANGE);
+
+        Text numberLabel = new Text("      " + level + "\n");
+        numberLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        numberLabel.setFill(Color.PINK);
+        ImageView imageView = new ImageView(new Image("images/outFlag.png"));
+        VBox.setMargin(imageView, new Insets(0, 0, 0, 35));
+        rightVbox.getChildren().addAll(levelLabel, numberLabel, imageView);
+
     }
 
     public void gameStart(String node, Player player) {

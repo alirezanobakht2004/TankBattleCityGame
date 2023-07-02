@@ -157,7 +157,8 @@ public class PlayerTank extends Tank {
     }
 
     public void afterCollision(ImageView n, GridPane gameMap,Game game) {
-        if (n instanceof Tank) {
+        if (n instanceof CommonTank) {
+            //game.getPlayer().s
             game.getTanks().remove(n);
             gameMap.getChildren().remove(n);
 
