@@ -12,8 +12,10 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Game {
 
@@ -27,6 +29,7 @@ public class Game {
     private Map map = new Map();
     private VBox tanksCon;
     private TankControlling tankControlling = new TankControlling();
+    private List<WaterPositions> waterPositions = new ArrayList<>();
 
     public GridPane getGameMap() {
         return container;
@@ -130,7 +133,7 @@ public class Game {
 
     public void mapBuilding(int i, int j) {
         if (Map.getMap()[i][j] == Block.BRICK) {
-            Brick brick = new Brick( new Image("images/brick.png"));
+            Brick brick = new Brick(new Image("images/brick.png"));
             brick.setFitWidth(51);
             brick.setFitHeight(51);
             gameMap.add(brick, j, i);
@@ -169,46 +172,29 @@ public class Game {
             armoredTankRandom.setFitHeight(51);
             gameMap.add(armoredTankRandom, j, i);
         } else if (Map.getMap()[i][j] == Block.WATER) {
-            Water water = new Water( new Image("images/water.png"));
+            Water water = new Water(new Image("images/water.png"));
             water.setFitWidth(51);
             water.setFitHeight(51);
+            WaterPositions waterPositions1 = new WaterPositions(i, j, 0);
+            waterPositions.add(waterPositions1);
             gameMap.add(water, j, i);
         }
     }
 
-    private int a = 0;
-    private int b = 0;
+
 
     public void tankSpawn() {
         Thread thread = new Thread(() -> {
             while (true) {
-                tankControlling.tankMove(tanks,gameMap);
+                tankControlling.tankMove(tanks, gameMap);
                 if (tanks.size() < 4) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     Platform.runLater(() -> {
-                        int indexOfTankAdding = 0;
-                        while (a < 13) {
-                            while (b < 13) {
-                                if (Map.getMap()[a][b] == Block.WATER) {
-                                    gameMap.add(reservedTanks.get(0), b, a);
-                                    tanks.add((reservedTanks.get(0)));
-                                    reservedTanks.remove(0);
-                                    indexOfTankAdding++;
-                                    break;
-                                }
-                                b++;
-                            }
-                            if (indexOfTankAdding == 1) {
-                                b++;
-                                break;
-                            }
-                            a++;
-                            b = 0;
-                        }
+                            List<WaterPositions> sortedWaterPositions = waterPositions.stream().sorted(Comparator.comparing(WaterPositions::getNumberOfSpawn)).collect(Collectors.toList());
+                            gameMap.add(reservedTanks.get(0), sortedWaterPositions.get(0).getY(), sortedWaterPositions.get(0).getX());
+                            tanks.add((reservedTanks.get(0)));
+                            reservedTanks.remove(0);
+                            sortedWaterPositions.get(0).setNumberOfSpawn(sortedWaterPositions.get(0).getNumberOfSpawn() + 1);
+
                     });
                     try {
                         Thread.sleep(500);
@@ -221,8 +207,6 @@ public class Game {
         thread.setDaemon(true);
         thread.start();
     }
-
-
 
 
 }

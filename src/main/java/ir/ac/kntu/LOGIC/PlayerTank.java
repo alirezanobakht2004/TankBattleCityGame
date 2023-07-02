@@ -2,6 +2,7 @@ package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
 import ir.ac.kntu.GUI.Brick;
+import ir.ac.kntu.GUI.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -20,7 +21,7 @@ public class PlayerTank extends Tank {
         super(image);
     }
 
-    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap) {
+    public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap, Game game) {
         node.setDirection(Direction.UP);
         mapBlocks[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = Block.EMPTY;
         gameScene.setOnKeyPressed(event -> {
@@ -60,7 +61,7 @@ public class PlayerTank extends Tank {
                     node.setDirection(Direction.DOWN);
                     break;
                 case SPACE:
-                    playerBulletShoot(node, gameMap);
+                    playerBulletShoot(node, gameMap,game);
                     break;
                 default:
                     break;
@@ -72,7 +73,7 @@ public class PlayerTank extends Tank {
         // code to be executed after 1 second
     }));
 
-    public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap) {
+    public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap,Game game) {
         if (playerTank.getDirection().equals(Direction.UP)) {
             Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
             gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
@@ -84,7 +85,7 @@ public class PlayerTank extends Tank {
                     bullet.setVisible(true);
                 } else if (GridPane.getRowIndex(bullet) != 0) {
                     timeline.stop();
-                    afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap);
+                    afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap,game);
                     gameMap.getChildren().remove(bullet);
                 } else {
                     timeline.stop();
@@ -155,8 +156,9 @@ public class PlayerTank extends Tank {
         return (ImageView) node;
     }
 
-    public void afterCollision(ImageView n, GridPane gameMap) {
-        if (n instanceof Brick) {
+    public void afterCollision(ImageView n, GridPane gameMap,Game game) {
+        if (n instanceof Tank) {
+            game.getTanks().remove(n);
             gameMap.getChildren().remove(n);
         }
     }
