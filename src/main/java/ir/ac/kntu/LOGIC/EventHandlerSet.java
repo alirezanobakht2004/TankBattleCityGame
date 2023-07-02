@@ -40,20 +40,23 @@ public class EventHandlerSet {
     }
 
     public void eSP(SelectPlayer selectPlayer) {
+            selectPlayer.getSignUp().setOnMouseClicked(event -> {
+                selectPlayer.startSignUp();
+            });
+
         selectPlayer.getPlayersList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
-                tankBattleCity.selectLevel();
+                tankBattleCity.selectLevel((Text) node);
             });
         });
     }
 
-    public void eventSL(SelectLevel selectLevel) {
+    public void eventSL(SelectLevel selectLevel,Player player) {
         selectLevel.getLevelsList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
-                tankBattleCity.startGame(((Text) node).getText());
+                tankBattleCity.startGame(((Text) node).getText(),player);
             });
         });
     }
-
 
 }

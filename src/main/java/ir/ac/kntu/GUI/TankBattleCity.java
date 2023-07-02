@@ -1,8 +1,6 @@
 package ir.ac.kntu.GUI;
 
-import ir.ac.kntu.LOGIC.EventHandlerSet;
-import ir.ac.kntu.LOGIC.Map;
-import ir.ac.kntu.LOGIC.TankControlling;
+import ir.ac.kntu.LOGIC.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -29,12 +27,13 @@ public class TankBattleCity {
     private TankControlling tankControlling = new TankControlling();
     private StartMenu startMenu = new StartMenu();
     private Scene startProgramScene;
-    private SelectPlayer selectPlayer=new SelectPlayer();
+    private SelectPlayer selectPlayer = new SelectPlayer();
     private Scene selectPlayerScene;
     private SelectLevel selectLevel = new SelectLevel();
     private Scene selectLevelScene;
     private Game game = new Game();
     private Scene gameScene;
+    private PlayerSaving playerSaving = new PlayerSaving();
 
 
     public TankBattleCity(Stage stage) {
@@ -43,32 +42,42 @@ public class TankBattleCity {
 
     public void startProgram() {
         startMenu.startMenu();
-        eventHandlerSet.startMenuEH(startMenu,this);
+        eventHandlerSet.startMenuEH(startMenu, this);
         startProgramScene = new Scene(startMenu.getStartPane());
         stage.setScene(startProgramScene);
     }
 
-    public void selectPlayer(){
-        selectPlayer.selectPlayerStart();
+    public void selectPlayer() {
+        selectPlayer.selectPlayerStart(stage, this);
         eventHandlerSet.eSP(selectPlayer);
-        selectPlayerScene = new Scene(selectPlayer.getSelectPlayer());
+        selectPlayerScene = new Scene(selectPlayer.scrollPane());
         stage.setScene(selectPlayerScene);
     }
 
-    public void selectLevel(){
+    public void selectLevel(Text player) {
         selectLevel.setSelectLevelStart();
-        eventHandlerSet.eventSL(selectLevel);
+        eventHandlerSet.eventSL(selectLevel, playerFind(player));
         selectLevelScene = new Scene(selectLevel.getSelectLevel());
         stage.setScene(selectLevelScene);
     }
 
-    public void startGame(String text){
-        game.gameStart(text);
-        gameScene=new Scene(game.getGameMap());
-        game.getPlayerTank().playerTankController(gameScene,game.getPlayerTank(), Map.getMap(),game.gameMapCell(),game);
+    public void startGame(String text, Player player) {
+        game.gameStart(text, player);
+        gameScene = new Scene(game.getGameMap());
+        game.getPlayerTank().playerTankController(gameScene, game.getPlayerTank(), Map.getMap(), game.gameMapCell(), game);
         stage.setScene(gameScene);
     }
 
-
+    public Player playerFind(Text player) {
+        String text = player.getText();
+        String[] words = text.split(" ");
+        String firstWord = words[0];
+        for (int i = 0; i <playerSaving.getPlayers().size();i++){
+            if(playerSaving.getPlayers().get(i).getName().equals(firstWord)){
+                return   playerSaving.getPlayers().get(i);
+            }
+        }
+         return null;
+    }
 
 }

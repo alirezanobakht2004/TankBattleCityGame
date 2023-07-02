@@ -24,13 +24,14 @@ public class Game {
     private List<Tank> reservedTanks = new ArrayList<>();
     private List<Tank> tanks = new ArrayList<>();
 
-    private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
+
+    private Player player;
     private int level;
     private Map map = new Map();
     private VBox tanksCon;
     private TankControlling tankControlling = new TankControlling();
     private List<WaterPositions> waterPositions = new ArrayList<>();
-
+private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
     public GridPane getGameMap() {
         return container;
     }
@@ -84,7 +85,8 @@ public class Game {
         container.add(tanksCon, 2, 1);
     }
 
-    public void gameStart(String node) {
+    public void gameStart(String node,Player player) {
+        this.player=player;
         setLevel(node);
         reservedTanks = map.tankMake(level);
         containerBuild();
@@ -182,18 +184,17 @@ public class Game {
     }
 
 
-
     public void tankSpawn() {
         Thread thread = new Thread(() -> {
             while (true) {
                 tankControlling.tankMove(tanks, gameMap);
                 if (tanks.size() < 4) {
                     Platform.runLater(() -> {
-                            List<WaterPositions> sortedWaterPositions = waterPositions.stream().sorted(Comparator.comparing(WaterPositions::getNumberOfSpawn)).collect(Collectors.toList());
-                            gameMap.add(reservedTanks.get(0), sortedWaterPositions.get(0).getY(), sortedWaterPositions.get(0).getX());
-                            tanks.add((reservedTanks.get(0)));
-                            reservedTanks.remove(0);
-                            sortedWaterPositions.get(0).setNumberOfSpawn(sortedWaterPositions.get(0).getNumberOfSpawn() + 1);
+                        List<WaterPositions> sortedWaterPositions = waterPositions.stream().sorted(Comparator.comparing(WaterPositions::getNumberOfSpawn)).collect(Collectors.toList());
+                        gameMap.add(reservedTanks.get(0), sortedWaterPositions.get(0).getY(), sortedWaterPositions.get(0).getX());
+                        tanks.add((reservedTanks.get(0)));
+                        reservedTanks.remove(0);
+                        sortedWaterPositions.get(0).setNumberOfSpawn(sortedWaterPositions.get(0).getNumberOfSpawn() + 1);
 
                     });
                     try {
@@ -206,7 +207,9 @@ public class Game {
         });
         thread.setDaemon(true);
         thread.start();
+
     }
+
 
 
 }

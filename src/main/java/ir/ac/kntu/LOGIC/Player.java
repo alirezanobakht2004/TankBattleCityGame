@@ -1,23 +1,27 @@
 package ir.ac.kntu.LOGIC;
 
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+
 import java.io.Serializable;
 
 public class Player implements Serializable {
 
-    private String Name;
-
+    private String name;
     private int gamesPlayed;
+    private int score;
+    private int playerBulletStrentgh;
 
-    private int Score;
 
-    public Player(String name, int gamesPlayed, int score) {
-        Name = name;
-        this.gamesPlayed = gamesPlayed;
-        Score = score;
+    public Player(String name, int playerBulletStrentgh) {
+        this.name = name;
+        this.playerBulletStrentgh = playerBulletStrentgh;
+        gamesPlayed=0;
+        score=0;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public int getGamesPlayed() {
@@ -25,6 +29,12 @@ public class Player implements Serializable {
     }
 
     public int getScore() {
-        return Score;
+        return score;
     }
+
+    public int getPlayerBulletStrentgh() {
+        return playerBulletStrentgh;
+    }
+
+
 }

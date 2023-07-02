@@ -1,15 +1,12 @@
 package ir.ac.kntu.LOGIC;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PlayerSaving {
+public class PlayerSaving implements Serializable {
 
     private List<Player> players;
 
@@ -19,8 +16,6 @@ public class PlayerSaving {
     }
 
     public List<Player> getPlayers() {
-        save();
-        players = read();
         return players;
     }
 
