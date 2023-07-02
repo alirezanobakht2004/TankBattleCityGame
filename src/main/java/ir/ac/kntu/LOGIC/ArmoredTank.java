@@ -19,6 +19,44 @@ public class ArmoredTank extends Tank {
         super(image);
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setBulletStrength(int bulletStrength) {
+        this.bulletStrength = bulletStrength;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getBulletStrength() {
+        return bulletStrength;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public boolean isRandom() {
+        return isRandom;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
     public void setRandom(boolean random) {
         isRandom = random;
     }

@@ -27,6 +27,40 @@ public class CommonTank extends Tank {
         isRandom = random;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setBulletStrength(int bulletStrength) {
+        this.bulletStrength = bulletStrength;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getBulletStrength() {
+        return bulletStrength;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return direction;
+    }
+
     public void move(GridPane gameMap) {
         if (!collision(direction, gameMap) && direction.equals(Direction.UP)) {
             if (isRandom) {

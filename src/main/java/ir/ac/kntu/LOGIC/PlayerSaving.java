@@ -10,6 +10,10 @@ public class PlayerSaving implements Serializable {
 
     private List<Player> players;
 
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
     public PlayerSaving() {
         List<Player> pl = read();
         players = pl != null ? pl : new ArrayList<Player>();

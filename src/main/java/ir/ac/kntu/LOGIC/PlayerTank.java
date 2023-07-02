@@ -13,7 +13,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import javax.sound.sampled.Line;
+import java.util.List;
+
 public class PlayerTank extends Tank {
+    private PlayerSaving playerSaving = new PlayerSaving();
     private int health = 3;
     private int bulletStrength = 1;
 
@@ -61,7 +65,7 @@ public class PlayerTank extends Tank {
                     node.setDirection(Direction.DOWN);
                     break;
                 case SPACE:
-                    playerBulletShoot(node, gameMap,game);
+                    playerBulletShoot(node, gameMap, game);
                     break;
                 default:
                     break;
@@ -73,7 +77,7 @@ public class PlayerTank extends Tank {
         // code to be executed after 1 second
     }));
 
-    public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap,Game game) {
+    public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap, Game game) {
         if (playerTank.getDirection().equals(Direction.UP)) {
             Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
             gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
@@ -85,7 +89,7 @@ public class PlayerTank extends Tank {
                     bullet.setVisible(true);
                 } else if (GridPane.getRowIndex(bullet) != 0) {
                     timeline.stop();
-                    afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap,game);
+                    afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
                     gameMap.getChildren().remove(bullet);
                 } else {
                     timeline.stop();
@@ -156,13 +160,37 @@ public class PlayerTank extends Tank {
         return (ImageView) node;
     }
 
-    public void afterCollision(ImageView n, GridPane gameMap,Game game) {
+    public void afterCollision(ImageView n, GridPane gameMap, Game game) {
+        List<Player> l = playerSaving.read();
         if (n instanceof CommonTank) {
-            //game.getPlayer().s
-            game.getTanks().remove(n);
-            gameMap.getChildren().remove(n);
+            ((CommonTank) n).setHealth(((CommonTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
+            if (((CommonTank) n).getHealth() <= 0) {
+                l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
+                game.getTanks().remove(n);
+                gameMap.getChildren().remove(n);
+            }
+        } else if (n instanceof ArmoredTank) {
+            ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() -  l.get(findPlayer(game)).getPlayerBulletStrentgh());
+            if (((ArmoredTank) n).getHealth() <= 0) {
+                l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
+                game.getTanks().remove(n);
+                gameMap.getChildren().remove(n);
+            }
+        }else if(n instanceof Brick){
 
         }
+        playerSaving.setPlayers(l);
+        playerSaving.save();
+    }
+
+    public int findPlayer(Game game) {
+        List<Player> l = playerSaving.read();
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).getName().equals(game.getPlayer().getName())) {
+                return i;
+            }
+        }
+        return 0;
     }
 
 }
