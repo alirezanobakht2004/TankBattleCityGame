@@ -79,6 +79,18 @@ public class PlayerTank extends Tank {
 
     public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap, Game game) {
         if (playerTank.getDirection().equals(Direction.UP)) {
+            shootUp(playerTank, gameMap, game);
+        }
+        else if (playerTank.getDirection().equals(Direction.DOWN)) {
+            shootDown(playerTank, gameMap, game);
+        }/* else if (playerTank.getDirection().equals(Direction.LEFT)) {
+            Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
+        } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
+            Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
+        }*/
+    }
+
+    public void shootUp(PlayerTank playerTank, GridPane gameMap, Game game){
             Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
             gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
             bullet.setVisible(false);
@@ -98,14 +110,72 @@ public class PlayerTank extends Tank {
             }));
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
-        }
-        /*else if (playerTank.getDirection().equals(Direction.DOWN)) {
-            Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
-        } else if (playerTank.getDirection().equals(Direction.LEFT)) {
-            Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
-        } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
-            Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
-        }*/
+    }
+
+    public void shootDown(PlayerTank playerTank, GridPane gameMap, Game game){
+        Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
+        gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
+        bullet.setVisible(false);
+        timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
+            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap)) {
+                gameMap.getChildren().remove(bullet);
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) + 1);
+                bullet.setVisible(true);
+            } else if (GridPane.getRowIndex(bullet) != 12) {
+                timeline.stop();
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                gameMap.getChildren().remove(bullet);
+            } else {
+                timeline.stop();
+                gameMap.getChildren().remove(bullet);
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    public void shooRight(PlayerTank playerTank, GridPane gameMap, Game game){
+        Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+        gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
+        bullet.setVisible(false);
+        timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
+            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
+                gameMap.getChildren().remove(bullet);
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
+                bullet.setVisible(true);
+            } else if (GridPane.getRowIndex(bullet) != 0) {
+                timeline.stop();
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                gameMap.getChildren().remove(bullet);
+            } else {
+                timeline.stop();
+                gameMap.getChildren().remove(bullet);
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    public void shootLeft(PlayerTank playerTank, GridPane gameMap, Game game){
+        Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+        gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
+        bullet.setVisible(false);
+        timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
+            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
+                gameMap.getChildren().remove(bullet);
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
+                bullet.setVisible(true);
+            } else if (GridPane.getRowIndex(bullet) != 0) {
+                timeline.stop();
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                gameMap.getChildren().remove(bullet);
+            } else {
+                timeline.stop();
+                gameMap.getChildren().remove(bullet);
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     public boolean collision(Direction direction, GridPane gameMap) {
@@ -177,7 +247,16 @@ public class PlayerTank extends Tank {
                 gameMap.getChildren().remove(n);
             }
         }else if(n instanceof Brick){
-
+            ((Brick) n).setHealth(((Brick) n).getHealth()-1);
+            if(((Brick) n).getHealth()==3){
+                n.setImage(new Image("images/3rowsBrick.png"));
+            }else if(((Brick) n).getHealth()==2){
+                n.setImage(new Image("images/2rowsBrick.png"));
+            }else if(((Brick) n).getHealth()==1){
+                n.setImage(new Image("images/1rowBrick.png"));
+            }else {
+                gameMap.getChildren().remove(n);
+            }
         }
         playerSaving.setPlayers(l);
         playerSaving.save();
