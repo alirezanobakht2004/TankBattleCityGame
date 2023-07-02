@@ -20,9 +20,28 @@ public class PlayerTank extends Tank {
     private PlayerSaving playerSaving = new PlayerSaving();
     private int health = 3;
     private int bulletStrength = 1;
+    private int startRow;
+    private int startColumn;
+
 
     public PlayerTank(Image image) {
         super(image);
+    }
+
+    public void setStartRow(int startRow) {
+        this.startRow = startRow;
+    }
+
+    public void setStartColumn(int startColumn) {
+        this.startColumn = startColumn;
+    }
+
+    public int getStartRow() {
+        return startRow;
+    }
+
+    public int getStartColumn() {
+        return startColumn;
     }
 
     public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap, Game game) {
@@ -80,39 +99,38 @@ public class PlayerTank extends Tank {
     public void playerBulletShoot(PlayerTank playerTank, GridPane gameMap, Game game) {
         if (playerTank.getDirection().equals(Direction.UP)) {
             shootUp(playerTank, gameMap, game);
-        }
-        else if (playerTank.getDirection().equals(Direction.DOWN)) {
+        } else if (playerTank.getDirection().equals(Direction.DOWN)) {
             shootDown(playerTank, gameMap, game);
         } else if (playerTank.getDirection().equals(Direction.LEFT)) {
-            shootLeft(playerTank,gameMap,game);
+            shootLeft(playerTank, gameMap, game);
         } else if (playerTank.getDirection().equals(Direction.RIGHT)) {
             shootRight(playerTank, gameMap, game);
         }
     }
 
-    public void shootUp(PlayerTank playerTank, GridPane gameMap, Game game){
-            Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
-            gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
-            bullet.setVisible(false);
-            timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-                if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
-                    gameMap.getChildren().remove(bullet);
-                    gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
-                    bullet.setVisible(true);
-                } else if (GridPane.getRowIndex(bullet) != 0) {
-                    timeline.stop();
-                    afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
-                    gameMap.getChildren().remove(bullet);
-                } else {
-                    timeline.stop();
-                    gameMap.getChildren().remove(bullet);
-                }
-            }));
-            timeline.setCycleCount(Timeline.INDEFINITE);
-            timeline.play();
+    public void shootUp(PlayerTank playerTank, GridPane gameMap, Game game) {
+        Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
+        gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
+        bullet.setVisible(false);
+        timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
+            if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
+                gameMap.getChildren().remove(bullet);
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
+                bullet.setVisible(true);
+            } else if (GridPane.getRowIndex(bullet) != 0) {
+                timeline.stop();
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap), gameMap, game);
+                gameMap.getChildren().remove(bullet);
+            } else {
+                timeline.stop();
+                gameMap.getChildren().remove(bullet);
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
-    public void shootDown(PlayerTank playerTank, GridPane gameMap, Game game){
+    public void shootDown(PlayerTank playerTank, GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
         bullet.setVisible(false);
@@ -134,18 +152,18 @@ public class PlayerTank extends Tank {
         timeline.play();
     }
 
-    public void shootRight(PlayerTank playerTank, GridPane gameMap, Game game){
+    public void shootRight(PlayerTank playerTank, GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-            if (GridPane.getColumnIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet) , GridPane.getColumnIndex(bullet)+1, gameMap)) {
+            if (GridPane.getColumnIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet) + 1, gameMap)) {
                 gameMap.getChildren().remove(bullet);
-                gameMap.add(bullet, GridPane.getColumnIndex(bullet)+1, GridPane.getRowIndex(bullet));
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet) + 1, GridPane.getRowIndex(bullet));
                 bullet.setVisible(true);
             } else if (GridPane.getColumnIndex(bullet) != 12) {
                 timeline.stop();
-                afterCollision(objectOfMap(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet)+1, gameMap), gameMap, game);
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet) + 1, gameMap), gameMap, game);
                 gameMap.getChildren().remove(bullet);
             } else {
                 timeline.stop();
@@ -156,18 +174,18 @@ public class PlayerTank extends Tank {
         timeline.play();
     }
 
-    public void shootLeft(PlayerTank playerTank, GridPane gameMap, Game game){
+    public void shootLeft(PlayerTank playerTank, GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
-            if (GridPane.getColumnIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) , GridPane.getColumnIndex(bullet)-1, gameMap)) {
+            if (GridPane.getColumnIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet) - 1, gameMap)) {
                 gameMap.getChildren().remove(bullet);
-                gameMap.add(bullet, GridPane.getColumnIndex(bullet)-1, GridPane.getRowIndex(bullet));
+                gameMap.add(bullet, GridPane.getColumnIndex(bullet) - 1, GridPane.getRowIndex(bullet));
                 bullet.setVisible(true);
             } else if (GridPane.getColumnIndex(bullet) != 0) {
                 timeline.stop();
-                afterCollision(objectOfMap(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet)-1, gameMap), gameMap, game);
+                afterCollision(objectOfMap(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet) - 1, gameMap), gameMap, game);
                 gameMap.getChildren().remove(bullet);
             } else {
                 timeline.stop();
@@ -220,7 +238,6 @@ public class PlayerTank extends Tank {
     }
 
 
-
     public ImageView objectOfMap(int rowIndex, int columnIndex, GridPane gameMap) {
         Node node = null;
         for (Node n : gameMap.getChildren()) {
@@ -242,23 +259,25 @@ public class PlayerTank extends Tank {
                 gameMap.getChildren().remove(n);
             }
         } else if (n instanceof ArmoredTank) {
-            ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() -  l.get(findPlayer(game)).getPlayerBulletStrentgh());
+            ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
             if (((ArmoredTank) n).getHealth() <= 0) {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
             }
-        }else if(n instanceof Brick){
-            ((Brick) n).setHealth(((Brick) n).getHealth()-1);
-            if(((Brick) n).getHealth()==3){
+        } else if (n instanceof Brick) {
+            ((Brick) n).setHealth(((Brick) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
+            if (((Brick) n).getHealth() == 3) {
                 n.setImage(new Image("images/3rowsBrick.png"));
-            }else if(((Brick) n).getHealth()==2){
+            } else if (((Brick) n).getHealth() == 2) {
                 n.setImage(new Image("images/2rowsBrick.png"));
-            }else if(((Brick) n).getHealth()==1){
+            } else if (((Brick) n).getHealth() == 1) {
                 n.setImage(new Image("images/1rowBrick.png"));
-            }else {
+            } else {
                 gameMap.getChildren().remove(n);
             }
+        } else if (n instanceof Bullet) {
+            gameMap.getChildren().remove(n);
         }
         playerSaving.setPlayers(l);
         playerSaving.save();

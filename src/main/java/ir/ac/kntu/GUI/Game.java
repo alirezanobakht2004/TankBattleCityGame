@@ -208,6 +208,8 @@ public class Game {
         } else if (Map.getMap()[i][j] == Block.PLAYERTANK) {
             playerTank.setFitWidth(51);
             playerTank.setFitHeight(51);
+            playerTank.setStartRow(i);
+            playerTank.setStartColumn(j);
             gameMap.add(playerTank, j, i);
         } else if (Map.getMap()[i][j] == Block.COMMONTANK) {
             CommonTank commonTank = new CommonTank(new Image("images/common-tank-down.png"));
@@ -246,9 +248,10 @@ public class Game {
 
 
     public void tankSpawn() {
+        tankControlling.tankShoot(tanks, gameMap, this);
         Thread thread = new Thread(() -> {
             while (true) {
-                tankControlling.tankMove(tanks, gameMap);
+                tankControlling.tankMove(tanks, gameMap, this);
                 if (tanks.size() < 4) {
                     Platform.runLater(() -> {
                         List<WaterPositions> sortedWaterPositions = waterPositions.stream().sorted(Comparator.comparing(WaterPositions::getNumberOfSpawn)).collect(Collectors.toList());
@@ -268,8 +271,9 @@ public class Game {
         });
         thread.setDaemon(true);
         thread.start();
-
     }
+
+
 
 
 }

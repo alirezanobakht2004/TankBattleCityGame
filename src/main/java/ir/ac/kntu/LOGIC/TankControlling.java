@@ -2,6 +2,7 @@ package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
 import ir.ac.kntu.GUI.Brick;
+import ir.ac.kntu.GUI.Game;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -14,8 +15,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class TankControlling {
     private Random random = new Random(300);
@@ -58,20 +61,45 @@ public class TankControlling {
         return tanks;
     }
 
-    public void tankMove(List<Tank> tanks, GridPane gameMap) {
+    public void tankMove(List<Tank> tanks, GridPane gameMap, Game game) {
         for (int i = 0; i < tanks.size(); i++) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(30);
                 if (tanks.get(i) instanceof CommonTank) {
-                    ((CommonTank) tanks.get(i)).move(gameMap);
+                    ((CommonTank) tanks.get(i)).move(gameMap, game);
                 } else if (tanks.get(i) instanceof ArmoredTank) {
                     ((ArmoredTank) tanks.get(i)).move(gameMap);
                 }
             } catch (Exception e) {
-
             }
         }
     }
 
+    public void tankShoot(List<Tank> tanks, GridPane gameMap, Game game) {
+        Thread thread = new Thread(() -> {
+            while (true){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    for (int i = 0; i < tanks.size(); i++) {
+                        if (tanks.get(i) instanceof CommonTank) {
+                            ((CommonTank) tanks.get(i)).shoot(gameMap, game);
+                        }
+                    }
+                    System.out.println("fgvc");
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
 
 }
