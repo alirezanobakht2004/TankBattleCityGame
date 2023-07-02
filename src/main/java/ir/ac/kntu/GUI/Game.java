@@ -28,10 +28,11 @@ public class Game {
     private Player player;
     private int level;
     private Map map = new Map();
-    private VBox tanksCon;
     private TankControlling tankControlling = new TankControlling();
     private List<WaterPositions> waterPositions = new ArrayList<>();
-private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
+    private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
+    private VBox tanksCon;
+
     public GridPane getGameMap() {
         return container;
     }
@@ -81,12 +82,27 @@ private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.
             }
             tanksCon.getChildren().add(row);
         }
+        if (reservedTanks.size() % 2 != 0) {
+            HBox row = new HBox();
+            Image img = new Image("images/black-tank.png");
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(25);
+            imgView.setFitHeight(25);
+            row.getChildren().add(imgView);
+            tanksCon.getChildren().add(row);
+        }
         tanksCon.setPadding(new Insets(10, 0, 0, 30));
         container.add(tanksCon, 2, 1);
+
     }
 
-    public void gameStart(String node,Player player) {
-        this.player=player;
+    public void updateRightSide() {
+        container.getChildren().remove(tanksCon);
+        setRightSide();
+    }
+
+    public void gameStart(String node, Player player) {
+        this.player = player;
         setLevel(node);
         reservedTanks = map.tankMake(level);
         containerBuild();
@@ -195,7 +211,7 @@ private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.
                         tanks.add((reservedTanks.get(0)));
                         reservedTanks.remove(0);
                         sortedWaterPositions.get(0).setNumberOfSpawn(sortedWaterPositions.get(0).getNumberOfSpawn() + 1);
-
+                        updateRightSide();
                     });
                     try {
                         Thread.sleep(500);
@@ -209,7 +225,6 @@ private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.
         thread.start();
 
     }
-
 
 
 }

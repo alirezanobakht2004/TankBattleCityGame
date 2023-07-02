@@ -160,6 +160,7 @@ public class PlayerTank extends Tank {
         if (n instanceof Tank) {
             game.getTanks().remove(n);
             gameMap.getChildren().remove(n);
+
         }
     }
 

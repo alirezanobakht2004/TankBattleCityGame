@@ -11,13 +11,14 @@ public class Player implements Serializable {
     private int gamesPlayed;
     private int score;
     private int playerBulletStrentgh;
-
+    private int health;
 
     public Player(String name, int playerBulletStrentgh) {
         this.name = name;
         this.playerBulletStrentgh = playerBulletStrentgh;
         gamesPlayed=0;
         score=0;
+        health=3;
     }
 
     public String getName() {
