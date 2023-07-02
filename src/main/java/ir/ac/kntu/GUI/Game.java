@@ -6,9 +6,15 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -31,6 +37,7 @@ public class Game {
     private TankControlling tankControlling = new TankControlling();
     private List<WaterPositions> waterPositions = new ArrayList<>();
     private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
+    private VBox rightVbox;
     private VBox tanksCon;
 
     public GridPane getGameMap() {
@@ -71,6 +78,7 @@ public class Game {
 
     public void setRightSide() {
         tanksCon = new VBox();
+        rightVbox = new VBox();
         for (int i = 0; i < reservedTanks.size() / 2; i++) {
             HBox row = new HBox();
             for (int j = 0; j < 2; j++) {
@@ -92,12 +100,22 @@ public class Game {
             tanksCon.getChildren().add(row);
         }
         tanksCon.setPadding(new Insets(10, 0, 0, 30));
-        container.add(tanksCon, 2, 1);
-
+        rightVbox.getChildren().add(tanksCon);
+        Text label = new Text("\n\n   Health");
+        label.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+        label.setFill(Color.BLACK);
+        Text subLabel = new Text("      "+String.valueOf( player.getHealth()));
+        subLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        subLabel.setFill(Color.GREEN);
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(label, subLabel);
+        rightVbox.getChildren().add(vbox);
+        vbox.setAlignment(Pos.BOTTOM_LEFT);
+        container.add(rightVbox, 2, 1);
     }
 
     public void updateRightSide() {
-        container.getChildren().remove(tanksCon);
+        container.getChildren().remove(rightVbox);
         setRightSide();
     }
 
