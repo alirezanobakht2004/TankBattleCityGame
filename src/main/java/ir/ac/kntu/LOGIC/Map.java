@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Map {
 
-    public static Block[][] map = new Block[13][13];
+    public static Block[][] map;
 
     private Random random = new Random();
 
@@ -24,6 +24,7 @@ public class Map {
     }
 
     public void setMap() {
+        map = new Block[13][13];
         File file = new File("src/main/java/ir/ac/kntu/LOGIC/Map");
         BufferedReader reader;
         try {

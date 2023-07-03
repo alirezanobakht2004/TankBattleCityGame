@@ -5,6 +5,8 @@ import ir.ac.kntu.GUI.Brick;
 import ir.ac.kntu.GUI.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -45,8 +47,8 @@ public class PlayerTank extends Tank {
     }
 
     public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap, Game game) {
+        timeline.stop();
         node.setDirection(Direction.UP);
-        mapBlocks[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = Block.EMPTY;
         gameScene.setOnKeyPressed(event -> {
             int columnIndex = GridPane.getColumnIndex(node);
             int rowIndex = GridPane.getRowIndex(node);
@@ -111,6 +113,8 @@ public class PlayerTank extends Tank {
     public void shootUp(PlayerTank playerTank, GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
+        GridPane.setHalignment(bullet, HPos.CENTER);
+        GridPane.setValignment(bullet, VPos.CENTER);
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
             if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
@@ -133,6 +137,8 @@ public class PlayerTank extends Tank {
     public void shootDown(PlayerTank playerTank, GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(playerTank), GridPane.getRowIndex(playerTank));
+        GridPane.setHalignment(bullet, HPos.CENTER);
+        GridPane.setValignment(bullet, VPos.CENTER);
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
             if (GridPane.getRowIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap)) {
@@ -257,6 +263,7 @@ public class PlayerTank extends Tank {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
+                game.updateRightSide();
             }
         } else if (n instanceof ArmoredTank) {
             ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
@@ -264,6 +271,7 @@ public class PlayerTank extends Tank {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
+                game.updateRightSide();
             }
         } else if (n instanceof Brick) {
             ((Brick) n).setHealth(((Brick) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());

@@ -25,7 +25,7 @@ public class TankControlling {
     private List<Tank> tanks = new ArrayList<>();
 
     public List<Tank> tankMaker(int level) {
-        for (int i = 0; i < 10 + (level - 1) * 4; i++) {
+        for (int i = 0; i < 2 + (level - 1) * 4; i++) {
             int d = random.nextInt(4);
             switch (d) {
                 case 0:
@@ -64,7 +64,7 @@ public class TankControlling {
     public void tankMove(List<Tank> tanks, GridPane gameMap, Game game) {
         for (int i = 0; i < tanks.size(); i++) {
             try {
-                Thread.sleep(30);
+                Thread.sleep(50);
                 if (tanks.get(i) instanceof CommonTank) {
                     ((CommonTank) tanks.get(i)).move(gameMap, game);
                 } else if (tanks.get(i) instanceof ArmoredTank) {
@@ -75,31 +75,6 @@ public class TankControlling {
         }
     }
 
-    public void tankShoot(List<Tank> tanks, GridPane gameMap, Game game) {
-        Thread thread = new Thread(() -> {
-            while (true){
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(() -> {
-                    for (int i = 0; i < tanks.size(); i++) {
-                        if (tanks.get(i) instanceof CommonTank) {
-                            ((CommonTank) tanks.get(i)).shoot(gameMap, game);
-                        }
-                    }
-                    System.out.println("fgvc");
-                });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-    }
+
 
 }

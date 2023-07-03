@@ -6,6 +6,8 @@ import ir.ac.kntu.GUI.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -154,6 +156,8 @@ public class CommonTank extends Tank {
     public void shootUp(GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-up.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(this), GridPane.getRowIndex(this));
+        GridPane.setHalignment(bullet, HPos.CENTER);
+        GridPane.setValignment(bullet, VPos.CENTER);
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(30), event -> {
             if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
@@ -176,6 +180,8 @@ public class CommonTank extends Tank {
     public void shootDown(GridPane gameMap, Game game) {
         Bullet bullet = new Bullet(new Image("images/missile-down.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(this), GridPane.getRowIndex(this));
+        GridPane.setHalignment(bullet, HPos.CENTER);
+        GridPane.setValignment(bullet, VPos.CENTER);
         bullet.setVisible(false);
         timeline = new Timeline(new KeyFrame(Duration.millis(30), event -> {
             if (GridPane.getRowIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap)) {

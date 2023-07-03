@@ -17,6 +17,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class SelectPlayer {
     private VBox signUp = new VBox(15);
     private VBox playersList;
@@ -74,7 +76,7 @@ public class SelectPlayer {
             Text playerNode = new Text();
             playerNode.setFont(new Font(40));
             playerNode.setFill(Color.CYAN);
-            playerNode.setText(l.getName() + "                     " + l.getGamesPlayed() + "                " + l.getScore());
+            playerNode.setText(l.getName() + "                     " + l.getGamesPlayed() + "                " + l.getHighestScore());
             playersList.getChildren().add(playerNode);
         }
         selectPlayer.setStyle("-fx-background-color: black;");
@@ -122,13 +124,16 @@ public class SelectPlayer {
     }
 
     public void signUpToList(String name, String strength) {
+        List<Player> l = playerSaving.read();
         Player player = new Player(name, Integer.parseInt(strength));
         playerSaving.getPlayers().add(player);
         playerSaving.save();
         Text playerNode = new Text();
         playerNode.setFont(new Font(40));
         playerNode.setFill(Color.CYAN);
-        playerNode.setText(player.getName() + "                     " + player.getGamesPlayed() + "                " + player.getScore());
+        playerNode.setText(player.getName() + "                     " + player.getGamesPlayed() + "                " + player.getHighestScore());
         tankBattleCity.selectLevel(playerNode);
     }
+
+
 }

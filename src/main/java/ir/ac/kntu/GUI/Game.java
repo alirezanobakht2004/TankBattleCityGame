@@ -7,6 +7,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -25,8 +27,8 @@ import java.util.stream.Collectors;
 
 public class Game {
 
-    private GridPane container = new GridPane();
-    private GridPane gameMap = new GridPane();
+    private GridPane container;
+    private GridPane gameMap;
     private List<Tank> reservedTanks = new ArrayList<>();
     private List<Tank> tanks = new ArrayList<>();
 
@@ -36,9 +38,11 @@ public class Game {
     private Map map = new Map();
     private TankControlling tankControlling = new TankControlling();
     private List<WaterPositions> waterPositions = new ArrayList<>();
-    private PlayerTank playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
+    private PlayerTank playerTank;
     private VBox rightVbox;
     private VBox tanksCon;
+    private TankBattleCity tankBattleCity;
+    private PlayerSaving playerSaving = new PlayerSaving();
 
     public GridPane getGameMap() {
         return container;
@@ -88,9 +92,48 @@ public class Game {
         container.add(rightVbox, 2, 1);
     }
 
+    public void gameOver() {
+        ImageView imageView = new ImageView(new Image("images/gameOver.png"));
+        imageView.setFitWidth(800);
+        imageView.setFitHeight(500);
+        imageView.setLayoutY(600);
+        imageView.setLayoutX(0);
+        container.add(imageView, 0, 2, 1, 2);
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), imageView);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
+        TranslateTransition moveUp = new TranslateTransition(Duration.seconds(2), imageView);
+        moveUp.setByY(-350);
+        moveUp.setInterpolator(Interpolator.EASE_OUT);
+        SequentialTransition sequence = new SequentialTransition(fadeIn, moveUp);
+        sequence.play();
+    }
+
     public void updateRightSide() {
+        List<Player> l = playerSaving.read();
+        if (player.getHealth() <= 0) {
+            l.get(findPlayer()).setGamesPlayed(l.get(findPlayer()).getGamesPlayed() + 1);
+            l.get(findPlayer()).setHighestScore(Math.max(l.get(findPlayer()).getScore(),l.get(findPlayer()).getHighestScore()));
+            l.get(findPlayer()).setScore(0);
+            gameOver();
+        } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
+            container.getChildren().remove(gameMap);
+            tankBattleCity.startGame("LEVEL: " + (level + 1), player);
+        }
+        playerSaving.setPlayers(l);
+        playerSaving.save();
         container.getChildren().remove(rightVbox);
         setRightSide();
+    }
+
+    public int findPlayer() {
+        List<Player> l = playerSaving.read();
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).getName().equals(player.getName())) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     public void reservesdTanksShow() {
@@ -146,7 +189,11 @@ public class Game {
 
     }
 
-    public void gameStart(String node, Player player) {
+    public void gameStart(String node, Player player, TankBattleCity tankBattleCity) {
+        container = new GridPane();
+        gameMap = new GridPane();
+        playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
+        this.tankBattleCity = tankBattleCity;
         this.player = player;
         setLevel(node);
         reservedTanks = map.tankMake(level);
@@ -248,11 +295,11 @@ public class Game {
 
 
     public void tankSpawn() {
-        tankControlling.tankShoot(tanks, gameMap, this);
+        tankShoot(tanks, gameMap, this);
         Thread thread = new Thread(() -> {
             while (true) {
                 tankControlling.tankMove(tanks, gameMap, this);
-                if (tanks.size() < 4) {
+                if (tanks.size() < 4 && reservedTanks.size() != 0) {
                     Platform.runLater(() -> {
                         List<WaterPositions> sortedWaterPositions = waterPositions.stream().sorted(Comparator.comparing(WaterPositions::getNumberOfSpawn)).collect(Collectors.toList());
                         gameMap.add(reservedTanks.get(0), sortedWaterPositions.get(0).getY(), sortedWaterPositions.get(0).getX());
@@ -273,7 +320,33 @@ public class Game {
         thread.start();
     }
 
-
+    public void tankShoot(List<Tank> tanks, GridPane gameMap, Game game) {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    for (int i = 0; i < tanks.size(); i++) {
+                        if (tanks.get(i) instanceof CommonTank) {
+                            ((CommonTank) tanks.get(i)).shoot(gameMap, game);
+                        } else if (tanks.get(i) instanceof ArmoredTank) {
+                            ((ArmoredTank) tanks.get(i)).shoot(gameMap, game);
+                        }
+                    }
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
 
 
 }

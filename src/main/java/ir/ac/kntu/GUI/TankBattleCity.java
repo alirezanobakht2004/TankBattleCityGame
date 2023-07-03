@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.util.Scanner;
 
 public class TankBattleCity {
+    private Scene gameScene;
     private KeyFrame frame;
     private Timeline animation;
     private Stage stage;
@@ -32,7 +33,6 @@ public class TankBattleCity {
     private SelectLevel selectLevel = new SelectLevel();
     private Scene selectLevelScene;
     private Game game = new Game();
-    private Scene gameScene;
     private PlayerSaving playerSaving = new PlayerSaving();
 
 
@@ -62,7 +62,7 @@ public class TankBattleCity {
     }
 
     public void startGame(String text, Player player) {
-        game.gameStart(text, player);
+        game.gameStart(text, player,this);
         gameScene = new Scene(game.getGameMap());
         game.getPlayerTank().playerTankController(gameScene, game.getPlayerTank(), Map.getMap(), game.gameMapCell(), game);
         stage.setScene(gameScene);
