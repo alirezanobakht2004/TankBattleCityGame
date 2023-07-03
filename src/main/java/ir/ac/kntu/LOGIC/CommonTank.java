@@ -2,6 +2,7 @@ package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.Block;
 import ir.ac.kntu.GUI.Brick;
+import ir.ac.kntu.GUI.Flag;
 import ir.ac.kntu.GUI.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -316,6 +317,9 @@ public class CommonTank extends Tank {
             game.updateRightSide();
             GridPane.setColumnIndex(n, ((PlayerTank) n).getStartColumn());
             GridPane.setRowIndex(n, ((PlayerTank) n).getStartRow());
+        } else if (n instanceof Flag) {
+            gameMap.getChildren().remove(n);
+            game.gameOver();
         }
     }
 }

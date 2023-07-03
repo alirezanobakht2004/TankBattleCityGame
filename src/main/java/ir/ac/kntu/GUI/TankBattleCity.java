@@ -50,7 +50,7 @@ public class TankBattleCity {
     public void selectPlayer() {
         selectPlayer.selectPlayerStart(stage, this);
         eventHandlerSet.eSP(selectPlayer);
-        selectPlayerScene = new Scene(selectPlayer.scrollPane());
+        selectPlayerScene = new Scene(selectPlayer.scrollPane(),710,600);
         stage.setScene(selectPlayerScene);
     }
 

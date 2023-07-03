@@ -93,6 +93,14 @@ public class Game {
     }
 
     public void gameOver() {
+        List<Player> l = playerSaving.read();
+        l.get(findPlayer()).setGamesPlayed(l.get(findPlayer()).getGamesPlayed() + 1);
+        int u=l.get(findPlayer()).getScore();
+        int v=l.get(findPlayer()).getHighestScore();
+        l.get(findPlayer()).setHighestScore(Math.max(u,v) );
+        l.get(findPlayer()).setScore(0);
+        playerSaving.setPlayers(l);
+        playerSaving.save();
         ImageView imageView = new ImageView(new Image("images/gameOver.png"));
         imageView.setFitWidth(800);
         imageView.setFitHeight(500);
@@ -107,27 +115,21 @@ public class Game {
         moveUp.setInterpolator(Interpolator.EASE_OUT);
         SequentialTransition sequence = new SequentialTransition(fadeIn, moveUp);
         sequence.play();
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(5),
+                ae -> {
+                    System.exit(0);
+                }));
+        timeline.play();
     }
 
     public void updateRightSide() {
-        List<Player> l = playerSaving.read();
         if (player.getHealth() <= 0) {
-            l.get(findPlayer()).setGamesPlayed(l.get(findPlayer()).getGamesPlayed() + 1);
-            l.get(findPlayer()).setHighestScore(Math.max(player.getScore(),l.get(findPlayer()).getHighestScore()));
-            l.get(findPlayer()).setScore(0);
             gameOver();
-            Timeline timeline = new Timeline(new KeyFrame(
-                    Duration.seconds(5),
-                    ae -> {
-                        System.exit(0);
-                    }));
-            timeline.play();
         } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
             container.getChildren().remove(gameMap);
             tankBattleCity.startGame("LEVEL: " + (level + 1), player);
         }
-        playerSaving.setPlayers(l);
-        playerSaving.save();
         container.getChildren().remove(rightVbox);
         setRightSide();
     }

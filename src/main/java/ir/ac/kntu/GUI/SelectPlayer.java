@@ -56,7 +56,7 @@ public class SelectPlayer {
         this.tankBattleCity=tankBattleCity;
         signUpGrid = new GridPane();
         this.stage = stage;
-        selectPlayer.setPrefSize(450, 500);
+        selectPlayer.setPrefSize(710, 600);
         selectPlayer.getColumnConstraints().addAll(col1, col2, col3);
         selectPlayer.getRowConstraints().addAll(row1, row2, row3);
         col1.setPercentWidth(5);
@@ -70,7 +70,7 @@ public class SelectPlayer {
         Text info = new Text();
         info.setFont(new Font(40));
         info.setFill(Color.CYAN);
-        info.setText("player   gamesPlayed   Score");
+        info.setText("player   gamesPlayed   HighestScore");
         playersList.getChildren().add(info);
         for (Player l : playerSaving.getPlayers()) {
             Text playerNode = new Text();
