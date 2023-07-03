@@ -1,12 +1,14 @@
 package ir.ac.kntu.GUI;
 
 import ir.ac.kntu.LOGIC.*;
+import ir.ac.kntu.LOGIC.Map;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,10 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -31,7 +30,7 @@ public class Game {
     private GridPane gameMap;
     private List<Tank> reservedTanks = new ArrayList<>();
     private List<Tank> tanks = new ArrayList<>();
-
+    private Random random = new Random();
 
     private Player player;
     private int level;
@@ -95,9 +94,9 @@ public class Game {
     public void gameOver() {
         List<Player> l = playerSaving.read();
         l.get(findPlayer()).setGamesPlayed(l.get(findPlayer()).getGamesPlayed() + 1);
-        int u=l.get(findPlayer()).getScore();
-        int v=l.get(findPlayer()).getHighestScore();
-        l.get(findPlayer()).setHighestScore(Math.max(u,v) );
+        int u = l.get(findPlayer()).getScore();
+        int v = l.get(findPlayer()).getHighestScore();
+        l.get(findPlayer()).setHighestScore(Math.max(u, v));
         l.get(findPlayer()).setScore(0);
         playerSaving.setPlayers(l);
         playerSaving.save();
@@ -356,5 +355,47 @@ public class Game {
         thread.start();
     }
 
-
+    public void chanceItem() {
+        int choice = random.nextInt(3);
+        int row = random.nextInt(13);
+        int col = random.nextInt(13);
+        if (Map.getMap()[row][col].equals(Block.EMPTY)) {
+            switch (choice) {
+                case 0:
+                    Clock clock = new Clock(new Image("images/Clock.png"));
+                    gameMap.getChildren().add(clock);
+                    GridPane.setRowIndex(clock,row);
+                    GridPane.setColumnIndex(clock,col);
+                    Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+                            gameMap.getChildren().remove(clock);
+                    }));
+                    timeline1.play();
+                    break;
+                case 1:
+                    Star star = new Star(new Image("images/Star.png"));
+                    gameMap.getChildren().add(star);
+                    GridPane.setRowIndex(star,row);
+                    GridPane.setColumnIndex(star,col);
+                    Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+                        gameMap.getChildren().remove(star);
+                    }));
+                    timeline2.play();
+                    break;
+                case 2:
+                    Tanki tanki = new Tanki(new Image("images/Tanki.png"));
+                    gameMap.getChildren().add(tanki);
+                    GridPane.setRowIndex(tanki,row);
+                    GridPane.setColumnIndex(tanki,col);
+                    Timeline timeline3 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+                        gameMap.getChildren().remove(tanki);
+                    }));
+                    timeline3.play();
+                    break;
+                default:
+                    break;
+            }
+        }else {
+            chanceItem();
+        }
+    }
 }

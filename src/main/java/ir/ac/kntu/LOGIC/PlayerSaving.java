@@ -29,7 +29,7 @@ public class PlayerSaving implements Serializable {
             ObjectInputStream ois = new ObjectInputStream(fin);
             List<Player> lds = (List<Player>) ois.readObject();
             ois.close();
-            return lds.stream().sorted(Comparator.comparing(Player::getScore)).collect(Collectors.toList());
+            return lds.stream().sorted(Comparator.comparing(Player::getHighestScore)).collect(Collectors.toList());
         } catch (Exception ex) {
             return null;
         }

@@ -17,7 +17,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SelectPlayer {
     private VBox signUp = new VBox(15);
@@ -72,7 +74,7 @@ public class SelectPlayer {
         info.setFill(Color.CYAN);
         info.setText("player   gamesPlayed   HighestScore");
         playersList.getChildren().add(info);
-        for (Player l : playerSaving.getPlayers()) {
+        for (Player l : playerSaving.getPlayers().stream().sorted(Comparator.comparing(Player::getHighestScore).reversed()).collect(Collectors.toList())) {
             Text playerNode = new Text();
             playerNode.setFont(new Font(40));
             playerNode.setFill(Color.CYAN);

@@ -264,6 +264,9 @@ public class PlayerTank extends Tank {
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
                 game.updateRightSide();
+                if(((CommonTank) n).isRandom()){
+                    game.chanceItem();
+                }
             }
         } else if (n instanceof ArmoredTank) {
             ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
@@ -272,6 +275,9 @@ public class PlayerTank extends Tank {
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
                 game.updateRightSide();
+                if(((ArmoredTank) n).isRandom()){
+                    game.chanceItem();
+                }
             }
         } else if (n instanceof Brick) {
             ((Brick) n).setHealth(((Brick) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
