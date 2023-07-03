@@ -113,9 +113,15 @@ public class Game {
         List<Player> l = playerSaving.read();
         if (player.getHealth() <= 0) {
             l.get(findPlayer()).setGamesPlayed(l.get(findPlayer()).getGamesPlayed() + 1);
-            l.get(findPlayer()).setHighestScore(Math.max(l.get(findPlayer()).getScore(),l.get(findPlayer()).getHighestScore()));
+            l.get(findPlayer()).setHighestScore(Math.max(player.getScore(),l.get(findPlayer()).getHighestScore()));
             l.get(findPlayer()).setScore(0);
             gameOver();
+            Timeline timeline = new Timeline(new KeyFrame(
+                    Duration.seconds(5),
+                    ae -> {
+                        System.exit(0);
+                    }));
+            timeline.play();
         } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
             container.getChildren().remove(gameMap);
             tankBattleCity.startGame("LEVEL: " + (level + 1), player);
