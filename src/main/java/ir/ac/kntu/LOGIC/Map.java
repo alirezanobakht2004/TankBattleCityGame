@@ -52,34 +52,30 @@ public class Map {
 
     public static void lineRead(String line, int lN) {
         for (int i = 0; i < line.length(); i++) {
-            switch (line.charAt(i)) {
-                case 'B':
-                    map[lN][i] = Block.BRICK;
-                    break;
-                case 'M':
-                    map[lN][i] = Block.METAL;
-                    break;
-                case 'F':
-                    map[lN][i] = Block.FLAG;
-                    break;
-                case 'A':
-                    map[lN][i] = Block.ARMOREDTANK;
-                    break;
-                case 'C':
-                    map[lN][i] = Block.RANDOMTANKARMED;
-                    break;
-                case 'c':
-                    map[lN][i] = Block.RANDOMTANKCOMMON;
-                    break;
-                case 'P':
-                    map[lN][i] = Block.PLAYERTANK;
-                    break;
-                case 'O':
-                    map[lN][i] = Block.COMMONTANK;
-                    break;
-                default:
-                    map[lN][i] = Block.EMPTY;
-            }
+            map[lN][i] = getBlock(line.charAt(i));
+        }
+    }
+
+    public static Block getBlock(char c) {
+        switch (c) {
+            case 'B':
+                return Block.BRICK;
+            case 'M':
+                return Block.METAL;
+            case 'F':
+                return Block.FLAG;
+            case 'A':
+                return Block.ARMOREDTANK;
+            case 'C':
+                return Block.RANDOMTANKARMED;
+            case 'c':
+                return Block.RANDOMTANKCOMMON;
+            case 'P':
+                return Block.PLAYERTANK;
+            case 'O':
+                return Block.COMMONTANK;
+            default:
+                return Block.EMPTY;
         }
     }
 

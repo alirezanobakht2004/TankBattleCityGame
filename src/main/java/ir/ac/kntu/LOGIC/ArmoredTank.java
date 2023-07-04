@@ -79,41 +79,35 @@ public class ArmoredTank extends Tank {
     }
 
     public void move(GridPane gameMap) {
-        if (!collision(direction, gameMap) && direction.equals(Direction.UP)) {
-            if (isRandom) {
-                setImage(new Image("images/armored-random-tank-up.png"));
-            } else {
-                setImage(new Image("images/armored-tank-up.png"));
-            }
-            GridPane.setRowIndex(this, GridPane.getRowIndex(this) - 1);
-        }
-        if (!collision(direction, gameMap) && direction.equals(Direction.DOWN)) {
-            if (isRandom) {
-                setImage(new Image("images/armored-random-tank-down.png"));
-            } else {
-                setImage(new Image("images/armored-tank-down.png"));
-            }
-            GridPane.setRowIndex(this, GridPane.getRowIndex(this) + 1);
-        }
-        if (!collision(direction, gameMap) && direction.equals(Direction.LEFT)) {
-            if (isRandom) {
-                setImage(new Image("images/armored-random-tank-left.png"));
-            } else {
-                setImage(new Image("images/armored-tank-left.png"));
-            }
-            GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) - 1);
-        }
-        if (!collision(direction, gameMap) && direction.equals(Direction.RIGHT)) {
-            if (isRandom) {
-                setImage(new Image("images/armored-random-tank-right.png"));
-            } else {
-                setImage(new Image("images/armored-tank-right.png"));
-            }
-            GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) + 1);
-        }
-        if (collision(direction, gameMap)) {
+        if (!collision(direction, gameMap)) {
+            moveTank();
+        } else {
             changeDirection();
         }
+    }
+
+    private void moveTank() {
+        String directionImage = "";
+        switch (direction) {
+            case UP:
+                directionImage = "up";
+                GridPane.setRowIndex(this, GridPane.getRowIndex(this) - 1);
+                break;
+            case DOWN:
+                directionImage = "down";
+                GridPane.setRowIndex(this, GridPane.getRowIndex(this) + 1);
+                break;
+            case LEFT:
+                directionImage = "left";
+                GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) - 1);
+                break;
+            case RIGHT:
+                directionImage = "right";
+                GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) + 1);
+                break;
+        }
+        String imagePath = isRandom ? "images/armored-random-tank-" : "images/armored-tank-";
+        setImage(new Image(imagePath + directionImage + ".png"));
     }
 
     public Direction randomDirection() {
@@ -126,6 +120,8 @@ public class ArmoredTank extends Tank {
                 return Direction.RIGHT;
             case 3:
                 return Direction.LEFT;
+            default:
+                break;
         }
         return null;
     }

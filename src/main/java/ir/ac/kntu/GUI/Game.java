@@ -166,8 +166,7 @@ public class Game {
         moveUp.setInterpolator(Interpolator.EASE_OUT);
         SequentialTransition sequence = new SequentialTransition(fadeIn, moveUp);
         sequence.play();
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.seconds(5),
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5),
                 ae -> {
                     System.exit(0);
                 }));
@@ -177,18 +176,20 @@ public class Game {
     public void updateRightSide() {
         List<Player> l = playerSaving.read();
         if (l.get(findPlayer()).getHealth() <= 0) {
-            thread1 = false;
-            thread2 = false;
-            thread3 = false;
+            treadOff();
             gameOver();
         } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
-            thread1 = false;
-            thread2 = false;
-            thread3 = false;
+            treadOff();
             tankBattleCity.winPage();
         }
         container.getChildren().remove(rightVbox);
         setRightSide();
+    }
+
+    public void treadOff() {
+        thread1 = false;
+        thread2 = false;
+        thread3 = false;
     }
 
     public int findPlayer() {
@@ -255,7 +256,6 @@ public class Game {
 
     }
 
-
     public void gameStart(String node, Player player, TankBattleCity tankBattleCity) {
         this.tankBattleCity = tankBattleCity;
         this.player = player;
@@ -313,55 +313,50 @@ public class Game {
     public void mapBuilding(int i, int j) {
         if (Map.getMap()[i][j] == Block.BRICK) {
             Brick brick = new Brick(new Image("images/brick.png"));
-            brick.setFitWidth(51);
-            brick.setFitHeight(51);
+            imageViewSize(brick);
             gameMap.add(brick, j, i);
         } else if (Map.getMap()[i][j] == Block.METAL) {
             Metal metal = new Metal(new Image("images/Stone.png"));
-            metal.setFitWidth(51);
-            metal.setFitHeight(51);
+            imageViewSize(metal);
             gameMap.add(metal, j, i);
         } else if (Map.getMap()[i][j] == Block.PLAYERTANK) {
-            playerTank.setFitWidth(51);
-            playerTank.setFitHeight(51);
+            imageViewSize(playerTank);
             playerTank.setStartRow(i);
             playerTank.setStartColumn(j);
             gameMap.add(playerTank, j, i);
         } else if (Map.getMap()[i][j] == Block.COMMONTANK) {
             CommonTank commonTank = new CommonTank(new Image("images/common-tank-down.png"));
-            commonTank.setFitWidth(51);
-            commonTank.setFitHeight(51);
+            imageViewSize(commonTank);
             gameMap.add(commonTank, j, i);
         } else if (Map.getMap()[i][j] == Block.FLAG) {
             Flag flag = new Flag(new Image("images/flag.png"));
-            flag.setFitWidth(51);
-            flag.setFitHeight(51);
+            imageViewSize(flag);
             gameMap.add(flag, j, i);
         } else if (Map.getMap()[i][j] == Block.ARMOREDTANK) {
             ArmoredTank armoredTank = new ArmoredTank(new Image("images/armored-tank-down.png"));
-            armoredTank.setFitWidth(51);
-            armoredTank.setFitHeight(51);
+            imageViewSize(armoredTank);
             gameMap.add(armoredTank, j, i);
         } else if (Map.getMap()[i][j] == Block.RANDOMTANKCOMMON) {
             CommonTank commonTankRandom = new CommonTank(new Image("images/random-tank-down.png"));
-            commonTankRandom.setFitWidth(51);
-            commonTankRandom.setFitHeight(51);
+            imageViewSize(commonTankRandom);
             gameMap.add(commonTankRandom, j, i);
         } else if (Map.getMap()[i][j] == Block.RANDOMTANKARMED) {
             ArmoredTank armoredTankRandom = new ArmoredTank(new Image("images/armored-random-tank-down.png"));
-            armoredTankRandom.setFitWidth(51);
-            armoredTankRandom.setFitHeight(51);
+            imageViewSize(armoredTankRandom);
             gameMap.add(armoredTankRandom, j, i);
         } else if (Map.getMap()[i][j] == Block.WATER) {
             Water water = new Water(new Image("images/water.png"));
-            water.setFitWidth(51);
-            water.setFitHeight(51);
+            imageViewSize(water);
             WaterPositions waterPositions1 = new WaterPositions(i, j, 0);
             waterPositions.add(waterPositions1);
             gameMap.add(water, j, i);
         }
     }
 
+    public void imageViewSize(ImageView imageView) {
+        imageView.setFitWidth(51);
+        imageView.setFitHeight(51);
+    }
 
     public void tankSpawn() {
         Thread thread = new Thread(() -> {
@@ -501,5 +496,4 @@ public class Game {
         playerSaving.save();
         updateRightSide();
     }
-
 }

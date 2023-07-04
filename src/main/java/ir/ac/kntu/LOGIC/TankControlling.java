@@ -28,39 +28,40 @@ public class TankControlling {
 
     public List<Tank> tankMaker(int level) {
         for (int i = 0; i < 1 + (level - 1) * 4; i++) {
-            int d = random.nextInt(4);
-            switch (d) {
-                case 0:
-                    CommonTank commonTank = new CommonTank(new Image("images/common-tank-down.png"));
-                    commonTank.setFitHeight(51);
-                    commonTank.setFitWidth(51);
-                    tanks.add(commonTank);
-                    break;
-                case 1:
-                    ArmoredTank armoredTank = new ArmoredTank(new Image("images/armored-tank-down.png"));
-                    armoredTank.setFitHeight(51);
-                    armoredTank.setFitWidth(51);
-                    tanks.add(armoredTank);
-                    break;
-                case 2:
-                    CommonTank commonTankRandom = new CommonTank(new Image("images/random-tank-down.png"));
-                    commonTankRandom.setFitHeight(51);
-                    commonTankRandom.setFitWidth(51);
-                    commonTankRandom.setRandom(true);
-                    tanks.add(commonTankRandom);
-                    break;
-                case 3:
-                    ArmoredTank armoredTankRandom = new ArmoredTank(new Image("images/armored-random-tank-down.png"));
-                    armoredTankRandom.setFitHeight(51);
-                    armoredTankRandom.setFitWidth(51);
-                    armoredTankRandom.setRandom(true);
-                    tanks.add(armoredTankRandom);
-                    break;
-                default:
-                    break;
-            }
+            tanks.add(createTank());
         }
         return tanks;
+    }
+
+    private Tank createTank() {
+        int d = random.nextInt(4);
+        Tank tank;
+        switch (d) {
+            case 0:
+                tank = new CommonTank(new Image("images/common-tank-down.png"));
+                break;
+            case 1:
+                tank = new ArmoredTank(new Image("images/armored-tank-down.png"));
+                break;
+            case 2:
+                CommonTank commonTankRandom = new CommonTank(new Image("images/random-tank-down.png"));
+                commonTankRandom.setRandom(true);
+                tank = commonTankRandom;
+                break;
+            case 3:
+                ArmoredTank armoredTankRandom = new ArmoredTank(new Image("images/armored-random-tank-down.png"));
+                armoredTankRandom.setRandom(true);
+                tank = armoredTankRandom;
+                break;
+            default:
+                tank = null;
+                break;
+        }
+        if (tank != null) {
+            tank.setFitHeight(51);
+            tank.setFitWidth(51);
+        }
+        return tank;
     }
 
     public void tankMove(List<Tank> tanks, GridPane gameMap, Game game) {

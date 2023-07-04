@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -53,49 +54,61 @@ public class PlayerTank extends Tank {
         this.game = game;
         timeline.stop();
         node.setDirection(Direction.UP);
-        gameScene.setOnKeyPressed(event -> {
+        gameScene.setOnKeyPressed(event -> handleKeyPressed(event, node, gameMap, game));
+    }
+
+    private void handleKeyPressed(KeyEvent event, PlayerTank node, GridPane gameMap, Game game) {
+        if (GridPane.getColumnIndex(node) == 0 && event.getCode() == KeyCode.LEFT) {
+            return;
+        } else if (GridPane.getColumnIndex(node) == 12 && event.getCode() == KeyCode.RIGHT) {
+            return;
+        } else if (GridPane.getRowIndex(node) == 0 && event.getCode() == KeyCode.UP) {
+            return;
+        } else if (GridPane.getRowIndex(node) == 12 && event.getCode() == KeyCode.DOWN) {
+            return;
+        }
+        switch (event.getCode()) {
+            case LEFT:
+                movePlayerTank(Direction.LEFT, node, gameMap, "images/yellow-tank-left.png");
+                break;
+            case RIGHT:
+                movePlayerTank(Direction.RIGHT, node, gameMap, "images/yellow-tank-right.png");
+                break;
+            case UP:
+                movePlayerTank(Direction.UP, node, gameMap, "images/yellow-tank-up.png");
+                break;
+            case DOWN:
+                movePlayerTank(Direction.DOWN, node, gameMap, "images/yellow-tank-down.png");
+                break;
+            case SPACE:
+                playerBulletShoot(node, gameMap, game);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void movePlayerTank(Direction newDirection, PlayerTank node, GridPane gameMap, String imageFileName) {
+        if (node.getDirection().equals(newDirection) && !collision(getDirection(), gameMap)) {
             int columnIndex = GridPane.getColumnIndex(node);
             int rowIndex = GridPane.getRowIndex(node);
-            if (columnIndex == 0 && event.getCode() == KeyCode.LEFT) return;
-            if (columnIndex == 12 && event.getCode() == KeyCode.RIGHT) return;
-            if (rowIndex == 0 && event.getCode() == KeyCode.UP) return;
-            if (rowIndex == 12 && event.getCode() == KeyCode.DOWN) return;
-            switch (event.getCode()) {
+            switch (newDirection) {
                 case LEFT:
-                    if (node.getDirection().equals(Direction.LEFT) && !collision(getDirection(), gameMap)) {
-                        GridPane.setColumnIndex(node, columnIndex - 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-left.png"));
-                    node.setDirection(Direction.LEFT);
+                    GridPane.setColumnIndex(node, columnIndex - 1);
                     break;
                 case RIGHT:
-                    if (node.getDirection().equals(Direction.RIGHT) && !collision(getDirection(), gameMap)) {
-                        GridPane.setColumnIndex(node, columnIndex + 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-right.png"));
-                    node.setDirection(Direction.RIGHT);
+                    GridPane.setColumnIndex(node, columnIndex + 1);
                     break;
                 case UP:
-                    if (node.getDirection().equals(Direction.UP) && !collision(getDirection(), gameMap)) {
-                        GridPane.setRowIndex(node, rowIndex - 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-up.png"));
-                    node.setDirection(Direction.UP);
+                    GridPane.setRowIndex(node, rowIndex - 1);
                     break;
                 case DOWN:
-                    if (node.getDirection().equals(Direction.DOWN) && !collision(getDirection(), gameMap)) {
-                        GridPane.setRowIndex(node, rowIndex + 1);
-                    }
-                    node.setImage(new Image("images/yellow-tank-down.png"));
-                    node.setDirection(Direction.DOWN);
-                    break;
-                case SPACE:
-                    playerBulletShoot(node, gameMap, game);
-                    break;
-                default:
+                    GridPane.setRowIndex(node, rowIndex + 1);
                     break;
             }
-        });
+        }
+        node.setImage(new Image(imageFileName));
+        node.setDirection(newDirection);
     }
 
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(10), event -> {
@@ -264,29 +277,9 @@ public class PlayerTank extends Tank {
     public void afterCollision(ImageView n, GridPane gameMap, Game game) {
         List<Player> l = playerSaving.read();
         if (n instanceof CommonTank) {
-            ((CommonTank) n).setHealth(((CommonTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
-            if (((CommonTank) n).getHealth() <= 0) {
-                l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
-                game.getTanks().remove(n);
-                gameMap.getChildren().remove(n);
-                game.setExplodedCommonTank(game.getExplodedCommonTank() + 1);
-                game.updateRightSide();
-                if (((CommonTank) n).isRandom()) {
-                    game.chanceItem();
-                }
-            }
+            commonTankCollision(n, gameMap, l);
         } else if (n instanceof ArmoredTank) {
-            ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
-            if (((ArmoredTank) n).getHealth() <= 0) {
-                l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
-                game.getTanks().remove(n);
-                gameMap.getChildren().remove(n);
-                game.setExplodedArmoredTank(game.getExplodedArmoredTank() + 1);
-                game.updateRightSide();
-                if (((ArmoredTank) n).isRandom()) {
-                    game.chanceItem();
-                }
-            }
+            armoredTankCollision(n, gameMap, l);
         } else if (n instanceof Brick) {
             ((Brick) n).setHealth(((Brick) n).getHealth() - 1);
             if (((Brick) n).getHealth() == 3) {
@@ -303,6 +296,34 @@ public class PlayerTank extends Tank {
         }
         playerSaving.setPlayers(l);
         playerSaving.save();
+    }
+
+    public void commonTankCollision(ImageView n, GridPane gameMap, List<Player> l) {
+        ((CommonTank) n).setHealth(((CommonTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
+        if (((CommonTank) n).getHealth() <= 0) {
+            l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
+            game.getTanks().remove(n);
+            gameMap.getChildren().remove(n);
+            game.setExplodedCommonTank(game.getExplodedCommonTank() + 1);
+            game.updateRightSide();
+            if (((CommonTank) n).isRandom()) {
+                game.chanceItem();
+            }
+        }
+    }
+
+    public void armoredTankCollision(ImageView n, GridPane gameMap, List<Player> l) {
+        ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
+        if (((ArmoredTank) n).getHealth() <= 0) {
+            l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
+            game.getTanks().remove(n);
+            gameMap.getChildren().remove(n);
+            game.setExplodedArmoredTank(game.getExplodedArmoredTank() + 1);
+            game.updateRightSide();
+            if (((ArmoredTank) n).isRandom()) {
+                game.chanceItem();
+            }
+        }
     }
 
     public int findPlayer(Game game) {

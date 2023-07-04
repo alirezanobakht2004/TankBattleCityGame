@@ -27,16 +27,13 @@ public class EventHandlerSet {
 
     public void startMenuEH(StartMenu startMenu, TankBattleCity tankBattleCity) {
         this.tankBattleCity = tankBattleCity;
-        startMenu.getImageView1().setOnMouseClicked(e ->
-        {
+        startMenu.getImageView1().setOnMouseClicked(e -> {
             tankBattleCity.selectPlayer();
         });
-        startMenu.getImageView2().setOnMouseClicked(e ->
-        {
+        startMenu.getImageView2().setOnMouseClicked(e -> {
             System.out.println("2");
         });
-        startMenu.getImageView3().setOnMouseClicked(e ->
-        {
+        startMenu.getImageView3().setOnMouseClicked(e -> {
             System.out.println("3");
         });
     }
