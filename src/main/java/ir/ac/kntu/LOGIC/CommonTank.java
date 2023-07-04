@@ -316,6 +316,9 @@ public class CommonTank extends Tank {
         } else if (n instanceof PlayerTank) {
             List<Player> l = playerSaving.read();
             l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() - getBulletStrength());
+            if(l.get(findPlayer()).getPlayerBulletStrentgh()>=2){
+                l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh()-1);
+            }
             GridPane.setColumnIndex(n, ((PlayerTank) n).getStartColumn());
             GridPane.setRowIndex(n, ((PlayerTank) n).getStartRow());
             playerSaving.setPlayers(l);
