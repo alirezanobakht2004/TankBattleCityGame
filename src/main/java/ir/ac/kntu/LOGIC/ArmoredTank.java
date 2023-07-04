@@ -144,8 +144,6 @@ public class ArmoredTank extends Tank {
         } else if (direction.equals(Direction.RIGHT)) {
             shootRight(gameMap, game);
         }
-        System.out.println("ffg12222");
-
     }
 
     Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
@@ -158,7 +156,7 @@ public class ArmoredTank extends Tank {
         GridPane.setHalignment(bullet, HPos.CENTER);
         GridPane.setValignment(bullet, VPos.CENTER);
         bullet.setVisible(false);
-        timeline = new Timeline(new KeyFrame(Duration.millis(30), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
             if (GridPane.getRowIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet) - 1, GridPane.getColumnIndex(bullet), gameMap)) {
                 gameMap.getChildren().remove(bullet);
                 gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) - 1);
@@ -182,7 +180,7 @@ public class ArmoredTank extends Tank {
         GridPane.setHalignment(bullet, HPos.CENTER);
         GridPane.setValignment(bullet, VPos.CENTER);
         bullet.setVisible(false);
-        timeline = new Timeline(new KeyFrame(Duration.millis(30), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
             if (GridPane.getRowIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet) + 1, GridPane.getColumnIndex(bullet), gameMap)) {
                 gameMap.getChildren().remove(bullet);
                 gameMap.add(bullet, GridPane.getColumnIndex(bullet), GridPane.getRowIndex(bullet) + 1);
@@ -204,7 +202,7 @@ public class ArmoredTank extends Tank {
         Bullet bullet = new Bullet(new Image("images/missile-right.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(this), GridPane.getRowIndex(this));
         bullet.setVisible(false);
-        timeline = new Timeline(new KeyFrame(Duration.millis(30), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
             if (GridPane.getColumnIndex(bullet) != 12 && !objectCollision(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet) + 1, gameMap)) {
                 gameMap.getChildren().remove(bullet);
                 gameMap.add(bullet, GridPane.getColumnIndex(bullet) + 1, GridPane.getRowIndex(bullet));
@@ -226,7 +224,7 @@ public class ArmoredTank extends Tank {
         Bullet bullet = new Bullet(new Image("images/missile-left.gif"));
         gameMap.add(bullet, GridPane.getColumnIndex(this), GridPane.getRowIndex(this));
         bullet.setVisible(false);
-        timeline = new Timeline(new KeyFrame(Duration.millis(30), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
             if (GridPane.getColumnIndex(bullet) != 0 && !objectCollision(GridPane.getRowIndex(bullet), GridPane.getColumnIndex(bullet) - 1, gameMap)) {
                 gameMap.getChildren().remove(bullet);
                 gameMap.add(bullet, GridPane.getColumnIndex(bullet) - 1, GridPane.getRowIndex(bullet));

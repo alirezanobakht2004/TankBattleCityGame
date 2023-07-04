@@ -386,11 +386,10 @@ public class Game {
                     clock = false;
                 }
                 Platform.runLater(() -> {
-
                     tankControlling.tankMove(tanks, gameMap, this);
                 });
                 try {
-                    Thread.sleep(200 - level * 10);
+                    Thread.sleep(150 - level * 10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
