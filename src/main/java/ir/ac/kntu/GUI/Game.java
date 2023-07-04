@@ -166,10 +166,9 @@ public class Game {
         moveUp.setInterpolator(Interpolator.EASE_OUT);
         SequentialTransition sequence = new SequentialTransition(fadeIn, moveUp);
         sequence.play();
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5),
-                ae -> {
-                    System.exit(0);
-                }));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> {
+            System.exit(0);
+        }));
         timeline.play();
     }
 
