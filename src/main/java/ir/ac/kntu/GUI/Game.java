@@ -80,6 +80,8 @@ public class Game {
         row3.setPercentHeight(2);
         container.setStyle("-fx-background-color: rgb(99,99,99);");
         tankSpawn();
+        tankMove();
+        tankShoot();
         setRightSide();
     }
 
@@ -308,24 +310,39 @@ public class Game {
 
 
     public void tankSpawn() {
-        tankShoot(tanks, gameMap, this);
         Thread thread = new Thread(() -> {
             while (true) {
-                tankControlling.tankMove(tanks, gameMap, this);
-                if (tanks.size() < 4 && reservedTanks.size() != 0) {
-                    Platform.runLater(() -> {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    if (tanks.size() < 4 && reservedTanks.size() != 0) {
                         List<WaterPositions> sortedWaterPositions = waterPositions.stream().sorted(Comparator.comparing(WaterPositions::getNumberOfSpawn)).collect(Collectors.toList());
                         gameMap.add(reservedTanks.get(0), sortedWaterPositions.get(0).getY(), sortedWaterPositions.get(0).getX());
                         tanks.add((reservedTanks.get(0)));
                         reservedTanks.remove(0);
                         sortedWaterPositions.get(0).setNumberOfSpawn(sortedWaterPositions.get(0).getNumberOfSpawn() + 1);
                         updateRightSide();
-                    });
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    public void tankMove() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                Platform.runLater(() -> {
+                    tankControlling.tankMove(tanks, gameMap, this);
+                });
+                try {
+                    Thread.sleep(200-level*10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -333,7 +350,7 @@ public class Game {
         thread.start();
     }
 
-    public void tankShoot(List<Tank> tanks, GridPane gameMap, Game game) {
+    public void tankShoot() {
         Thread thread = new Thread(() -> {
             while (true) {
                 try {
@@ -344,9 +361,9 @@ public class Game {
                 Platform.runLater(() -> {
                     for (int i = 0; i < tanks.size(); i++) {
                         if (tanks.get(i) instanceof CommonTank) {
-                            ((CommonTank) tanks.get(i)).shoot(gameMap, game);
+                            ((CommonTank) tanks.get(i)).shoot(gameMap, this);
                         } else if (tanks.get(i) instanceof ArmoredTank) {
-                            ((ArmoredTank) tanks.get(i)).shoot(gameMap, game);
+                            ((ArmoredTank) tanks.get(i)).shoot(gameMap, this);
                         }
                     }
                 });

@@ -63,15 +63,12 @@ public class TankControlling {
 
     public void tankMove(List<Tank> tanks, GridPane gameMap, Game game) {
         for (int i = 0; i < tanks.size(); i++) {
-            try {
-                Thread.sleep(50);
                 if (tanks.get(i) instanceof CommonTank) {
                     ((CommonTank) tanks.get(i)).move(gameMap, game);
                 } else if (tanks.get(i) instanceof ArmoredTank) {
                     ((ArmoredTank) tanks.get(i)).move(gameMap);
                 }
-            } catch (Exception e) {
-            }
+
         }
     }
 
