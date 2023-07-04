@@ -203,26 +203,30 @@ public class Game {
 
     public void reservesdTanksShow() {
         tanksCon = new VBox();
-        for (int i = 0; i < reservedTanks.size() / 2; i++) {
-            HBox row = new HBox();
-            for (int j = 0; j < 2; j++) {
+        int rowSize=2;
+        if(reservedTanks.size()>=26){
+            rowSize=3;
+        }
+            for (int i = 0; i < reservedTanks.size() / rowSize; i++) {
+                HBox row = new HBox();
+                for (int j = 0; j < rowSize; j++) {
+                    Image img = new Image("images/black-tank.png");
+                    ImageView imgView = new ImageView(img);
+                    imgView.setFitWidth(25);
+                    imgView.setFitHeight(25);
+                    row.getChildren().add(imgView);
+                }
+                tanksCon.getChildren().add(row);
+            }
+            if (reservedTanks.size() % rowSize != 0) {
+                HBox row = new HBox();
                 Image img = new Image("images/black-tank.png");
                 ImageView imgView = new ImageView(img);
                 imgView.setFitWidth(25);
                 imgView.setFitHeight(25);
                 row.getChildren().add(imgView);
+                tanksCon.getChildren().add(row);
             }
-            tanksCon.getChildren().add(row);
-        }
-        if (reservedTanks.size() % 2 != 0) {
-            HBox row = new HBox();
-            Image img = new Image("images/black-tank.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(25);
-            imgView.setFitHeight(25);
-            row.getChildren().add(imgView);
-            tanksCon.getChildren().add(row);
-        }
         tanksCon.setPadding(new Insets(10, 0, 0, 30));
         rightVbox.getChildren().add(tanksCon);
     }

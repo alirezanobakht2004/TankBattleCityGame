@@ -27,7 +27,7 @@ public class TankControlling {
     private List<Tank> tanks = new ArrayList<>();
 
     public List<Tank> tankMaker(int level) {
-        for (int i = 0; i < 1 + (level - 1) * 4; i++) {
+        for (int i = 0; i < 10 + (level - 1) * 4; i++) {
             tanks.add(createTank());
         }
         return tanks;
