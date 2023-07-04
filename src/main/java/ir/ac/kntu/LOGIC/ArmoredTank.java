@@ -15,13 +15,21 @@ import java.util.List;
 import java.util.Random;
 
 public class ArmoredTank extends Tank {
+
     private Random random = new Random();
+
     private int health = 2;
+
     private int bulletStrength = 2;
+
     private int point = 200;
+
     private boolean isRandom = false;
+
     private Direction direction = randomDirection();
-    private PlayerSaving playerSaving=new PlayerSaving();
+
+    private PlayerSaving playerSaving = new PlayerSaving();
+
     private Game game;
 
     public ArmoredTank(Image image) {
@@ -127,9 +135,8 @@ public class ArmoredTank extends Tank {
     }
 
 
-
     public void shoot(GridPane gameMap, Game game) {
-        this.game=game;
+        this.game = game;
         if (direction.equals(Direction.UP)) {
             shootUp(gameMap, game);
         } else if (direction.equals(Direction.DOWN)) {
@@ -308,19 +315,20 @@ public class ArmoredTank extends Tank {
         } else if (n instanceof PlayerTank) {
             List<Player> l = playerSaving.read();
             l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() - getBulletStrength());
-            if(l.get(findPlayer()).getPlayerBulletStrentgh()>=2){
-                l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh()-1);
+            if (l.get(findPlayer()).getPlayerBulletStrentgh() >= 2) {
+                l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh() - 1);
             }
             GridPane.setColumnIndex(n, ((PlayerTank) n).getStartColumn());
             GridPane.setRowIndex(n, ((PlayerTank) n).getStartRow());
             playerSaving.setPlayers(l);
             playerSaving.save();
             game.updateRightSide();
-        }else if(n instanceof Flag){
+        } else if (n instanceof Flag) {
             gameMap.getChildren().remove(n);
             game.gameOver();
         }
     }
+
     public int findPlayer() {
         List<Player> l = playerSaving.read();
         for (int i = 0; i < l.size(); i++) {

@@ -20,7 +20,9 @@ import java.util.List;
 public class EventHandlerSet {
 
     private TankBattleCity tankBattleCity;
+
     private PlayerSaving playerSaving = new PlayerSaving();
+
     private Game game;
 
     public void startMenuEH(StartMenu startMenu, TankBattleCity tankBattleCity) {
@@ -40,9 +42,9 @@ public class EventHandlerSet {
     }
 
     public void eSP(SelectPlayer selectPlayer) {
-            selectPlayer.getSignUp().setOnMouseClicked(event -> {
-                selectPlayer.startSignUp();
-            });
+        selectPlayer.getSignUp().setOnMouseClicked(event -> {
+            selectPlayer.startSignUp();
+        });
 
         selectPlayer.getPlayersList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
@@ -51,22 +53,23 @@ public class EventHandlerSet {
         });
     }
 
-    public void eventSL(SelectLevel selectLevel,Player player) {
+    public void eventSL(SelectLevel selectLevel, Player player) {
         selectLevel.getLevelsList().getChildren().forEach(node -> {
             node.setOnMouseClicked(event -> {
-                tankBattleCity.startGame(((Text) node).getText(),player);
+                tankBattleCity.startGame(((Text) node).getText(), player);
             });
         });
     }
 
     public void eventHandlerWinPage(WinPage winPage, Game game, Scene scene) {
-        this.game=game;
+        this.game = game;
         scene.setOnKeyPressed(event -> {
             game.getContainer().getChildren().remove(game.getGameMap());
             scene.setOnKeyPressed(null);
             tankBattleCity.startGame("LEVEL: " + (game.getLevel() + 1), game.getPlayer());
         });
     }
+
     public int findPlayer() {
         List<Player> l = playerSaving.read();
         for (int i = 0; i < l.size(); i++) {

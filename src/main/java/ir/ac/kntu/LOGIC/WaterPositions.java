@@ -1,8 +1,11 @@
 package ir.ac.kntu.LOGIC;
 
 public class WaterPositions {
+
     private int x;
+
     private int y;
+
     private int numberOfSpawn;
 
     public WaterPositions(int x, int y, int numberOfSpawn) {

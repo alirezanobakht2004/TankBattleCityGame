@@ -11,18 +11,31 @@ import javafx.scene.layout.VBox;
 public class StartMenu {
 
     private GridPane startPane = new GridPane();
+
     private ColumnConstraints col1 = new ColumnConstraints();
+
     private ColumnConstraints col2 = new ColumnConstraints();
+
     private ColumnConstraints col3 = new ColumnConstraints();
+
     private RowConstraints row1 = new RowConstraints();
+
     private RowConstraints row2 = new RowConstraints();
+
     private Image image = new Image("images/beforeStart.png");
+
     private Image onePlayer = new Image("images/1-player.png");
+
     private Image twoPlayers = new Image("images/2-players.png");
+
     private Image construction = new Image("images/construction.png");
+
     private ImageView imageView = new ImageView(image);
+
     private ImageView imageView1 = new ImageView(onePlayer);
+
     private ImageView imageView2 = new ImageView(twoPlayers);
+
     private ImageView imageView3 = new ImageView(construction);
 
     public GridPane getStartPane() {

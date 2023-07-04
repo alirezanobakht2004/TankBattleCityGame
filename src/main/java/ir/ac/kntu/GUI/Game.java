@@ -27,27 +27,47 @@ import java.util.stream.Collectors;
 public class Game {
 
     private GridPane container;
+
     private GridPane gameMap;
+
     private List<Tank> reservedTanks = new ArrayList<>();
+
     private List<Tank> tanks = new ArrayList<>();
+
     private Random random = new Random();
 
     private Player player;
+
     private int level;
+
     private Map map = new Map();
+
     private TankControlling tankControlling;
+
     private List<WaterPositions> waterPositions = new ArrayList<>();
+
     private PlayerTank playerTank;
+
     private VBox rightVbox;
+
     private VBox tanksCon;
+
     private TankBattleCity tankBattleCity;
+
     private PlayerSaving playerSaving;
+
     private boolean clock = false;
-    private int explodedCommonTank=0;
-    private int explodedArmoredTank=0;
-    private boolean thread1=true;
-    private boolean thread2=true;
-    private boolean thread3=true;
+
+    private int explodedCommonTank = 0;
+
+    private int explodedArmoredTank = 0;
+
+    private boolean thread1 = true;
+
+    private boolean thread2 = true;
+
+    private boolean thread3 = true;
+
     public GridPane getGameMap() {
         return container;
     }
@@ -157,14 +177,14 @@ public class Game {
     public void updateRightSide() {
         List<Player> l = playerSaving.read();
         if (l.get(findPlayer()).getHealth() <= 0) {
-            thread1=false;
-            thread2=false;
-            thread3=false;
+            thread1 = false;
+            thread2 = false;
+            thread3 = false;
             gameOver();
         } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
-            thread1=false;
-            thread2=false;
-            thread3=false;
+            thread1 = false;
+            thread2 = false;
+            thread3 = false;
             tankBattleCity.winPage();
         }
         container.getChildren().remove(rightVbox);
@@ -234,7 +254,6 @@ public class Game {
         rightVbox.getChildren().addAll(levelLabel, numberLabel, imageView);
 
     }
-
 
 
     public void gameStart(String node, Player player, TankBattleCity tankBattleCity) {

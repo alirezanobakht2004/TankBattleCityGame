@@ -20,23 +20,41 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TankBattleCity {
+
     private Scene gameScene;
+
     private KeyFrame frame;
+
     private Timeline animation;
+
     private Stage stage;
+
     private EventHandlerSet eventHandlerSet = new EventHandlerSet();
+
     private TankControlling tankControlling = new TankControlling();
+
     private StartMenu startMenu = new StartMenu();
+
     private Scene startProgramScene;
+
     private SelectPlayer selectPlayer = new SelectPlayer();
+
     private Scene selectPlayerScene;
+
     private SelectLevel selectLevel = new SelectLevel();
+
     private Scene selectLevelScene;
-    private Game game ;
+
+    private Game game;
+
     private PlayerSaving playerSaving = new PlayerSaving();
+
     private Player player;
+
     private WinPage winPage;
+
     private Scene winPageScene;
+
 
     public TankBattleCity(Stage stage) {
         this.stage = stage;
@@ -60,25 +78,25 @@ public class TankBattleCity {
 
     public void selectLevel(Text player) {
         selectLevel.setSelectLevelStart();
-        this.player= playerFind(player);
-        eventHandlerSet.eventSL(selectLevel,this.player);
+        this.player = playerFind(player);
+        eventHandlerSet.eventSL(selectLevel, this.player);
         selectLevelScene = new Scene(selectLevel.getSelectLevel());
         stage.setScene(selectLevelScene);
     }
 
     public void startGame(String text, Player player) {
-        game= new Game();
+        game = new Game();
         game.gameStart(text, player, this);
         gameScene = new Scene(game.getGameMap());
         game.getPlayerTank().playerTankController(gameScene, game.getPlayerTank(), Map.getMap(), game.gameMapCell(), game);
         stage.setScene(gameScene);
     }
 
-    public void winPage(){
+    public void winPage() {
         winPage = new WinPage();
-        winPage.winPageShow(stage,this,game);
+        winPage.winPageShow(stage, this, game);
         winPageScene = new Scene(winPage.getWinPage());
-        eventHandlerSet.eventHandlerWinPage(winPage,game,winPageScene);
+        eventHandlerSet.eventHandlerWinPage(winPage, game, winPageScene);
         stage.setScene(winPageScene);
     }
 
@@ -93,7 +111,6 @@ public class TankBattleCity {
         }
         return null;
     }
-
 
 
 }

@@ -82,7 +82,8 @@ public class Map {
             }
         }
     }
-    public List<Tank> tankMake(int level){
+
+    public List<Tank> tankMake(int level) {
         return tankControlling.tankMaker(level);
     }
 

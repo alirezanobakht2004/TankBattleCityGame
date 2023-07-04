@@ -9,23 +9,41 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class SelectLevel {
+
     private GridPane selectLevel = new GridPane();
+
     private ColumnConstraints col1 = new ColumnConstraints();
+
     private ColumnConstraints col2 = new ColumnConstraints();
+
     private ColumnConstraints col3 = new ColumnConstraints();
+
     private RowConstraints row1 = new RowConstraints();
+
     private RowConstraints row2 = new RowConstraints();
+
     private RowConstraints row3 = new RowConstraints();
+
     private VBox levelsList = new VBox(15);
+
     private Text level1 = new Text("level1");
+
     private Text level2 = new Text("level2");
+
     private Text level3 = new Text("level3");
+
     private Text level4 = new Text("level4");
+
     private Text level5 = new Text("level5");
+
     private Text level6 = new Text("level6");
+
     private Text level7 = new Text("level7");
+
     private Text level8 = new Text("level8");
+
     private Text level9 = new Text("level9");
+
     private Text level10 = new Text("level10");
 
     public GridPane getSelectLevel() {
@@ -57,7 +75,7 @@ public class SelectLevel {
     }
 
     public void setLevelsTexts() {
-        Font font=new Font(35);
+        Font font = new Font(35);
         String text = "LEVEL: ";
         Color color = Color.GOLD;
         level1.setFont(font);

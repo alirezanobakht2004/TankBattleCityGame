@@ -4,7 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Metal extends ImageView {
-    public Metal(Image image){
+
+    public Metal(Image image) {
         super(image);
     }
 }

@@ -21,7 +21,9 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TankControlling {
+
     private Random random = new Random(300);
+
     private List<Tank> tanks = new ArrayList<>();
 
     public List<Tank> tankMaker(int level) {
@@ -63,15 +65,14 @@ public class TankControlling {
 
     public void tankMove(List<Tank> tanks, GridPane gameMap, Game game) {
         for (int i = 0; i < tanks.size(); i++) {
-                if (tanks.get(i) instanceof CommonTank) {
-                    ((CommonTank) tanks.get(i)).move(gameMap, game);
-                } else if (tanks.get(i) instanceof ArmoredTank) {
-                    ((ArmoredTank) tanks.get(i)).move(gameMap);
-                }
+            if (tanks.get(i) instanceof CommonTank) {
+                ((CommonTank) tanks.get(i)).move(gameMap, game);
+            } else if (tanks.get(i) instanceof ArmoredTank) {
+                ((ArmoredTank) tanks.get(i)).move(gameMap);
+            }
 
         }
     }
-
 
 
 }

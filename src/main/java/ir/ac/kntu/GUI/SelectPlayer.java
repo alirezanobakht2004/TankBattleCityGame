@@ -22,18 +22,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SelectPlayer {
+
     private VBox signUp = new VBox(15);
+
     private VBox playersList;
+
     private GridPane selectPlayer = new GridPane();
+
     private ColumnConstraints col1 = new ColumnConstraints();
+
     private ColumnConstraints col2 = new ColumnConstraints();
+
     private ColumnConstraints col3 = new ColumnConstraints();
+
     private RowConstraints row1 = new RowConstraints();
+
     private RowConstraints row2 = new RowConstraints();
+
     private RowConstraints row3 = new RowConstraints();
+
     private PlayerSaving playerSaving = new PlayerSaving();
+
     private Stage stage;
+
     private GridPane signUpGrid;
+
     private TankBattleCity tankBattleCity;
 
     public GridPane getSelectPlayer() {
@@ -55,7 +68,7 @@ public class SelectPlayer {
     }
 
     public void selectPlayerStart(Stage stage, TankBattleCity tankBattleCity) {
-        this.tankBattleCity=tankBattleCity;
+        this.tankBattleCity = tankBattleCity;
         signUpGrid = new GridPane();
         this.stage = stage;
         selectPlayer.setPrefSize(650, 650);
@@ -75,7 +88,7 @@ public class SelectPlayer {
         info.setText("player   gamesPlayed   H-Score");
         playersList.getChildren().add(info);
         List<Player> l = playerSaving.getPlayers().stream().sorted(Comparator.comparing(Player::getHighestScore).reversed()).collect(Collectors.toList());
-        for (Player p : l ) {
+        for (Player p : l) {
             Text playerNode = new Text();
             playerNode.setFont(new Font(40));
             playerNode.setFill(Color.BLUE);

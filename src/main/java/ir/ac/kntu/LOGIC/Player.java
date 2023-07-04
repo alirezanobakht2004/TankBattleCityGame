@@ -8,19 +8,24 @@ import java.io.Serializable;
 public class Player implements Serializable {
 
     private String name;
+
     private int highestScore;
+
     private int gamesPlayed;
+
     private int score;
+
     private int playerBulletStrentgh;
+
     private int health;
 
     public Player(String name, int playerBulletStrentgh) {
         this.name = name;
         this.playerBulletStrentgh = playerBulletStrentgh;
-        gamesPlayed=0;
-        score=0;
-        highestScore=0;
-        health=3;
+        gamesPlayed = 0;
+        score = 0;
+        highestScore = 0;
+        health = 3;
     }
 
     public int getHighestScore() {

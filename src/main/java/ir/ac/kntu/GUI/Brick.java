@@ -6,14 +6,17 @@ import javafx.scene.image.ImageView;
 public class Brick extends ImageView {
 
 
-    private int Health=4;
+    private int Health = 4;
+
     public int getHealth() {
         return Health;
     }
+
     public void setHealth(int health) {
         Health = health;
     }
-    public Brick(Image image){
+
+    public Brick(Image image) {
         super(image);
     }
 }

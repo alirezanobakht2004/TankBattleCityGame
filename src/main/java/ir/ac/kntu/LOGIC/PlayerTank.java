@@ -16,11 +16,17 @@ import javafx.util.Duration;
 import java.util.List;
 
 public class PlayerTank extends Tank {
+
     private PlayerSaving playerSaving = new PlayerSaving();
+
     private int health = 3;
+
     private int bulletStrength = 1;
+
     private int startRow;
+
     private int startColumn;
+
     private Game game;
 
     public PlayerTank(Image image) {
@@ -44,7 +50,7 @@ public class PlayerTank extends Tank {
     }
 
     public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap, Game game) {
-        this.game=game;
+        this.game = game;
         timeline.stop();
         node.setDirection(Direction.UP);
         gameScene.setOnKeyPressed(event -> {
@@ -263,7 +269,7 @@ public class PlayerTank extends Tank {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
-                game.setExplodedCommonTank(game.getExplodedCommonTank()+1);
+                game.setExplodedCommonTank(game.getExplodedCommonTank() + 1);
                 game.updateRightSide();
                 if (((CommonTank) n).isRandom()) {
                     game.chanceItem();
@@ -275,7 +281,7 @@ public class PlayerTank extends Tank {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
-                game.setExplodedArmoredTank(game.getExplodedArmoredTank()+1);
+                game.setExplodedArmoredTank(game.getExplodedArmoredTank() + 1);
                 game.updateRightSide();
                 if (((ArmoredTank) n).isRandom()) {
                     game.chanceItem();

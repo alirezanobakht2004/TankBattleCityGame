@@ -5,8 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Bullet extends ImageView {
+
     private int x;
+
     private int y;
+
     private Direction direction;
 
     public Bullet(Image image) {

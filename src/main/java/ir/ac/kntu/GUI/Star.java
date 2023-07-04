@@ -5,8 +5,8 @@ import javafx.scene.image.ImageView;
 
 
 public class Star extends ImageView {
-    public Star(Image s)
-    {
+
+    public Star(Image s) {
         super(s);
     }
 }

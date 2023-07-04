@@ -15,14 +15,23 @@ import java.util.List;
 import java.util.Random;
 
 public class CommonTank extends Tank {
+
     private Random random = new Random();
+
     private int health = 1;
+
     private int bulletStrength = 1;
+
     private int point = 100;
+
     private Direction direction = randomDirection();
+
     private boolean isRandom = false;
+
     private Game game;
+
     private GridPane gameMap;
+
     private PlayerSaving playerSaving = new PlayerSaving();
 
     public CommonTank(Image image) {
@@ -310,8 +319,8 @@ public class CommonTank extends Tank {
         } else if (n instanceof PlayerTank) {
             List<Player> l = playerSaving.read();
             l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() - getBulletStrength());
-            if(l.get(findPlayer()).getPlayerBulletStrentgh()>=2){
-                l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh()-1);
+            if (l.get(findPlayer()).getPlayerBulletStrentgh() >= 2) {
+                l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh() - 1);
             }
             GridPane.setColumnIndex(n, ((PlayerTank) n).getStartColumn());
             GridPane.setRowIndex(n, ((PlayerTank) n).getStartRow());
