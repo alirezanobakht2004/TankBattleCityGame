@@ -1,6 +1,8 @@
 package ir.ac.kntu.LOGIC;
 
 import ir.ac.kntu.GUI.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -63,7 +66,15 @@ public class EventHandlerSet {
         scene.setOnKeyPressed(event -> {
             game.getContainer().getChildren().remove(game.getGameMap());
             scene.setOnKeyPressed(null);
-            tankBattleCity.startGame("LEVEL: " + (game.getLevel() + 1), game.getPlayer());
+            if((game.getLevel() + 1)<11){
+                tankBattleCity.startGame("LEVEL: " + (game.getLevel() + 1), game.getPlayer());
+            }else {
+                System.out.println("You Win!");
+                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> {
+                    System.exit(0);
+                }));
+                timeline.play();
+            }
         });
     }
 
@@ -76,5 +87,6 @@ public class EventHandlerSet {
         }
         return 0;
     }
+
 
 }

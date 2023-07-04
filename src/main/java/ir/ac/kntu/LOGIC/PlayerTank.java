@@ -304,6 +304,8 @@ public class PlayerTank extends Tank {
         ((CommonTank) n).setHealth(((CommonTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
         if (((CommonTank) n).getHealth() <= 0) {
             l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
+            playerSaving.setPlayers(l);
+            playerSaving.save();
             game.getTanks().remove(n);
             gameMap.getChildren().remove(n);
             game.setExplodedCommonTank(game.getExplodedCommonTank() + 1);
@@ -318,6 +320,8 @@ public class PlayerTank extends Tank {
         ((ArmoredTank) n).setHealth(((ArmoredTank) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
         if (((ArmoredTank) n).getHealth() <= 0) {
             l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
+            playerSaving.setPlayers(l);
+            playerSaving.save();
             game.getTanks().remove(n);
             gameMap.getChildren().remove(n);
             game.setExplodedArmoredTank(game.getExplodedArmoredTank() + 1);

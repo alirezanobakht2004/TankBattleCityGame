@@ -53,6 +53,8 @@ public class WinPage {
         int v = l.get(findPlayer()).getHighestScore();
         l.get(findPlayer()).setHighestScore(Math.max(u, v));
         l.get(findPlayer()).setHealth(3);
+        playerSaving.setPlayers(l);
+        playerSaving.save();
         winPage.setPrefSize(650, 650);
         winPage.setStyle("-fx-background-color: black;");
         winPage.getColumnConstraints().addAll(col1, col2, col3);
@@ -68,7 +70,6 @@ public class WinPage {
         highestScoreText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         highestScoreText.setFill(Color.LIGHTGREEN);
         winPageShow1(stage, tankBattleCity, game, levelText, playerNameText, highestScoreText, l);
-        l.get(findPlayer()).setScore(0);
         playerSaving.setPlayers(l);
         playerSaving.save();
     }
@@ -86,6 +87,9 @@ public class WinPage {
         Text scoreText = new Text("score: " + l.get(findPlayer()).getScore());
         scoreText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         scoreText.setFill(Color.WHITE);
+        l.get(findPlayer()).setScore(0);
+        playerSaving.setPlayers(l);
+        playerSaving.save();
         ImageView imageView1 = new ImageView(new Image("images/common-tank-up.png"));
         imageView1.setFitWidth(50);
         imageView1.setFitHeight(50);
