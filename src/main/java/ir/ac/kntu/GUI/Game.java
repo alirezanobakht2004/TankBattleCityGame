@@ -411,7 +411,7 @@ public class Game {
             l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() + 1);
             gameMap.getChildren().remove(node);
         } else if (node instanceof Star) {
-            player.setPlayerBulletStrentgh(player.getPlayerBulletStrentgh() + 1);
+            l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh() + 1);
             gameMap.getChildren().remove(node);
         } else if (node instanceof Clock) {
 
