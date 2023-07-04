@@ -2,10 +2,8 @@ package ir.ac.kntu.GUI;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -40,7 +38,7 @@ public class SelectLevel {
 
 
     public void setSelectLevelStart() {
-        selectLevel.setPrefSize(450, 500);
+        selectLevel.setPrefSize(650, 650);
         selectLevel.getColumnConstraints().addAll(col1, col2, col3);
         selectLevel.getRowConstraints().addAll(row1, row2, row3);
         col1.setPercentWidth(35);
@@ -51,8 +49,11 @@ public class SelectLevel {
         row3.setPercentHeight(10);
         setLevelsTexts();
         levelsList.getChildren().addAll(level1, level2, level3, level4, level5, level6, level7, level8, level9, level10);
-        selectLevel.setStyle("-fx-background-color: black;");
         selectLevel.add(levelsList, 1, 1);
+        Image backgroundImage = new Image("images/selectLevelBack.png");
+        BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null, null);
+        Background background1 = new Background(background);
+        selectLevel.setBackground(background1);
     }
 
     public void setLevelsTexts() {

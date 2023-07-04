@@ -35,15 +35,19 @@ public class Game {
     private Player player;
     private int level;
     private Map map = new Map();
-    private TankControlling tankControlling = new TankControlling();
+    private TankControlling tankControlling;
     private List<WaterPositions> waterPositions = new ArrayList<>();
     private PlayerTank playerTank;
     private VBox rightVbox;
     private VBox tanksCon;
     private TankBattleCity tankBattleCity;
-    private PlayerSaving playerSaving = new PlayerSaving();
+    private PlayerSaving playerSaving;
     private boolean clock = false;
-
+    private int explodedCommonTank=0;
+    private int explodedArmoredTank=0;
+    private boolean thread1=true;
+    private boolean thread2=true;
+    private boolean thread3=true;
     public GridPane getGameMap() {
         return container;
     }
@@ -62,6 +66,30 @@ public class Game {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public GridPane getContainer() {
+        return container;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setExplodedCommonTank(int explodedCommonTank) {
+        this.explodedCommonTank = explodedCommonTank;
+    }
+
+    public void setExplodedArmoredTank(int explodedArmoredTank) {
+        this.explodedArmoredTank = explodedArmoredTank;
+    }
+
+    public int getExplodedCommonTank() {
+        return explodedCommonTank;
+    }
+
+    public int getExplodedArmoredTank() {
+        return explodedArmoredTank;
     }
 
     public void containerBuild() {
@@ -101,6 +129,7 @@ public class Game {
         int v = l.get(findPlayer()).getHighestScore();
         l.get(findPlayer()).setHighestScore(Math.max(u, v));
         l.get(findPlayer()).setScore(0);
+        l.get(findPlayer()).setHealth(3);
         playerSaving.setPlayers(l);
         playerSaving.save();
         ImageView imageView = new ImageView(new Image("images/gameOver.png"));
@@ -128,10 +157,15 @@ public class Game {
     public void updateRightSide() {
         List<Player> l = playerSaving.read();
         if (l.get(findPlayer()).getHealth() <= 0) {
+            thread1=false;
+            thread2=false;
+            thread3=false;
             gameOver();
         } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
-            container.getChildren().remove(gameMap);
-            tankBattleCity.startGame("LEVEL: " + (level + 1), player);
+            thread1=false;
+            thread2=false;
+            thread3=false;
+            tankBattleCity.winPage();
         }
         container.getChildren().remove(rightVbox);
         setRightSide();
@@ -201,15 +235,15 @@ public class Game {
 
     }
 
+
+
     public void gameStart(String node, Player player, TankBattleCity tankBattleCity) {
         this.tankBattleCity = tankBattleCity;
         this.player = player;
-        List<Player> l = playerSaving.read();
-        l.get(findPlayer()).setHealth(3);
-        playerSaving.setPlayers(l);
-        playerSaving.save();
+        tankControlling = new TankControlling();
         container = new GridPane();
         gameMap = new GridPane();
+        playerSaving = new PlayerSaving();
         playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
         setLevel(node);
         reservedTanks = map.tankMake(level);
@@ -312,7 +346,7 @@ public class Game {
 
     public void tankSpawn() {
         Thread thread = new Thread(() -> {
-            while (true) {
+            while (thread1) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -336,7 +370,7 @@ public class Game {
 
     public void tankMove() {
         Thread thread = new Thread(() -> {
-            while (true) {
+            while (thread2) {
                 if (clock) {
                     try {
                         Thread.sleep(5000);
@@ -362,7 +396,7 @@ public class Game {
 
     public void tankShoot() {
         Thread thread = new Thread(() -> {
-            while (true) {
+            while (thread3) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -448,6 +482,5 @@ public class Game {
         playerSaving.save();
         updateRightSide();
     }
-
 
 }

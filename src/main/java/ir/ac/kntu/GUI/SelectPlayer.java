@@ -58,7 +58,7 @@ public class SelectPlayer {
         this.tankBattleCity=tankBattleCity;
         signUpGrid = new GridPane();
         this.stage = stage;
-        selectPlayer.setPrefSize(710, 600);
+        selectPlayer.setPrefSize(650, 650);
         selectPlayer.getColumnConstraints().addAll(col1, col2, col3);
         selectPlayer.getRowConstraints().addAll(row1, row2, row3);
         col1.setPercentWidth(5);
@@ -71,25 +71,29 @@ public class SelectPlayer {
         setSignUp();
         Text info = new Text();
         info.setFont(new Font(40));
-        info.setFill(Color.CYAN);
-        info.setText("player   gamesPlayed   HighestScore");
+        info.setFill(Color.BLACK);
+        info.setText("player   gamesPlayed   H-Score");
         playersList.getChildren().add(info);
-        for (Player l : playerSaving.getPlayers().stream().sorted(Comparator.comparing(Player::getHighestScore).reversed()).collect(Collectors.toList())) {
+        List<Player> l = playerSaving.getPlayers().stream().sorted(Comparator.comparing(Player::getHighestScore).reversed()).collect(Collectors.toList());
+        for (Player p : l ) {
             Text playerNode = new Text();
             playerNode.setFont(new Font(40));
-            playerNode.setFill(Color.CYAN);
-            playerNode.setText(l.getName() + "                     " + l.getGamesPlayed() + "                " + l.getHighestScore());
+            playerNode.setFill(Color.BLUE);
+            playerNode.setText(p.getName() + "                     " + p.getGamesPlayed() + "                " + p.getHighestScore());
             playersList.getChildren().add(playerNode);
         }
-        selectPlayer.setStyle("-fx-background-color: black;");
         selectPlayer.add(signUp, 1, 0);
         selectPlayer.add(playersList, 1, 1);
+        Image backgroundImage = new Image("images/selectPlayerBack.jpg");
+        BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null, null);
+        Background background1 = new Background(background);
+        selectPlayer.setBackground(background1);
     }
 
     public void setSignUp() {
         Text signUpText = new Text();
         signUpText.setFont(new Font(40));
-        signUpText.setFill(Color.LIGHTGREEN);
+        signUpText.setFill(Color.GREEN);
         signUpText.setText("Sign up a new tank!");
         signUp.getChildren().add(signUpText);
     }

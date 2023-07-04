@@ -1,9 +1,6 @@
 package ir.ac.kntu.LOGIC;
 
-import ir.ac.kntu.GUI.Block;
-import ir.ac.kntu.GUI.Brick;
-import ir.ac.kntu.GUI.Flag;
-import ir.ac.kntu.GUI.Game;
+import ir.ac.kntu.GUI.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.HPos;

@@ -1,5 +1,6 @@
-package ir.ac.kntu.LOGIC;
+package ir.ac.kntu.GUI;
 
+import ir.ac.kntu.LOGIC.Direction;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

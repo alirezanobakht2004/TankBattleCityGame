@@ -13,7 +13,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-import javax.sound.sampled.Line;
 import java.util.List;
 
 public class PlayerTank extends Tank {
@@ -264,6 +263,7 @@ public class PlayerTank extends Tank {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 100);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
+                game.setExplodedCommonTank(game.getExplodedCommonTank()+1);
                 game.updateRightSide();
                 if (((CommonTank) n).isRandom()) {
                     game.chanceItem();
@@ -275,6 +275,7 @@ public class PlayerTank extends Tank {
                 l.get(findPlayer(game)).setScore(l.get(findPlayer(game)).getScore() + 200);
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
+                game.setExplodedArmoredTank(game.getExplodedArmoredTank()+1);
                 game.updateRightSide();
                 if (((ArmoredTank) n).isRandom()) {
                     game.chanceItem();

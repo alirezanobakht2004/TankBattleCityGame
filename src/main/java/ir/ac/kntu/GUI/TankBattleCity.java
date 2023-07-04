@@ -1,8 +1,7 @@
 package ir.ac.kntu.GUI;
 
 import ir.ac.kntu.LOGIC.*;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,10 +32,11 @@ public class TankBattleCity {
     private Scene selectPlayerScene;
     private SelectLevel selectLevel = new SelectLevel();
     private Scene selectLevelScene;
-    private Game game = new Game();
+    private Game game ;
     private PlayerSaving playerSaving = new PlayerSaving();
     private Player player;
-
+    private WinPage winPage;
+    private Scene winPageScene;
 
     public TankBattleCity(Stage stage) {
         this.stage = stage;
@@ -46,13 +46,15 @@ public class TankBattleCity {
         startMenu.startMenu();
         eventHandlerSet.startMenuEH(startMenu, this);
         startProgramScene = new Scene(startMenu.getStartPane());
+        stage.setTitle("Tank Battle City");
+        stage.getIcons().add(new Image("images/signUpBack.png"));
         stage.setScene(startProgramScene);
     }
 
     public void selectPlayer() {
         selectPlayer.selectPlayerStart(stage, this);
         eventHandlerSet.eSP(selectPlayer);
-        selectPlayerScene = new Scene(selectPlayer.scrollPane(), 710, 600);
+        selectPlayerScene = new Scene(selectPlayer.scrollPane(), 650, 650);
         stage.setScene(selectPlayerScene);
     }
 
@@ -65,10 +67,19 @@ public class TankBattleCity {
     }
 
     public void startGame(String text, Player player) {
+        game= new Game();
         game.gameStart(text, player, this);
         gameScene = new Scene(game.getGameMap());
         game.getPlayerTank().playerTankController(gameScene, game.getPlayerTank(), Map.getMap(), game.gameMapCell(), game);
         stage.setScene(gameScene);
+    }
+
+    public void winPage(){
+        winPage = new WinPage();
+        winPage.winPageShow(stage,this,game);
+        winPageScene = new Scene(winPage.getWinPage());
+        eventHandlerSet.eventHandlerWinPage(winPage,game,winPageScene);
+        stage.setScene(winPageScene);
     }
 
     public Player playerFind(Text player) {
@@ -82,5 +93,7 @@ public class TankBattleCity {
         }
         return null;
     }
+
+
 
 }

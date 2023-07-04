@@ -1,12 +1,8 @@
 package ir.ac.kntu.LOGIC;
 
-import ir.ac.kntu.GUI.Block;
-import ir.ac.kntu.GUI.Brick;
-import ir.ac.kntu.GUI.Flag;
-import ir.ac.kntu.GUI.Game;
+import ir.ac.kntu.GUI.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -15,10 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class CommonTank extends Tank {
     private Random random = new Random();
