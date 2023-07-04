@@ -49,9 +49,7 @@ public class WinPage {
         this.tankBattleCity = tankBattleCity;
         List<Player> l = playerSaving.read();
         l.get(findPlayer()).setGamesPlayed(l.get(findPlayer()).getGamesPlayed() + 1);
-        int u = l.get(findPlayer()).getScore();
-        int v = l.get(findPlayer()).getHighestScore();
-        l.get(findPlayer()).setHighestScore(Math.max(u, v));
+        l.get(findPlayer()).setHighestScore(Math.max(l.get(findPlayer()).getScore(), l.get(findPlayer()).getHighestScore()));
         l.get(findPlayer()).setHealth(3);
         playerSaving.setPlayers(l);
         playerSaving.save();
@@ -111,6 +109,10 @@ public class WinPage {
         HBox imageScoreBox = new HBox(imageView1ScoreText, imageView2ScoreText);
         imageScoreBox.setAlignment(Pos.CENTER);
         VBox root = new VBox(leftBox, scoreText, rightBox, imageBox, imageScoreBox);
+        endWin(root);
+    }
+
+    public void endWin(VBox root) {
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: black");
         winPage.add(root, 1, 1);
