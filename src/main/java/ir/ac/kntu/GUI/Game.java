@@ -42,6 +42,7 @@ public class Game {
     private VBox tanksCon;
     private TankBattleCity tankBattleCity;
     private PlayerSaving playerSaving = new PlayerSaving();
+    private boolean clock = false;
 
     public GridPane getGameMap() {
         return container;
@@ -336,11 +337,20 @@ public class Game {
     public void tankMove() {
         Thread thread = new Thread(() -> {
             while (true) {
+                if (clock) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    clock = false;
+                }
                 Platform.runLater(() -> {
+
                     tankControlling.tankMove(tanks, gameMap, this);
                 });
                 try {
-                    Thread.sleep(200-level*10);
+                    Thread.sleep(200 - level * 10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -431,7 +441,8 @@ public class Game {
             l.get(findPlayer()).setPlayerBulletStrentgh(l.get(findPlayer()).getPlayerBulletStrentgh() + 1);
             gameMap.getChildren().remove(node);
         } else if (node instanceof Clock) {
-
+            clock = true;
+            gameMap.getChildren().remove(node);
         }
         playerSaving.setPlayers(l);
         playerSaving.save();
