@@ -1,8 +1,6 @@
 package ir.ac.kntu.LOGIC;
 
-import ir.ac.kntu.GUI.Block;
-import ir.ac.kntu.GUI.Brick;
-import ir.ac.kntu.GUI.Game;
+import ir.ac.kntu.GUI.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.HPos;
@@ -24,7 +22,7 @@ public class PlayerTank extends Tank {
     private int bulletStrength = 1;
     private int startRow;
     private int startColumn;
-
+    private Game game;
 
     public PlayerTank(Image image) {
         super(image);
@@ -47,6 +45,7 @@ public class PlayerTank extends Tank {
     }
 
     public void playerTankController(Scene gameScene, PlayerTank node, Block[][] mapBlocks, GridPane gameMap, Game game) {
+        this.game=game;
         timeline.stop();
         node.setDirection(Direction.UP);
         gameScene.setOnKeyPressed(event -> {
@@ -211,15 +210,17 @@ public class PlayerTank extends Tank {
             }
         }
         if (node != null) {
-            if (Map.getMap()[rowIndex][columnIndex] != Block.WATER) {
-                return true;
-            } else {
+            if (node instanceof Tanki || node instanceof Star || node instanceof Clock || node instanceof Water) {
+                game.chanceItemCollision(node);
                 return false;
+            } else {
+                return true;
             }
         } else {
             return false;
         }
     }
+
 
     public boolean collision(Direction direction, GridPane gameMap) {
         if (direction == Direction.UP) {
@@ -264,7 +265,7 @@ public class PlayerTank extends Tank {
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
                 game.updateRightSide();
-                if(((CommonTank) n).isRandom()){
+                if (((CommonTank) n).isRandom()) {
                     game.chanceItem();
                 }
             }
@@ -275,12 +276,12 @@ public class PlayerTank extends Tank {
                 game.getTanks().remove(n);
                 gameMap.getChildren().remove(n);
                 game.updateRightSide();
-                if(((ArmoredTank) n).isRandom()){
+                if (((ArmoredTank) n).isRandom()) {
                     game.chanceItem();
                 }
             }
         } else if (n instanceof Brick) {
-            ((Brick) n).setHealth(((Brick) n).getHealth() - l.get(findPlayer(game)).getPlayerBulletStrentgh());
+            ((Brick) n).setHealth(((Brick) n).getHealth() - 1);
             if (((Brick) n).getHealth() == 3) {
                 n.setImage(new Image("images/3rowsBrick.png"));
             } else if (((Brick) n).getHealth() == 2) {

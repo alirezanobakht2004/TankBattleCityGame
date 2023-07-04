@@ -123,7 +123,8 @@ public class Game {
     }
 
     public void updateRightSide() {
-        if (player.getHealth() <= 0) {
+        List<Player> l = playerSaving.read();
+        if (l.get(findPlayer()).getHealth() <= 0) {
             gameOver();
         } else if (reservedTanks.size() == 0 && tanks.size() == 0) {
             container.getChildren().remove(gameMap);
@@ -170,10 +171,11 @@ public class Game {
     }
 
     public void healthShow() {
+        List<Player> l = playerSaving.read();
         Text label = new Text("\n\n   Health");
         label.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         label.setFill(Color.CYAN);
-        Text subLabel = new Text("      " + String.valueOf(player.getHealth()));
+        Text subLabel = new Text("      " + String.valueOf(l.get(findPlayer()).getHealth()));
         subLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         subLabel.setFill(Color.GOLD);
         VBox vbox = new VBox();
@@ -197,11 +199,15 @@ public class Game {
     }
 
     public void gameStart(String node, Player player, TankBattleCity tankBattleCity) {
+        this.tankBattleCity = tankBattleCity;
+        this.player = player;
+        List<Player> l = playerSaving.read();
+        l.get(findPlayer()).setHealth(3);
+        playerSaving.setPlayers(l);
+        playerSaving.save();
         container = new GridPane();
         gameMap = new GridPane();
         playerTank = new PlayerTank(new Image("images/yellow-tank-up.png"));
-        this.tankBattleCity = tankBattleCity;
-        this.player = player;
         setLevel(node);
         reservedTanks = map.tankMake(level);
         containerBuild();
@@ -364,18 +370,18 @@ public class Game {
                 case 0:
                     Clock clock = new Clock(new Image("images/Clock.png"));
                     gameMap.getChildren().add(clock);
-                    GridPane.setRowIndex(clock,row);
-                    GridPane.setColumnIndex(clock,col);
+                    GridPane.setRowIndex(clock, row);
+                    GridPane.setColumnIndex(clock, col);
                     Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-                            gameMap.getChildren().remove(clock);
+                        gameMap.getChildren().remove(clock);
                     }));
                     timeline1.play();
                     break;
                 case 1:
                     Star star = new Star(new Image("images/Star.png"));
                     gameMap.getChildren().add(star);
-                    GridPane.setRowIndex(star,row);
-                    GridPane.setColumnIndex(star,col);
+                    GridPane.setRowIndex(star, row);
+                    GridPane.setColumnIndex(star, col);
                     Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
                         gameMap.getChildren().remove(star);
                     }));
@@ -384,8 +390,8 @@ public class Game {
                 case 2:
                     Tanki tanki = new Tanki(new Image("images/Tanki.png"));
                     gameMap.getChildren().add(tanki);
-                    GridPane.setRowIndex(tanki,row);
-                    GridPane.setColumnIndex(tanki,col);
+                    GridPane.setRowIndex(tanki, row);
+                    GridPane.setColumnIndex(tanki, col);
                     Timeline timeline3 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
                         gameMap.getChildren().remove(tanki);
                     }));
@@ -394,8 +400,26 @@ public class Game {
                 default:
                     break;
             }
-        }else {
+        } else {
             chanceItem();
         }
     }
+
+    public void chanceItemCollision(Node node) {
+        List<Player> l = playerSaving.read();
+        if (node instanceof Tanki) {
+            l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() + 1);
+            gameMap.getChildren().remove(node);
+        } else if (node instanceof Star) {
+            player.setPlayerBulletStrentgh(player.getPlayerBulletStrentgh() + 1);
+            gameMap.getChildren().remove(node);
+        } else if (node instanceof Clock) {
+
+        }
+        playerSaving.setPlayers(l);
+        playerSaving.save();
+        updateRightSide();
+    }
+
+
 }

@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class TankBattleCity {
@@ -34,6 +35,7 @@ public class TankBattleCity {
     private Scene selectLevelScene;
     private Game game = new Game();
     private PlayerSaving playerSaving = new PlayerSaving();
+    private Player player;
 
 
     public TankBattleCity(Stage stage) {
@@ -50,19 +52,20 @@ public class TankBattleCity {
     public void selectPlayer() {
         selectPlayer.selectPlayerStart(stage, this);
         eventHandlerSet.eSP(selectPlayer);
-        selectPlayerScene = new Scene(selectPlayer.scrollPane(),710,600);
+        selectPlayerScene = new Scene(selectPlayer.scrollPane(), 710, 600);
         stage.setScene(selectPlayerScene);
     }
 
     public void selectLevel(Text player) {
         selectLevel.setSelectLevelStart();
-        eventHandlerSet.eventSL(selectLevel, playerFind(player));
+        this.player= playerFind(player);
+        eventHandlerSet.eventSL(selectLevel,this.player);
         selectLevelScene = new Scene(selectLevel.getSelectLevel());
         stage.setScene(selectLevelScene);
     }
 
     public void startGame(String text, Player player) {
-        game.gameStart(text, player,this);
+        game.gameStart(text, player, this);
         gameScene = new Scene(game.getGameMap());
         game.getPlayerTank().playerTankController(gameScene, game.getPlayerTank(), Map.getMap(), game.gameMapCell(), game);
         stage.setScene(gameScene);
@@ -72,12 +75,12 @@ public class TankBattleCity {
         String text = player.getText();
         String[] words = text.split(" ");
         String firstWord = words[0];
-        for (int i = 0; i <playerSaving.getPlayers().size();i++){
-            if(playerSaving.getPlayers().get(i).getName().equals(firstWord)){
-                return   playerSaving.getPlayers().get(i);
+        for (int i = 0; i < playerSaving.read().size(); i++) {
+            if (playerSaving.read().get(i).getName().equals(firstWord)) {
+                return playerSaving.read().get(i);
             }
         }
-         return null;
+        return null;
     }
 
 }

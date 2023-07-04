@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import java.util.List;
 import java.util.Random;
 
 public class ArmoredTank extends Tank {
@@ -23,6 +24,8 @@ public class ArmoredTank extends Tank {
     private int point = 200;
     private boolean isRandom = false;
     private Direction direction = randomDirection();
+    private PlayerSaving playerSaving=new PlayerSaving();
+    private Game game;
 
     public ArmoredTank(Image image) {
         super(image);
@@ -129,6 +132,7 @@ public class ArmoredTank extends Tank {
 
 
     public void shoot(GridPane gameMap, Game game) {
+        this.game=game;
         if (direction.equals(Direction.UP)) {
             shootUp(gameMap, game);
         } else if (direction.equals(Direction.DOWN)) {
@@ -305,13 +309,26 @@ public class ArmoredTank extends Tank {
         } else if (n instanceof Bullet) {
             gameMap.getChildren().remove(n);
         } else if (n instanceof PlayerTank) {
-            game.getPlayer().setHealth(game.getPlayer().getHealth() - getBulletStrength());
-            game.updateRightSide();
+            List<Player> l = playerSaving.read();
+            l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() - getBulletStrength());
             GridPane.setColumnIndex(n, ((PlayerTank) n).getStartColumn());
             GridPane.setRowIndex(n, ((PlayerTank) n).getStartRow());
+            playerSaving.setPlayers(l);
+            playerSaving.save();
+            game.updateRightSide();
         }else if(n instanceof Flag){
             gameMap.getChildren().remove(n);
             game.gameOver();
         }
     }
+    public int findPlayer() {
+        List<Player> l = playerSaving.read();
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).getName().equals(game.getPlayer().getName())) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
 }

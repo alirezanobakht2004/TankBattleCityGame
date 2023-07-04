@@ -29,6 +29,7 @@ public class CommonTank extends Tank {
     private boolean isRandom = false;
     private Game game;
     private GridPane gameMap;
+    private PlayerSaving playerSaving = new PlayerSaving();
 
     public CommonTank(Image image) {
         super(image);
@@ -313,13 +314,26 @@ public class CommonTank extends Tank {
         } else if (n instanceof Bullet) {
             gameMap.getChildren().remove(n);
         } else if (n instanceof PlayerTank) {
-            game.getPlayer().setHealth(game.getPlayer().getHealth() - getBulletStrength());
-            game.updateRightSide();
+            List<Player> l = playerSaving.read();
+            l.get(findPlayer()).setHealth(l.get(findPlayer()).getHealth() - getBulletStrength());
             GridPane.setColumnIndex(n, ((PlayerTank) n).getStartColumn());
             GridPane.setRowIndex(n, ((PlayerTank) n).getStartRow());
+            playerSaving.setPlayers(l);
+            playerSaving.save();
+            game.updateRightSide();
         } else if (n instanceof Flag) {
             gameMap.getChildren().remove(n);
             game.gameOver();
         }
+    }
+
+    public int findPlayer() {
+        List<Player> l = playerSaving.read();
+        for (int i = 0; i < l.size(); i++) {
+            if (l.get(i).getName().equals(game.getPlayer().getName())) {
+                return i;
+            }
+        }
+        return 0;
     }
 }
