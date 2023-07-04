@@ -105,6 +105,8 @@ public class ArmoredTank extends Tank {
                 directionImage = "right";
                 GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) + 1);
                 break;
+            default:
+                break;
         }
         String imagePath = isRandom ? "images/armored-random-tank-" : "images/armored-tank-";
         setImage(new Image(imagePath + directionImage + ".png"));

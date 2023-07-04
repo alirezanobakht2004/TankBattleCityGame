@@ -312,49 +312,38 @@ public class Game {
     public void mapBuilding(int i, int j) {
         if (Map.getMap()[i][j] == Block.BRICK) {
             Brick brick = new Brick(new Image("images/brick.png"));
-            imageViewSize(brick);
-            gameMap.add(brick, j, i);
+            imageViewSize(brick, i, j);
         } else if (Map.getMap()[i][j] == Block.METAL) {
             Metal metal = new Metal(new Image("images/Stone.png"));
-            imageViewSize(metal);
-            gameMap.add(metal, j, i);
+            imageViewSize(metal, i, j);
         } else if (Map.getMap()[i][j] == Block.PLAYERTANK) {
-            imageViewSize(playerTank);
+            imageViewSize(playerTank, i, j);
             playerTank.setStartRow(i);
             playerTank.setStartColumn(j);
-            gameMap.add(playerTank, j, i);
         } else if (Map.getMap()[i][j] == Block.COMMONTANK) {
             CommonTank commonTank = new CommonTank(new Image("images/common-tank-down.png"));
-            imageViewSize(commonTank);
-            gameMap.add(commonTank, j, i);
+            imageViewSize(commonTank, i, j);
         } else if (Map.getMap()[i][j] == Block.FLAG) {
             Flag flag = new Flag(new Image("images/flag.png"));
-            imageViewSize(flag);
-            gameMap.add(flag, j, i);
+            imageViewSize(flag, i, j);
         } else if (Map.getMap()[i][j] == Block.ARMOREDTANK) {
             ArmoredTank armoredTank = new ArmoredTank(new Image("images/armored-tank-down.png"));
-            imageViewSize(armoredTank);
-            gameMap.add(armoredTank, j, i);
+            imageViewSize(armoredTank, i, j);
         } else if (Map.getMap()[i][j] == Block.RANDOMTANKCOMMON) {
             CommonTank commonTankRandom = new CommonTank(new Image("images/random-tank-down.png"));
-            imageViewSize(commonTankRandom);
-            gameMap.add(commonTankRandom, j, i);
-        } else if (Map.getMap()[i][j] == Block.RANDOMTANKARMED) {
-            ArmoredTank armoredTankRandom = new ArmoredTank(new Image("images/armored-random-tank-down.png"));
-            imageViewSize(armoredTankRandom);
-            gameMap.add(armoredTankRandom, j, i);
+            imageViewSize(commonTankRandom, i, j);
         } else if (Map.getMap()[i][j] == Block.WATER) {
             Water water = new Water(new Image("images/water.png"));
-            imageViewSize(water);
+            imageViewSize(water, i, j);
             WaterPositions waterPositions1 = new WaterPositions(i, j, 0);
             waterPositions.add(waterPositions1);
-            gameMap.add(water, j, i);
         }
     }
 
-    public void imageViewSize(ImageView imageView) {
+    public void imageViewSize(ImageView imageView, int i, int j) {
         imageView.setFitWidth(51);
         imageView.setFitHeight(51);
+        gameMap.add(imageView, j, i);
     }
 
     public void tankSpawn() {
@@ -443,33 +432,18 @@ public class Game {
             switch (choice) {
                 case 0:
                     Clock clock = new Clock(new Image("images/Clock.png"));
-                    gameMap.getChildren().add(clock);
-                    GridPane.setRowIndex(clock, row);
-                    GridPane.setColumnIndex(clock, col);
-                    Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-                        gameMap.getChildren().remove(clock);
-                    }));
-                    timeline1.play();
+                    addItemToGameMap(clock, row, col);
+                    removeItemFromGameMap(clock);
                     break;
                 case 1:
                     Star star = new Star(new Image("images/Star.png"));
-                    gameMap.getChildren().add(star);
-                    GridPane.setRowIndex(star, row);
-                    GridPane.setColumnIndex(star, col);
-                    Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-                        gameMap.getChildren().remove(star);
-                    }));
-                    timeline2.play();
+                    addItemToGameMap(star, row, col);
+                    removeItemFromGameMap(star);
                     break;
                 case 2:
                     Tanki tanki = new Tanki(new Image("images/Tanki.png"));
-                    gameMap.getChildren().add(tanki);
-                    GridPane.setRowIndex(tanki, row);
-                    GridPane.setColumnIndex(tanki, col);
-                    Timeline timeline3 = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-                        gameMap.getChildren().remove(tanki);
-                    }));
-                    timeline3.play();
+                    addItemToGameMap(tanki, row, col);
+                    removeItemFromGameMap(tanki);
                     break;
                 default:
                     break;
@@ -477,6 +451,19 @@ public class Game {
         } else {
             chanceItem();
         }
+    }
+
+    private void addItemToGameMap(ImageView item, int row, int col) {
+        gameMap.getChildren().add(item);
+        GridPane.setRowIndex(item, row);
+        GridPane.setColumnIndex(item, col);
+    }
+
+    private void removeItemFromGameMap(ImageView item) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            gameMap.getChildren().remove(item);
+        }));
+        timeline.play();
     }
 
     public void chanceItemCollision(Node node) {

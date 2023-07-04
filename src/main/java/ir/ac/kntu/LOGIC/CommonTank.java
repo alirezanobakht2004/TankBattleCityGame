@@ -91,22 +91,17 @@ public class CommonTank extends Tank {
     }
 
     private void moveTank() {
+        setTankImage();
+        updateTankPosition();
+    }
+
+    private void setTankImage() {
         switch (direction) {
             case UP:
-                if (isRandom) {
-                    setImage(new Image("images/random-tank-up.png"));
-                } else {
-                    setImage(new Image("images/common-tank-up.png"));
-                }
-                GridPane.setRowIndex(this, GridPane.getRowIndex(this) - 1);
+                moveUp();
                 break;
             case DOWN:
-                if (isRandom) {
-                    setImage(new Image("images/random-tank-down.png"));
-                } else {
-                    setImage(new Image("images/common-tank-down.png"));
-                }
-                GridPane.setRowIndex(this, GridPane.getRowIndex(this) + 1);
+                moveDown();
                 break;
             case LEFT:
                 if (isRandom) {
@@ -114,7 +109,6 @@ public class CommonTank extends Tank {
                 } else {
                     setImage(new Image("images/common-tank-left.png"));
                 }
-                GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) - 1);
                 break;
             case RIGHT:
                 if (isRandom) {
@@ -122,7 +116,43 @@ public class CommonTank extends Tank {
                 } else {
                     setImage(new Image("images/common-tank-right.png"));
                 }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void moveUp() {
+        if (isRandom) {
+            setImage(new Image("images/random-tank-up.png"));
+        } else {
+            setImage(new Image("images/common-tank-up.png"));
+        }
+    }
+
+    public void moveDown() {
+        if (isRandom) {
+            setImage(new Image("images/random-tank-down.png"));
+        } else {
+            setImage(new Image("images/common-tank-down.png"));
+        }
+    }
+
+    private void updateTankPosition() {
+        switch (direction) {
+            case UP:
+                GridPane.setRowIndex(this, GridPane.getRowIndex(this) - 1);
+                break;
+            case DOWN:
+                GridPane.setRowIndex(this, GridPane.getRowIndex(this) + 1);
+                break;
+            case LEFT:
+                GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) - 1);
+                break;
+            case RIGHT:
                 GridPane.setColumnIndex(this, GridPane.getColumnIndex(this) + 1);
+                break;
+            default:
                 break;
         }
     }

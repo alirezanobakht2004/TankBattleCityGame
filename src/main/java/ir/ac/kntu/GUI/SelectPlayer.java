@@ -74,12 +74,7 @@ public class SelectPlayer {
         selectPlayer.setPrefSize(650, 650);
         selectPlayer.getColumnConstraints().addAll(col1, col2, col3);
         selectPlayer.getRowConstraints().addAll(row1, row2, row3);
-        col1.setPercentWidth(5);
-        col2.setPercentWidth(90);
-        col3.setPercentWidth(5);
-        row1.setPercentHeight(10);
-        row2.setPercentHeight(80);
-        row3.setPercentHeight(10);
+        setCells();
         playersList = new VBox(15);
         setSignUp();
         Text info = new Text();
@@ -101,6 +96,15 @@ public class SelectPlayer {
         BackgroundImage background = new BackgroundImage(backgroundImage, null, null, null, null);
         Background background1 = new Background(background);
         selectPlayer.setBackground(background1);
+    }
+
+    public void setCells() {
+        col1.setPercentWidth(5);
+        col2.setPercentWidth(90);
+        col3.setPercentWidth(5);
+        row1.setPercentHeight(10);
+        row2.setPercentHeight(80);
+        row3.setPercentHeight(10);
     }
 
     public void setSignUp() {

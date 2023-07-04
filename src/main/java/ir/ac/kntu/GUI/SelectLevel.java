@@ -91,6 +91,13 @@ public class SelectLevel {
         level4.setText(text + 4);
         level4.setFill(color);
         level5.setFont(font);
+        setLevelsTexts1();
+    }
+
+    public void setLevelsTexts1() {
+        Font font = new Font(35);
+        String text = "LEVEL: ";
+        Color color = Color.GOLD;
         level5.setText(text + 5);
         level5.setFill(color);
         level6.setFont(font);

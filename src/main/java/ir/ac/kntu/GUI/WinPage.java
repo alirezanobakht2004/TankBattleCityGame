@@ -57,12 +57,7 @@ public class WinPage {
         winPage.setStyle("-fx-background-color: black;");
         winPage.getColumnConstraints().addAll(col1, col2, col3);
         winPage.getRowConstraints().addAll(row1, row2, row3);
-        col1.setPercentWidth(5);
-        col2.setPercentWidth(90);
-        col3.setPercentWidth(5);
-        row1.setPercentHeight(10);
-        row2.setPercentHeight(80);
-        row3.setPercentHeight(10);
+        setCells();
         Text levelText = new Text("Level: " + game.getLevel() + "\n");
         levelText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         levelText.setFill(Color.CYAN);
@@ -72,6 +67,22 @@ public class WinPage {
         Text highestScoreText = new Text("highest-score: " + l.get(findPlayer()).getHighestScore());
         highestScoreText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         highestScoreText.setFill(Color.LIGHTGREEN);
+        winPageShow1(stage, tankBattleCity, game, levelText, playerNameText, highestScoreText, l);
+        l.get(findPlayer()).setScore(0);
+        playerSaving.setPlayers(l);
+        playerSaving.save();
+    }
+
+    public void setCells() {
+        col1.setPercentWidth(5);
+        col2.setPercentWidth(90);
+        col3.setPercentWidth(5);
+        row1.setPercentHeight(10);
+        row2.setPercentHeight(80);
+        row3.setPercentHeight(10);
+    }
+
+    public void winPageShow1(Stage stage, TankBattleCity tankBattleCity, Game game, Text levelText, Text playerNameText, Text highestScoreText, List<Player> l) {
         Text scoreText = new Text("score: " + l.get(findPlayer()).getScore());
         scoreText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         scoreText.setFill(Color.WHITE);
@@ -99,9 +110,6 @@ public class WinPage {
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: black");
         winPage.add(root, 1, 1);
-        l.get(findPlayer()).setScore(0);
-        playerSaving.setPlayers(l);
-        playerSaving.save();
     }
 
     public int findPlayer() {

@@ -105,6 +105,8 @@ public class PlayerTank extends Tank {
                 case DOWN:
                     GridPane.setRowIndex(node, rowIndex + 1);
                     break;
+                default:
+                    break;
             }
         }
         node.setImage(new Image(imageFileName));
